@@ -3,6 +3,7 @@
     package="net.in.ahr.dbms" >
 
     <application
+        android:name=".others.CustomApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -1,5 +1,6 @@
 package net.in.ahr.dbms.presenters.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,11 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.others.CustomApplication;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import greendao.Memo;
+import greendao.MemoDao;
 
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static MemoDao getMemoDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMemoDao();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,25 @@ public class MusicListActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // 新規メモをINSERT
+        Memo newMemo = new Memo();
+        newMemo.setText(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+        getMemoDao(this).insertOrReplace(newMemo);
+
+        // メモをSELECT
+        List<Memo> list = getMemoDao(this).loadAll();
+        StringBuilder sb = new StringBuilder();
+        for (Memo oldMemo: list) {
+            sb.append(oldMemo.getText());
+            sb.append(" ");
+        }
+
+        // TextViewへの値設定
+        TextView textView = (TextView) findViewById(R.id.musicListTextView);
+        textView.setText( sb.toString() );
+
     }
 
     @Override
