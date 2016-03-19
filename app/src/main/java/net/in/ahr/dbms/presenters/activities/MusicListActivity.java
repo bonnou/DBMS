@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +18,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,6 +53,10 @@ public class MusicListActivity extends AppCompatActivity
             }
         });
 */
+        // Musicマスタのメンテ
+        MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+        musicMstMaintenance.execute(this.getApplicationContext());
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -73,9 +81,21 @@ public class MusicListActivity extends AppCompatActivity
             sb.append(" ");
         }
 
+
+        // TODO TextViewがあるとfragmentが表示されないのはなぜ？
         // TextViewへの値設定
-        TextView textView = (TextView) findViewById(R.id.musicListTextView);
-        textView.setText( sb.toString() );
+//        TextView textView = (TextView) findViewById(R.id.musicListTextView);
+//        textView.setText( sb.toString() + "TextView" );
+
+/*
+        MusicListFragment musicListFragment = new MusicListFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.musicListFragmentContainer, musicListFragment, "");
+        transaction.commit();
+*/
+
+        getMemoDao(this).deleteAll();
 
     }
 
