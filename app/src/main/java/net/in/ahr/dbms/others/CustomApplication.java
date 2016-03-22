@@ -4,6 +4,7 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 
 import greendao.DaoMaster;
@@ -26,10 +27,16 @@ public class CustomApplication extends Application {
     }
 
     private void setupDatabase() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "dbms-db", null);
+        // TODO: MemoからMusicMstに変更した際にMUSIC_MSTが見つからないエラーが出た。dbms-dbからdbms-databaseに変更したら解消したが正しい解は？
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "dbms-database_0.0.1.00016", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+
+        // Musicマスタのメンテ
+        // TODO: ここだとログがでない・・・
+        MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+        musicMstMaintenance.execute(this.getApplicationContext());
     }
 
     public DaoSession getDaoSession() {

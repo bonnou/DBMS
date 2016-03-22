@@ -2,11 +2,6 @@ package net.in.ahr.dbms.presenters.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,33 +10,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.others.CustomApplication;
-import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import greendao.Memo;
-import greendao.MemoDao;
-
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static MemoDao getMemoDao(Context c) {
-        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMemoDao();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_music_list);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
 /* // FloatingActionButton削除
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -53,21 +40,17 @@ public class MusicListActivity extends AppCompatActivity
             }
         });
 */
-        // Musicマスタのメンテ
-        MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
-        musicMstMaintenance.execute(this.getApplicationContext());
 
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
+/*
         // 新規メモをINSERT
         Memo newMemo = new Memo();
         newMemo.setText(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
@@ -80,10 +63,10 @@ public class MusicListActivity extends AppCompatActivity
             sb.append(oldMemo.getText());
             sb.append(" ");
         }
+*/
 
-
-        // TODO TextViewがあるとfragmentが表示されないのはなぜ？
-        // TextViewへの値設定
+            // TODO TextViewがあるとfragmentが表示されないのはなぜ？
+            // TextViewへの値設定
 //        TextView textView = (TextView) findViewById(R.id.musicListTextView);
 //        textView.setText( sb.toString() + "TextView" );
 
@@ -95,8 +78,12 @@ public class MusicListActivity extends AppCompatActivity
         transaction.commit();
 */
 
-        getMemoDao(this).deleteAll();
+//            ((CustomApplication) this.getApplicationContext()).getDaoSession().getMusicMstDao().deleteAll();
 
+        } catch (Exception e) {
+            // TODO: http://www.adamrocker.com/blog/288/bug-report-system-for-android.html
+            throw e;
+        }
     }
 
     @Override

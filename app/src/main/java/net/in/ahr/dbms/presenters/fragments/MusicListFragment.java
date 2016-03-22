@@ -6,19 +6,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.others.CustomApplication;
-import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 
 import java.util.List;
 
-import greendao.Memo;
-import greendao.MemoDao;
+import greendao.MusicMst;
+import greendao.MusicMstDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -28,8 +27,8 @@ public class MusicListFragment extends Fragment {
     ListView musicListView;
     TextView textView;
 
-    private static MemoDao getMemoDao(Context c) {
-        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMemoDao();
+    private static MusicMstDao getMusicMstDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
 
     @Override
@@ -44,8 +43,9 @@ public class MusicListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
         // リストビューにGreenDaoから取得した値を設定
-        List<Memo> list = getMemoDao(getActivity()).loadAll();
+        List<MusicMst> list = getMusicMstDao(getActivity()).loadAll();
         MusicListAdapter adapter = new MusicListAdapter(getActivity());
+        // TODO: リザルトと結合しないといけない
         adapter.setMusicList(list);
 
         musicListView = (ListView) view.findViewById(R.id.musicListView);

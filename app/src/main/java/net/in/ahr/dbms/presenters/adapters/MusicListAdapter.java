@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
-import greendao.Memo;
+import greendao.MusicMst;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -22,15 +20,16 @@ public class MusicListAdapter extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater = null;
-    // TODO Memo残
-    List<Memo> musicList;
+
+    // TODO: マスタではなくスコアを含める必要あり
+    List<MusicMst> musicList;
 
     public MusicListAdapter(Context context) {
         this.context = context;
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setMusicList(List<Memo> musicList) {
+    public void setMusicList(List<MusicMst> musicList) {
         this.musicList = musicList;
     }
 
@@ -54,7 +53,7 @@ public class MusicListAdapter extends BaseAdapter {
         convertView = layoutInflater.inflate(R.layout.list_music_list, parent, false);
 
         ((TextView)convertView.findViewById(R.id.memo_id)).setText("i");
-        ((TextView)convertView.findViewById(R.id.memo_text)).setText(musicList.get(position).getText());
+        ((TextView)convertView.findViewById(R.id.memo_text)).setText(musicList.get(position).getName());
         ((TextView)convertView.findViewById(R.id.memo_date)).setText("dateTest");
 
         return convertView;
