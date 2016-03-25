@@ -38,6 +38,7 @@ public class CSVParser {
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            // TODO: 適切な例外処理
         }
 
         LogUtil.logExiting();
