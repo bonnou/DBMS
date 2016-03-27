@@ -20,13 +20,24 @@
         android:id="@+id/musicListTextView"
     />
 -->
+
+<!--
     <fragment
         android:name="net.in.ahr.dbms.presenters.fragments.MusicListFragment"
-        android:id="@+id/fragment1"
+        android:id="@+id/musicFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         tools:layout="@layout/fragment_music_list" />
+-->
+
+    <!-- フラグメントコンテナ -->
+    <FrameLayout
+        android:id="@+id/musicFragment"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
+
 <!--
     <LinearLayout
         android:layout_width="match_parent"

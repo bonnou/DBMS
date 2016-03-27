@@ -1,5 +1,8 @@
 package net.in.ahr.dbms.presenters.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,12 +11,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
+import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
+import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,6 +87,18 @@ public class MusicListActivity extends AppCompatActivity
 
 //            ((CustomApplication) this.getApplicationContext()).getDaoSession().getMusicMstDao().deleteAll();
 
+
+            // 編集画面へ遷移
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+
+            // 曲一覧画面をセット
+            MusicListFragment musicListFragment = new MusicListFragment();
+            transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
+//            transaction.addToBackStack(MusicListFragment.TAG);
+            transaction.commit();
+
+
         } catch (Exception e) {
             // TODO: http://www.adamrocker.com/blog/288/bug-report-system-for-android.html
             throw e;
@@ -142,4 +161,33 @@ public class MusicListActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        LogUtil.logEntering();
+
+        // 戻るボタンが押されたとき
+        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            // ボタンが押されたとき
+            if (e.getAction() == KeyEvent.ACTION_DOWN) {
+
+                // フラグメントのスタックに残があれば1つ前に戻る
+                //   ※getSupportFragmentManagerを呼び出していたから常に0が帰ってきてハマった。
+                int backStackCnt = getFragmentManager().getBackStackEntryCount();
+                LogUtil.logDebug("backStackCnt:" + backStackCnt);
+                if ( backStackCnt != 0 ) {
+                    getFragmentManager().popBackStack();
+                    // trueを返却することでバックキーを無効化
+                    return true;
+                }
+
+            }
+        }
+
+        LogUtil.logExiting();
+        return super.dispatchKeyEvent(e);
+    }
+
+
 }

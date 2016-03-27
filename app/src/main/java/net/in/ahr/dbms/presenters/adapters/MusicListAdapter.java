@@ -7,6 +7,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
+import net.in.ahr.dbms.others.AppConst;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -28,6 +31,8 @@ public class MusicListAdapter extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater = null;
+
+    static final AlphaAnimation clearLampAnimation = new AlphaAnimation(1, 0.01f);
 
     // TODO: マスタではなくスコアを含める必要あり
     List<MusicMst> musicList;
@@ -72,8 +77,8 @@ public class MusicListAdapter extends BaseAdapter {
         }
 
         // クリアランプ
-        // TODO: TextViewより適したものがあるのでは
         TextView clearLampView = (TextView)convertView.findViewById(R.id.musicResult_clearLump);
+
         // TODO: DBHR以外にプレイスタイルが増えた場合は文字を変えたい
         clearLampView.setText(Html.fromHtml("H<br />R"));
 
@@ -81,8 +86,53 @@ public class MusicListAdapter extends BaseAdapter {
             // TODO: resのcolorsのほうがいい？
             clearLampView.setBackgroundColor(Color.parseColor("#333333"));
             clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+        } else {
+            String clearLamp = music.getMusicResultDBHR().getClearLamp();
+
+            if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp) ) {
+                // ランプ点滅
+                clearLampAnimation.setDuration(100);
+                clearLampAnimation.setRepeatCount(Animation.INFINITE);
+                clearLampView.startAnimation(clearLampAnimation);
+                clearLampView.setBackgroundColor(Color.parseColor("#666666"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#ba55d3"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#00ffff"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#EFEFEF"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#ffa500"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#ffffff"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+                // ランプ点滅
+                clearLampAnimation.setDuration(250);
+                clearLampAnimation.setRepeatCount(Animation.INFINITE);
+                clearLampView.startAnimation(clearLampAnimation);
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT.equals(clearLamp) ) {
+                clearLampView.setBackgroundColor(Color.parseColor("#ffff00"));
+                clearLampView.setTextColor(Color.parseColor("#333333"));
+                // ランプ点滅
+                clearLampAnimation.setDuration(250);
+                clearLampAnimation.setRepeatCount(Animation.INFINITE);
+                clearLampView.startAnimation(clearLampAnimation);
+            } else {
+                clearLampView.setBackgroundColor(Color.parseColor("#333333"));
+                clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+            }
         }
-        // TODO: 色追加
 
         // 難易度
         TextView difficultView = (TextView)convertView.findViewById(R.id.music_difficult);
@@ -142,7 +192,7 @@ public class MusicListAdapter extends BaseAdapter {
         if (resultExistFlg) {
             scoreInfoReplaceArr = new String[] {
                     String.valueOf(music.getMusicResultDBHR().getExScore()),
-                    String.valueOf(music.getMusicResultDBHR().getScoreRate())
+                    String.format("%.2f", music.getMusicResultDBHR().getScoreRate())
             };
         } else {
             scoreInfoReplaceArr = new String[] {
@@ -160,7 +210,7 @@ public class MusicListAdapter extends BaseAdapter {
         if (resultExistFlg) {
             missInfoReplaceArr = new String[] {
                     String.valueOf(music.getMusicResultDBHR().getBp()),
-                    String.valueOf(music.getMusicResultDBHR().getMissRate())
+                    String.format("%.2f", music.getMusicResultDBHR().getMissRate())
             };
         } else {
             missInfoReplaceArr = new String[] {

@@ -28,7 +28,7 @@ public class CustomApplication extends Application {
 
     private void setupDatabase() {
         // TODO: MemoからMusicMstに変更した際にMUSIC_MSTが見つからないエラーが出た。dbms-dbからdbms-databaseに変更したら解消したが正しい解は？
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "dbms-database_0.0.1.00017", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "dbms-database_0.0.1.00018", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

@@ -11,6 +11,7 @@ public class GreenDaoGenerator {
 
         // MusicMst
         Entity musicMst = schema.addEntity("MusicMst");
+        musicMst.implementsSerializable();
 
         musicMst.addIdProperty().autoincrement();
 
@@ -33,13 +34,14 @@ public class GreenDaoGenerator {
 
         // MusicResult
         Entity musicResult_DBHR = schema.addEntity("MusicResultDBHR");
+        musicResult_DBHR.implementsSerializable();
 
         musicResult_DBHR.addIdProperty().autoincrement();
 
         musicResult_DBHR.addStringProperty("clearLamp");
         musicResult_DBHR.addIntProperty("exScore");
         musicResult_DBHR.addIntProperty("bp");
-        musicResult_DBHR.addDoubleProperty("scoreRank");
+        musicResult_DBHR.addStringProperty("scoreRank");
         musicResult_DBHR.addDoubleProperty("scoreRate");
         musicResult_DBHR.addDoubleProperty("missRate");
         musicResult_DBHR.addStringProperty("memoProgress");
