@@ -154,6 +154,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="#cccccc"
                     android:textSize="10sp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     />
 
             </LinearLayout>
