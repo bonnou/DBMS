@@ -156,7 +156,6 @@
                     android:textSize="10sp"
                     android:ellipsize="end"
                     android:singleLine="true"
-
                     />
 
             </LinearLayout>
