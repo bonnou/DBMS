@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
@@ -39,9 +40,7 @@ public class MusicListActivity extends AppCompatActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            // スプレッドシート取得
-            GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
-            gSSAsyncTask.execute();
+
 
 
 
@@ -138,7 +137,11 @@ public class MusicListActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_import_gss) {
+            // スプレッドシート取得
+            Toast.makeText(this, "BEGIN import from Google Spread Sheet...", Toast.LENGTH_LONG).show();
+            GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
+            gSSAsyncTask.execute();
             return true;
         }
 

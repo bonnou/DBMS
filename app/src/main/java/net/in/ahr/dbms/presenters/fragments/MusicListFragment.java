@@ -34,7 +34,7 @@ public class MusicListFragment extends Fragment {
     public static final String TAG = "MusicListFragment";
 
     ListView musicListView;
-    MusicListAdapter adapter;
+    public MusicListAdapter adapter;
     TextView textView;
 
     private static MusicMstDao getMusicMstDao(Context c) {

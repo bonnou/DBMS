@@ -131,6 +131,7 @@ public class GSSUtil {
         System.out.println("service in");
 
         SpreadsheetService service = new SpreadsheetService(APPLICATION_NAME);
+        // TODO: シートに編集要サービスアカウントのメールアドレスが追加されていない場合の処理
         service.setProtocolVersion(SpreadsheetService.Versions.V3);
 
         Credential credential = authorize();
@@ -144,22 +145,6 @@ public class GSSUtil {
         System.out.println("service out");
 
         return service;
-    }
-
-    private static List<SpreadsheetEntry> findAllSpreadsheets(SpreadsheetService service) throws Exception {
-        System.out.println("findAllSpreadsheets in");
-
-        SpreadsheetFeed feed = service.getFeed(SPREADSHEET_FEED_URL, SpreadsheetFeed.class);
-
-        List<SpreadsheetEntry> spreadsheets = feed.getEntries();
-
-        // debug dump
-        for (SpreadsheetEntry spreadsheet : spreadsheets) {
-            System.out.println("title: " + spreadsheet.getTitle().getPlainText());
-        }
-
-        System.out.println("findAllSpreadsheets out");
-        return spreadsheets;
     }
 
     public static SpreadsheetEntry findSpreadsheetByName(SpreadsheetService service, String spreadsheetName) throws Exception {
@@ -187,14 +172,5 @@ public class GSSUtil {
         System.out.println("findWorksheetByName out");
         return wsEntry;
     }
-
-    private static String makeQuery(int minrow, int maxrow, int mincol, int maxcol) {
-        String base = "?min-row=MINROW&max-row=MAXROW&min-col=MINCOL&max-col=MAXCOL";
-        return base.replaceAll("MINROW", String.valueOf(minrow))
-                .replaceAll("MAXROW", String.valueOf(maxrow))
-                .replaceAll("MINCOL", String.valueOf(mincol))
-                .replaceAll("MAXCOL", String.valueOf(maxcol));
-    }
-
 
 }
