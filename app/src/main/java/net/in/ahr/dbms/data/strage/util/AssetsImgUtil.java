@@ -16,12 +16,22 @@ public class AssetsImgUtil {
 
         Bitmap result = null;
 
+        InputStream is = null;
         try {
-            InputStream istream = context.getResources().getAssets().open(assetsImgPath);
-            result = BitmapFactory.decodeStream(istream);
+            is = context.getResources().getAssets().open(assetsImgPath);
+            result = BitmapFactory.decodeStream(is);
         } catch (IOException e) {
             e.printStackTrace();
             // TODO: 適切な例外処理
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                    // TODO: 適切な例外処理
+                }
+            }
         }
 
         LogUtil.logExiting();

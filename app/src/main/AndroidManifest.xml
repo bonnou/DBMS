@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.in.ahr.dbms" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+<!--    <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
+
     <application
         android:name=".others.CustomApplication"
         android:allowBackup="true"

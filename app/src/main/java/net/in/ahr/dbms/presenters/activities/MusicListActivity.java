@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
+import net.in.ahr.dbms.data.network.google.spreadSheet.GSSImport;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.CustomApplication;
@@ -36,6 +38,12 @@ public class MusicListActivity extends AppCompatActivity
             setContentView(R.layout.activity_music_list);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+
+            // スプレッドシート取得
+            GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
+            gSSAsyncTask.execute();
+
+
 
 /* // FloatingActionButton削除
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
