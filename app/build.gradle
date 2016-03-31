@@ -12,8 +12,17 @@ android {
         multiDexEnabled true
     }
 
-    // signingConfigs
-    apply from: 'conf/signingConfigs.gradle', to: android
+    signingConfigs {
+        debug {
+
+        }
+        release {
+            storeFile file("conf/release.jks")
+            storePassword "androidreleasekey"
+            keyAlias "androidreleasekey"
+            keyPassword "androidreleasekey"
+        }
+    }
 
     buildTypes {
         debug {
