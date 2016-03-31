@@ -10,17 +10,18 @@ machine:
     ANDROID_HOME: /usr/local/android-sdk-linux
 
 dependencies:
-    override:
-      - echo y | android update sdk --no-ui --filter "android-23,build-tools-23.0.2"
+  override:
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "android-23,build-tools-23.0.2"
 
 test:
-    override:
-      - echo "Test"
+  override:
+    - echo "Test"
 
 deployment:
-    master:
-      branch: master
-      commands:
+  master:
+    branch: master
+    commands:
       - ./gradlew assembleRelease
       - ./gradlew assembleDebug
 #      - git log -1 --oneline  > commitlog
