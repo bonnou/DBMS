@@ -1,0 +1,11 @@
+signingConfigs {
+    debug {
+
+    }
+    release {
+        storeFile file("conf/release.jks")
+        storePassword "androidreleasekey"
+        keyAlias "androidreleasekey"
+        keyPassword "androidreleasekey"
+    }
+}

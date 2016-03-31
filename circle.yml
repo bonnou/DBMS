@@ -1,0 +1,30 @@
+general:
+  artifacts:
+    - "app/build/outputs/apk/app-release.apk"
+    - "app/build/outputs/apk/app-debug.apk"
+
+machine:
+  java:
+    version: openjdk7
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+
+dependencies:
+    override:
+      - echo y | android update sdk --no-ui --filter "android-23,build-tools-23.0.2"
+
+test:
+    override:
+      - echo "Test"
+
+deployment:
+    master:
+      branch: master
+      commands:
+      - ./gradlew assembleRelease
+      - ./gradlew assembleDebug
+#      - git log -1 --oneline  > commitlog
+#      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps
+#      - curl -F "file=@app/build/outputs/apk/app-release.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps
+#      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "project_id=XXX” -F "api_key=XXXXX” -F "os=Android" https://www.scirocco-cloud.com/api/v1/apps/upload
+#      - curl -F "api_key=XXX” -F "test_class_id=9224" -F "device_id=544a1a0b746b7940f9080000" https://www.scirocco-cloud.com/api/v1/tests/run
