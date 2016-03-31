@@ -6,5 +6,4 @@
 /build
 /captures
 /app/src/main/assets/auth/GoogleSpreadSheetDBMS.p12
-/app/conf/release.jks
 /app/conf/signingConfigs.gradle
