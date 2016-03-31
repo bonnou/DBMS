@@ -3,7 +3,7 @@ signingConfigs {
 
     }
     release {
-        storeFile file("conf/release.jks")
+        storeFile file("release.jks")
         storePassword "androidreleasekey"
         keyAlias "androidreleasekey"
         keyPassword "androidreleasekey"
