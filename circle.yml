@@ -24,8 +24,8 @@ deployment:
     commands:
       - ./gradlew assembleRelease
       - ./gradlew assembleDebug
-#      - git log -1 --oneline  > commitlog
-#      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps
+      - git log -1 --oneline  > commitlog
+      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/bonnou/apps
 #      - curl -F "file=@app/build/outputs/apk/app-release.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps
 #      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "project_id=XXX” -F "api_key=XXXXX” -F "os=Android" https://www.scirocco-cloud.com/api/v1/apps/upload
 #      - curl -F "api_key=XXX” -F "test_class_id=9224" -F "device_id=544a1a0b746b7940f9080000" https://www.scirocco-cloud.com/api/v1/tests/run
