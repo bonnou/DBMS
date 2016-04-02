@@ -93,6 +93,7 @@ public class MusicListActivity extends AppCompatActivity
 */
 
 
+
 //            ((CustomApplication) this.getApplicationContext()).getDaoSession().getMusicMstDao().deleteAll();
 
             // 編集画面へ遷移
