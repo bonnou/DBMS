@@ -3,6 +3,8 @@ package net.in.ahr.dbms.others;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.deploygate.sdk.DeployGate;
+
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
@@ -19,6 +21,7 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DeployGate.install(this); // ※debuggable="true"の場合のみ動作
         setupDatabase();
 
         // 設定ファイルのフラグを読み取ってログ出力を切り替えます。

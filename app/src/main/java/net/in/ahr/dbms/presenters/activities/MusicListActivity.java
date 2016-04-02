@@ -142,6 +142,8 @@ public class MusicListActivity extends AppCompatActivity
             GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
             gSSAsyncTask.execute();
             return true;
+        } else if (id == R.id.action_debug_crash) {
+            throw new RuntimeException("action_debug_crash");
         }
 
         return super.onOptionsItemSelected(item);

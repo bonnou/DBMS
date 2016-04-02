@@ -113,8 +113,9 @@
     <orderEntry type="library" exported="" name="activation-1.1" level="project" />
     <orderEntry type="library" exported="" name="servlet-api-2.5-20081211" level="project" />
     <orderEntry type="library" exported="" name="core-1.47.1" level="project" />
-    <orderEntry type="library" exported="" name="jetty-6.1.26" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.1.0" level="project" />
+    <orderEntry type="library" exported="" name="jetty-6.1.26" level="project" />
+    <orderEntry type="library" exported="" name="sdk-3.1" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.1" level="project" />
