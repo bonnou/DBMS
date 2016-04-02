@@ -27,6 +27,7 @@ import java.util.Map;
 import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
+import greendao.MusicResultDBHRDao;
 
 /**
  * Created by str2653z on 2016/03/28.
@@ -37,6 +38,10 @@ public class GSSImport {
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
+
+    private static MusicResultDBHRDao getMusicResultDBHRDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
 
     public void execute(final Activity activity, String ssName, String wsName) {
@@ -52,7 +57,7 @@ public class GSSImport {
             LogUtil.logDebug("スプレッドシート名：" + ssEntry.getTitle().getPlainText());
 
             // TODO: プログレスバーを表示したい
-            for (int i = 3; i <= 702; i++) {
+            for (int i = 3; i <= 702 ; i++) {
                 CellQuery cellQuery = new CellQuery(wsEntry.getCellFeedUrl());
                 cellQuery.setRange("D" + i + ":AK" + i);
                 cellQuery.setReturnEmpty(true);
@@ -152,8 +157,12 @@ public class GSSImport {
 
                             music.setMusicResultDBHR(resultDBHR);
 
+                            // 更新
+                            MusicResultDBHRDao musicResultDBHRDao = getMusicResultDBHRDao(c);
                             musicMstDao.insertOrReplace(music);
+                            musicResultDBHRDao.insertOrReplace(resultDBHR);
                             LogUtil.logDebug("MusicMst:" + music.getName() + "[" + music.getNha() + "] update finish!");
+
                         } else {
                             LogUtil.logDebug(sheetMusicName.replace("'", "\\'").replace(",", "\\,") + "[" + sheetMusicNha + "] is null");
                         }
@@ -168,6 +177,7 @@ public class GSSImport {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    LogUtil.logDebug("runOnUiThread(GSSImport end)");
                     MusicListFragment musicListFragment = (MusicListFragment) GSSImport.activity.getFragmentManager().findFragmentByTag(MusicListFragment.TAG);
                     MusicListAdapter arrayAdapter = musicListFragment.adapter;
                     MusicMstDao musicMstDao = getMusicMstDao(activity.getApplicationContext());
