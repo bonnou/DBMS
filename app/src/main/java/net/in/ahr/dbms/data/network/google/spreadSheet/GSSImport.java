@@ -57,7 +57,7 @@ public class GSSImport {
             LogUtil.logDebug("スプレッドシート名：" + ssEntry.getTitle().getPlainText());
 
             // TODO: プログレスバーを表示したい
-            for (int i = 3; i <= 702 ; i++) {
+            for (int i = 3; i <= 702; i++) {
                 CellQuery cellQuery = new CellQuery(wsEntry.getCellFeedUrl());
                 cellQuery.setRange("D" + i + ":AK" + i);
                 cellQuery.setReturnEmpty(true);
@@ -173,7 +173,6 @@ public class GSSImport {
             }
 
             // UIスレッドでリストビュー再描画
-            // TODO: リフレッシュできてないっぽい
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
