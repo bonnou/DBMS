@@ -92,6 +92,7 @@ public class MusicListActivity extends AppCompatActivity
         transaction.commit();
 */
 
+
 //            ((CustomApplication) this.getApplicationContext()).getDaoSession().getMusicMstDao().deleteAll();
 
 
