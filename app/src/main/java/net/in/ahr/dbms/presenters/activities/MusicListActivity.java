@@ -96,7 +96,6 @@ public class MusicListActivity extends AppCompatActivity
 
 
 
-
             // 編集画面へ遷移
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
