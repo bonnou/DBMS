@@ -131,7 +131,7 @@ public class GSSUtil {
         System.out.println("service in");
 
         SpreadsheetService service = new SpreadsheetService(APPLICATION_NAME);
-        // TODO: シートに編集要サービスアカウントのメールアドレスが追加されていない場合の処理
+        // TODO: シートに編集用サービスアカウントのメールアドレスが追加されていない場合の処理
         service.setProtocolVersion(SpreadsheetService.Versions.V3);
 
         Credential credential = authorize();
