@@ -6,7 +6,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -59,6 +61,9 @@ public class MusicListFragment extends Fragment {
         musicListView = (ListView) view.findViewById(R.id.musicListView);
         musicListView.setAdapter(adapter);
 
+        // 絞り込み検索を可能にする
+        musicListView.setTextFilterEnabled(true);
+
         // リストビューのクリックイベント
         musicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +94,6 @@ public class MusicListFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -103,5 +107,23 @@ public class MusicListFragment extends Fragment {
 
         LogUtil.logExiting();
     }
+
+
+
+
+    public ListView getMusicListView() {
+        return musicListView;
+    }
+
+
+
+/*
+    @Override
+    public void onDestroyView() {
+        Toolbar toolbar = (Toolbar)getView().findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener(null);
+        super.onDestroyView();
+    }
+*/
 
 }

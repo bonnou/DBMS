@@ -12,6 +12,7 @@ public class GreenDaoGenerator {
         // MusicMst
         Entity musicMst = schema.addEntity("MusicMst");
         musicMst.implementsSerializable();
+        musicMst.setSuperclass("net.in.ahr.dbms.others.ToStringMusicNameMark");
 
         musicMst.addIdProperty().autoincrement();
 

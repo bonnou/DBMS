@@ -86,7 +86,7 @@ public class MusicMstMaintenance {
                 csvArr[2]);
         musicMst.setNha(
                 csvArr[3]);
-        musicMst.setMstVersion(
+        musicMst.setVersion(
                 csvArr[4]);
 
         String[] bpmArr = csvArr[5].split("～");

@@ -10,10 +10,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
@@ -32,6 +35,8 @@ import java.util.List;
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ListView musicListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -39,6 +44,13 @@ public class MusicListActivity extends AppCompatActivity
             setContentView(R.layout.activity_music_list);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+
+            // 以下エラー回避
+            // Caused by: java.lang.NullPointerException: Attempt to invoke interface method 'android.view.View android.view.MenuItem.getActionView()' on a null object reference
+            toolbar.inflateMenu(R.menu.menu_music);
+
+
+
 
 
 
@@ -103,6 +115,36 @@ public class MusicListActivity extends AppCompatActivity
             transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
 //            transaction.addToBackStack(MusicListFragment.TAG);
             transaction.commit();
+
+            // 絞り込み検索用に、曲一覧のListViewを取得し保持
+            musicListView = musicListFragment.getMusicListView();
+
+            // 絞り込み検索
+            SearchView searchView = (SearchView) toolbar.getMenu().findItem(R.id.action_refine_search).getActionView();
+            // 変更で反映
+            searchView.setSubmitButtonEnabled(false);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String queryText) {
+                    if (TextUtils.isEmpty(queryText)) {
+                        // MusicListFragmentのフィルタクリア
+                        LogUtil.logDebug("曲一覧フィルタクリア");
+                        musicListView.clearTextFilter();
+                    } else {
+                        // MusicListFragmentのフィルタ実施
+                        LogUtil.logDebug("曲一覧フィルタクリア実施：" + queryText);
+                        musicListView.setFilterText(queryText);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String queryText) {
+                    // do nothing
+                    return false;
+                }
+            });
+            // searchView.clearFocus();
 
 
         } catch (Exception e) {

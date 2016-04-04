@@ -7,7 +7,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table MUSIC_MST.
  */
-public class MusicMst implements java.io.Serializable {
+public class MusicMst extends net.in.ahr.dbms.others.ToStringMusicNameMark  implements java.io.Serializable {
 
     private Long id;
     private String name;

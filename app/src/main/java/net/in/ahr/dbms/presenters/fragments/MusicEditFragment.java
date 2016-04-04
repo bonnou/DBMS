@@ -3,9 +3,14 @@ package net.in.ahr.dbms.presenters.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -188,6 +193,33 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         });
 */
 
+
+
+        // フラグメント用にメニューを変更
+        // TODO: フラグメント専用のメニューを追加する場合はどうしよう
+        initToolbar();
+//        getActivity().invalidateOptionsMenu();
+
+/*
+        toolbar.inflateMenu(R.menu.menu_music_edit);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.action_debug_crash) {
+                    throw new RuntimeException("action_debug_crash");
+                }
+                return false;
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+*/
+
         return view;
     }
 
@@ -256,6 +288,45 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         // ※行わない場合、スクロールで外して再表示しないと更新内容が曲一覧側で見れない
         ((MusicListFragment)getActivity().getFragmentManager().findFragmentByTag(MusicListFragment.TAG))
                 .updateListView(musicPosition);
+
+        LogUtil.logExiting();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        revertToolbar();
+        super.onDestroyView();
+    }
+
+    /**
+     * 他画面からの遷移時にツールバーの内容を編集
+     */
+    private void initToolbar() {
+        LogUtil.logEntering();
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Menu menu = toolbar.getMenu();
+        MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
+        importGssItem.setVisible(false);
+        MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
+        refineSearchItem.setVisible(false);
+
+        LogUtil.logExiting();
+    }
+
+    /**
+     * 他画面への遷移時にツールバーの内容を編集
+     */
+    private void revertToolbar() {
+        LogUtil.logEntering();
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Menu menu = toolbar.getMenu();
+        MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
+        importGssItem.setVisible(true);
+        MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
+        refineSearchItem.setVisible(true);
 
         LogUtil.logExiting();
     }
