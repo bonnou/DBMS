@@ -312,6 +312,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
         refineSearchItem.setVisible(false);
 
+        // TODO: refineSearch中の場合にSearch部分が残ったまま画面遷移してしまう
+
         LogUtil.logExiting();
     }
 
