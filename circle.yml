@@ -1,3 +1,5 @@
+# ${環境変数名}については、CircleCIダッシュボードで環境変数を設定している。
+
 general:
   artifacts:
     - "app/build/outputs/apk/app-release.apk"
@@ -22,8 +24,8 @@ deployment:
   master:
     branch: master
     commands:
-      - ./gradlew assembleRelease
       - ./gradlew assembleDebug
+#      - ./gradlew assembleRelease
       - git log -1 --oneline  > commitlog
       - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/bonnou/apps
 #      - curl -F "file=@app/build/outputs/apk/app-release.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps

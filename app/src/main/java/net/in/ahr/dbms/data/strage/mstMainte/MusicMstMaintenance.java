@@ -30,11 +30,14 @@ public class MusicMstMaintenance {
 
         // TODO: バージョンアップ時は分岐を変える必要あり
         LogUtil.logDebug("BuildConfig.VERSION_CODE:" + BuildConfig.VERSION_CODE);
-        if ( BuildConfig.VERSION_CODE == MUSIC_MST_MIG_VER_CD_1 ) {
-            // 件数取得
-            MusicMstDao musicMstDao = getMusicMstDao(c);
-            long cnt = musicMstDao.count();
-            LogUtil.logDebug("musicMst cnt:" + cnt);
+
+        // 件数取得
+        MusicMstDao musicMstDao = getMusicMstDao(c);
+        long cnt = musicMstDao.count();
+        LogUtil.logDebug("musicMst cnt:" + cnt);
+
+        if ( BuildConfig.VERSION_CODE == MUSIC_MST_MIG_VER_CD_1) {
+            LogUtil.logDebug("要マスタ全件インポート");
 
             // バージョンに対応するマスタ件数でない場合はマスタを初期化
             if ( cnt != MUSIC_MST_MIG_VER_CD_AFT_CNT_1 ) {
@@ -83,8 +86,10 @@ public class MusicMstMaintenance {
                 csvArr[2]);
         musicMst.setNha(
                 csvArr[3]);
+        musicMst.setMstVersion(
+                csvArr[4]);
 
-        String[] bpmArr = csvArr[4].split("～");
+        String[] bpmArr = csvArr[5].split("～");
         if ( bpmArr.length == 1 ) {
             bpmArr =  new String[] {bpmArr[0], bpmArr[0]};
         }
@@ -94,24 +99,24 @@ public class MusicMstMaintenance {
                 Integer.parseInt(bpmArr[1]));
 
         musicMst.setDifficult(
-                csvArr[5]);
+                csvArr[6]);
         musicMst.setNotes(
-                Integer.parseInt(csvArr[6]));
-        musicMst.setScratchNotes(
                 Integer.parseInt(csvArr[7]));
-        musicMst.setChargeNotes(
+        musicMst.setScratchNotes(
                 Integer.parseInt(csvArr[8]));
-        musicMst.setBackSpinScratchNotes(
+        musicMst.setChargeNotes(
                 Integer.parseInt(csvArr[9]));
-        musicMst.setSortNumInDifficult(
+        musicMst.setBackSpinScratchNotes(
                 Integer.parseInt(csvArr[10]));
+        musicMst.setSortNumInDifficult(
+                Integer.parseInt(csvArr[11]));
         musicMst.setMstVersion(
-                csvArr[11]);
+                csvArr[12]);
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss 'JST' yyyy");
-            java.util.Date insDate = sdf.parse(csvArr[12]);
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'JST' yyyy");
+            java.util.Date insDate = sdf.parse(csvArr[13]);
 
-            if ( !sdf.format(insDate).equals(csvArr[12]) ) {
+            if ( !sdf.format(insDate).equals(csvArr[13]) ) {
                 throw new IllegalStateException("SimpleDateFormatのフォーマット指定不正");
             }
 
@@ -120,6 +125,8 @@ public class MusicMstMaintenance {
             // TODO:適切な例外処理は？
             pe.printStackTrace();
         }
+
+        musicMst.setUpdDate(new java.util.Date());
 
     }
 }

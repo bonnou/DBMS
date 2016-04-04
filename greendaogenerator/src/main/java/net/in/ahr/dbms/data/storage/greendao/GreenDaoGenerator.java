@@ -18,6 +18,7 @@ public class GreenDaoGenerator {
         musicMst.addStringProperty("name");
         musicMst.addStringProperty("nha");
 
+        musicMst.addStringProperty("version");
         musicMst.addStringProperty("genre");
         musicMst.addStringProperty("artist");
         musicMst.addIntProperty("bpmFrom");
@@ -31,6 +32,10 @@ public class GreenDaoGenerator {
         musicMst.addStringProperty("mstVersion");
 
         musicMst.addDateProperty("insDate");
+        musicMst.addDateProperty("updDate");
+
+        // TODO: カラム追加時は・・・？
+
 
         // MusicResult
         Entity musicResult_DBHR = schema.addEntity("MusicResultDBHR");
@@ -63,6 +68,10 @@ public class GreenDaoGenerator {
 
         // 生成
         new DaoGenerator().generateAll(schema, args[0]);
+
+
+
+
 
     }
 }

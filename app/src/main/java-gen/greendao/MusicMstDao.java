@@ -29,19 +29,21 @@ public class MusicMstDao extends AbstractDao<MusicMst, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Nha = new Property(2, String.class, "nha", false, "NHA");
-        public final static Property Genre = new Property(3, String.class, "genre", false, "GENRE");
-        public final static Property Artist = new Property(4, String.class, "artist", false, "ARTIST");
-        public final static Property BpmFrom = new Property(5, Integer.class, "bpmFrom", false, "BPM_FROM");
-        public final static Property BpmTo = new Property(6, Integer.class, "bpmTo", false, "BPM_TO");
-        public final static Property Difficult = new Property(7, String.class, "difficult", false, "DIFFICULT");
-        public final static Property Notes = new Property(8, Integer.class, "notes", false, "NOTES");
-        public final static Property ScratchNotes = new Property(9, Integer.class, "scratchNotes", false, "SCRATCH_NOTES");
-        public final static Property ChargeNotes = new Property(10, Integer.class, "chargeNotes", false, "CHARGE_NOTES");
-        public final static Property BackSpinScratchNotes = new Property(11, Integer.class, "backSpinScratchNotes", false, "BACK_SPIN_SCRATCH_NOTES");
-        public final static Property SortNumInDifficult = new Property(12, Integer.class, "sortNumInDifficult", false, "SORT_NUM_IN_DIFFICULT");
-        public final static Property MstVersion = new Property(13, String.class, "mstVersion", false, "MST_VERSION");
-        public final static Property InsDate = new Property(14, java.util.Date.class, "insDate", false, "INS_DATE");
-        public final static Property MusicResultIdDBHR = new Property(15, long.class, "musicResultIdDBHR", false, "MUSIC_RESULT_ID_DBHR");
+        public final static Property Version = new Property(3, String.class, "version", false, "VERSION");
+        public final static Property Genre = new Property(4, String.class, "genre", false, "GENRE");
+        public final static Property Artist = new Property(5, String.class, "artist", false, "ARTIST");
+        public final static Property BpmFrom = new Property(6, Integer.class, "bpmFrom", false, "BPM_FROM");
+        public final static Property BpmTo = new Property(7, Integer.class, "bpmTo", false, "BPM_TO");
+        public final static Property Difficult = new Property(8, String.class, "difficult", false, "DIFFICULT");
+        public final static Property Notes = new Property(9, Integer.class, "notes", false, "NOTES");
+        public final static Property ScratchNotes = new Property(10, Integer.class, "scratchNotes", false, "SCRATCH_NOTES");
+        public final static Property ChargeNotes = new Property(11, Integer.class, "chargeNotes", false, "CHARGE_NOTES");
+        public final static Property BackSpinScratchNotes = new Property(12, Integer.class, "backSpinScratchNotes", false, "BACK_SPIN_SCRATCH_NOTES");
+        public final static Property SortNumInDifficult = new Property(13, Integer.class, "sortNumInDifficult", false, "SORT_NUM_IN_DIFFICULT");
+        public final static Property MstVersion = new Property(14, String.class, "mstVersion", false, "MST_VERSION");
+        public final static Property InsDate = new Property(15, java.util.Date.class, "insDate", false, "INS_DATE");
+        public final static Property UpdDate = new Property(16, java.util.Date.class, "updDate", false, "UPD_DATE");
+        public final static Property MusicResultIdDBHR = new Property(17, long.class, "musicResultIdDBHR", false, "MUSIC_RESULT_ID_DBHR");
     };
 
     private DaoSession daoSession;
@@ -63,19 +65,21 @@ public class MusicMstDao extends AbstractDao<MusicMst, Long> {
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'NAME' TEXT," + // 1: name
                 "'NHA' TEXT," + // 2: nha
-                "'GENRE' TEXT," + // 3: genre
-                "'ARTIST' TEXT," + // 4: artist
-                "'BPM_FROM' INTEGER," + // 5: bpmFrom
-                "'BPM_TO' INTEGER," + // 6: bpmTo
-                "'DIFFICULT' TEXT," + // 7: difficult
-                "'NOTES' INTEGER," + // 8: notes
-                "'SCRATCH_NOTES' INTEGER," + // 9: scratchNotes
-                "'CHARGE_NOTES' INTEGER," + // 10: chargeNotes
-                "'BACK_SPIN_SCRATCH_NOTES' INTEGER," + // 11: backSpinScratchNotes
-                "'SORT_NUM_IN_DIFFICULT' INTEGER," + // 12: sortNumInDifficult
-                "'MST_VERSION' TEXT," + // 13: mstVersion
-                "'INS_DATE' INTEGER," + // 14: insDate
-                "'MUSIC_RESULT_ID_DBHR' INTEGER NOT NULL );"); // 15: musicResultIdDBHR
+                "'VERSION' TEXT," + // 3: version
+                "'GENRE' TEXT," + // 4: genre
+                "'ARTIST' TEXT," + // 5: artist
+                "'BPM_FROM' INTEGER," + // 6: bpmFrom
+                "'BPM_TO' INTEGER," + // 7: bpmTo
+                "'DIFFICULT' TEXT," + // 8: difficult
+                "'NOTES' INTEGER," + // 9: notes
+                "'SCRATCH_NOTES' INTEGER," + // 10: scratchNotes
+                "'CHARGE_NOTES' INTEGER," + // 11: chargeNotes
+                "'BACK_SPIN_SCRATCH_NOTES' INTEGER," + // 12: backSpinScratchNotes
+                "'SORT_NUM_IN_DIFFICULT' INTEGER," + // 13: sortNumInDifficult
+                "'MST_VERSION' TEXT," + // 14: mstVersion
+                "'INS_DATE' INTEGER," + // 15: insDate
+                "'UPD_DATE' INTEGER," + // 16: updDate
+                "'MUSIC_RESULT_ID_DBHR' INTEGER NOT NULL );"); // 17: musicResultIdDBHR
     }
 
     /** Drops the underlying database table. */
@@ -104,66 +108,76 @@ public class MusicMstDao extends AbstractDao<MusicMst, Long> {
             stmt.bindString(3, nha);
         }
  
+        String version = entity.getVersion();
+        if (version != null) {
+            stmt.bindString(4, version);
+        }
+ 
         String genre = entity.getGenre();
         if (genre != null) {
-            stmt.bindString(4, genre);
+            stmt.bindString(5, genre);
         }
  
         String artist = entity.getArtist();
         if (artist != null) {
-            stmt.bindString(5, artist);
+            stmt.bindString(6, artist);
         }
  
         Integer bpmFrom = entity.getBpmFrom();
         if (bpmFrom != null) {
-            stmt.bindLong(6, bpmFrom);
+            stmt.bindLong(7, bpmFrom);
         }
  
         Integer bpmTo = entity.getBpmTo();
         if (bpmTo != null) {
-            stmt.bindLong(7, bpmTo);
+            stmt.bindLong(8, bpmTo);
         }
  
         String difficult = entity.getDifficult();
         if (difficult != null) {
-            stmt.bindString(8, difficult);
+            stmt.bindString(9, difficult);
         }
  
         Integer notes = entity.getNotes();
         if (notes != null) {
-            stmt.bindLong(9, notes);
+            stmt.bindLong(10, notes);
         }
  
         Integer scratchNotes = entity.getScratchNotes();
         if (scratchNotes != null) {
-            stmt.bindLong(10, scratchNotes);
+            stmt.bindLong(11, scratchNotes);
         }
  
         Integer chargeNotes = entity.getChargeNotes();
         if (chargeNotes != null) {
-            stmt.bindLong(11, chargeNotes);
+            stmt.bindLong(12, chargeNotes);
         }
  
         Integer backSpinScratchNotes = entity.getBackSpinScratchNotes();
         if (backSpinScratchNotes != null) {
-            stmt.bindLong(12, backSpinScratchNotes);
+            stmt.bindLong(13, backSpinScratchNotes);
         }
  
         Integer sortNumInDifficult = entity.getSortNumInDifficult();
         if (sortNumInDifficult != null) {
-            stmt.bindLong(13, sortNumInDifficult);
+            stmt.bindLong(14, sortNumInDifficult);
         }
  
         String mstVersion = entity.getMstVersion();
         if (mstVersion != null) {
-            stmt.bindString(14, mstVersion);
+            stmt.bindString(15, mstVersion);
         }
  
         java.util.Date insDate = entity.getInsDate();
         if (insDate != null) {
-            stmt.bindLong(15, insDate.getTime());
+            stmt.bindLong(16, insDate.getTime());
         }
-        stmt.bindLong(16, entity.getMusicResultIdDBHR());
+ 
+        java.util.Date updDate = entity.getUpdDate();
+        if (updDate != null) {
+            stmt.bindLong(17, updDate.getTime());
+        }
+        stmt.bindLong(18, entity.getMusicResultIdDBHR());
     }
 
     @Override
@@ -185,19 +199,21 @@ public class MusicMstDao extends AbstractDao<MusicMst, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // nha
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // genre
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // artist
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // bpmFrom
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // bpmTo
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // difficult
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // notes
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // scratchNotes
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // chargeNotes
-            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // backSpinScratchNotes
-            cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12), // sortNumInDifficult
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // mstVersion
-            cursor.isNull(offset + 14) ? null : new java.util.Date(cursor.getLong(offset + 14)), // insDate
-            cursor.getLong(offset + 15) // musicResultIdDBHR
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // version
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // genre
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // artist
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // bpmFrom
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // bpmTo
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // difficult
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // notes
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // scratchNotes
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // chargeNotes
+            cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12), // backSpinScratchNotes
+            cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13), // sortNumInDifficult
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // mstVersion
+            cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)), // insDate
+            cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)), // updDate
+            cursor.getLong(offset + 17) // musicResultIdDBHR
         );
         return entity;
     }
@@ -208,19 +224,21 @@ public class MusicMstDao extends AbstractDao<MusicMst, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setNha(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setGenre(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setArtist(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setBpmFrom(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setBpmTo(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setDifficult(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setNotes(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setScratchNotes(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setChargeNotes(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
-        entity.setBackSpinScratchNotes(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
-        entity.setSortNumInDifficult(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
-        entity.setMstVersion(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setInsDate(cursor.isNull(offset + 14) ? null : new java.util.Date(cursor.getLong(offset + 14)));
-        entity.setMusicResultIdDBHR(cursor.getLong(offset + 15));
+        entity.setVersion(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGenre(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setArtist(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setBpmFrom(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setBpmTo(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setDifficult(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setNotes(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setScratchNotes(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setChargeNotes(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setBackSpinScratchNotes(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
+        entity.setSortNumInDifficult(cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13));
+        entity.setMstVersion(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setInsDate(cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)));
+        entity.setUpdDate(cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)));
+        entity.setMusicResultIdDBHR(cursor.getLong(offset + 17));
      }
     
     /** @inheritdoc */

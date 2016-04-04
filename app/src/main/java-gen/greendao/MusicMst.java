@@ -12,6 +12,7 @@ public class MusicMst implements java.io.Serializable {
     private Long id;
     private String name;
     private String nha;
+    private String version;
     private String genre;
     private String artist;
     private Integer bpmFrom;
@@ -24,6 +25,7 @@ public class MusicMst implements java.io.Serializable {
     private Integer sortNumInDifficult;
     private String mstVersion;
     private java.util.Date insDate;
+    private java.util.Date updDate;
     private long musicResultIdDBHR;
 
     /** Used to resolve relations */
@@ -43,10 +45,11 @@ public class MusicMst implements java.io.Serializable {
         this.id = id;
     }
 
-    public MusicMst(Long id, String name, String nha, String genre, String artist, Integer bpmFrom, Integer bpmTo, String difficult, Integer notes, Integer scratchNotes, Integer chargeNotes, Integer backSpinScratchNotes, Integer sortNumInDifficult, String mstVersion, java.util.Date insDate, long musicResultIdDBHR) {
+    public MusicMst(Long id, String name, String nha, String version, String genre, String artist, Integer bpmFrom, Integer bpmTo, String difficult, Integer notes, Integer scratchNotes, Integer chargeNotes, Integer backSpinScratchNotes, Integer sortNumInDifficult, String mstVersion, java.util.Date insDate, java.util.Date updDate, long musicResultIdDBHR) {
         this.id = id;
         this.name = name;
         this.nha = nha;
+        this.version = version;
         this.genre = genre;
         this.artist = artist;
         this.bpmFrom = bpmFrom;
@@ -59,6 +62,7 @@ public class MusicMst implements java.io.Serializable {
         this.sortNumInDifficult = sortNumInDifficult;
         this.mstVersion = mstVersion;
         this.insDate = insDate;
+        this.updDate = updDate;
         this.musicResultIdDBHR = musicResultIdDBHR;
     }
 
@@ -90,6 +94,14 @@ public class MusicMst implements java.io.Serializable {
 
     public void setNha(String nha) {
         this.nha = nha;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getGenre() {
@@ -186,6 +198,14 @@ public class MusicMst implements java.io.Serializable {
 
     public void setInsDate(java.util.Date insDate) {
         this.insDate = insDate;
+    }
+
+    public java.util.Date getUpdDate() {
+        return updDate;
+    }
+
+    public void setUpdDate(java.util.Date updDate) {
+        this.updDate = updDate;
     }
 
     public long getMusicResultIdDBHR() {
