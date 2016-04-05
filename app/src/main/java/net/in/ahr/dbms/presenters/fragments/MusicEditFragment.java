@@ -292,7 +292,6 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         LogUtil.logExiting();
     }
 
-
     @Override
     public void onDestroyView() {
         revertToolbar();

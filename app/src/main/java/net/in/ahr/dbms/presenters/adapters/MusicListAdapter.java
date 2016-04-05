@@ -4,12 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -17,9 +21,12 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
+import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import greendao.MusicMst;
@@ -27,23 +34,41 @@ import greendao.MusicMst;
 /**
  * Created by str2653z on 2016/03/10.
  */
-public class MusicListAdapter extends BaseAdapter {
+public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     Context context;
     LayoutInflater layoutInflater = null;
+    private final Object mLock = new Object();
 
     static final AlphaAnimation clearLampAnimation = new AlphaAnimation(1, 0.01f);
 
+
+
     // TODO: マスタではなくスコアを含める必要あり
-    List<MusicMst> musicList;
+    public static List<MusicMst> musicList;
+
+    public static List<MusicMst> getMusicList() {
+        return musicList;
+    }
+
+    public static void setMusicList(List<MusicMst> musicList) {
+        MusicListAdapter.musicList = musicList;
+    }
+
+    // フィルタ初期化用
+    public static List<MusicMst> musicListOrg;
+
+    public static List<MusicMst> getMusicListOrg() {
+        return musicListOrg;
+    }
+
+    public static void setMusicListOrg(List<MusicMst> musicListOrg) {
+        MusicListAdapter.musicListOrg = musicListOrg;
+    }
 
     public MusicListAdapter(Context context) {
         this.context = context;
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void setMusicList(List<MusicMst> musicList) {
-        this.musicList = musicList;
     }
 
     @Override
@@ -239,4 +264,136 @@ public class MusicListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    // ArrayAdapterの実装をパクリ、フィルタ元のみロード時のListに変更
+    @Override
+    public Filter getFilter() {
+        LogUtil.logEntering();
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence prefix) {
+                FilterResults results = new FilterResults();
+
+/* 初期化済のはずなので、ArrayAdapterの実装から削除
+                if (mOriginalValues == null) {
+                    synchronized (mLock) {
+                        mOriginalValues = new ArrayList<T>(mObjects);
+                    }
+                }
+*/
+
+                if (prefix == null || prefix.length() == 0) {
+                    ArrayList<MusicMst> list;
+                    synchronized (mLock) {
+                        list = new ArrayList<MusicMst>(musicListOrg);
+                    }
+                    results.values = list;
+                    results.count = list.size();
+                } else {
+                    String prefixString = prefix.toString().toLowerCase();
+
+                    ArrayList<MusicMst> values;
+                    synchronized (mLock) {
+                        values = new ArrayList<MusicMst>(musicListOrg);
+                    }
+
+                    final int count = values.size();
+                    final ArrayList<MusicMst> newValues = new ArrayList<MusicMst>();
+
+                    for (int i = 0; i < count; i++) {
+                        final MusicMst value = values.get(i);
+                        final String valueText = value.toString().toLowerCase();
+
+                        // First match against the whole, non-splitted value
+                        if (valueText.startsWith(prefixString)) {
+                            newValues.add(value);
+                        } else {
+                            final String[] words = valueText.split(" ");
+                            final int wordCount = words.length;
+
+                            // Start at index 0, in case valueText starts with space(s)
+                            for (int k = 0; k < wordCount; k++) {
+                                if (words[k].startsWith(prefixString)) {
+                                    newValues.add(value);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    results.values = newValues;
+                    results.count = newValues.size();
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                //noinspection unchecked
+                musicList = (List<MusicMst>) results.values;
+                if (results.count > 0) {
+                    notifyDataSetChanged();
+                } else {
+                    notifyDataSetInvalidated();
+                }
+            }
+        };
+    }
+
+
+/*
+    @Override
+    public Filter getFilter() {
+        LogUtil.logEntering();
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                LogUtil.logEntering();
+
+                FilterResults results = new FilterResults();
+                List<MusicMst> filterMusicList = new ArrayList<MusicMst>();
+
+                String filterString = constraint.toString().toLowerCase();
+                String filterableString;
+
+                if (!TextUtils.isEmpty(constraint)) {
+                    for (MusicMst music : musicList) {
+                        filterableString = music.getName().toLowerCase();
+                        if (filterableString.contains(filterString)) {
+                            filterMusicList.add(music);
+                        }
+                    }
+                } else {
+                    filterMusicList = musicList;
+                }
+
+                results.values = filterMusicList;
+                results.count = filterMusicList.size();
+
+                LogUtil.logExiting();
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                LogUtil.logEntering();
+
+                if (results.count > 0) {
+                    @SuppressWarnings("unchecked")
+                    List<MusicMst> filterItems = (ArrayList<MusicMst>)results.values;
+
+                    notifyDataSetChanged();
+                    MusicListAdapter.musicList.clear();
+
+                    for (MusicMst filterItem : filterItems) {
+                        MusicListAdapter.musicList.add(filterItem);
+                    }
+                }
+
+                LogUtil.logExiting();
+            }
+        };
+    }
+*/
 }

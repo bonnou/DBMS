@@ -3,10 +3,12 @@ package net.in.ahr.dbms.presenters.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import net.in.ahr.dbms.data.network.google.spreadSheet.GSSImport;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
@@ -35,7 +40,7 @@ import java.util.List;
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListView musicListView;
+    public static ListView musicListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +121,12 @@ public class MusicListActivity extends AppCompatActivity
 //            transaction.addToBackStack(MusicListFragment.TAG);
             transaction.commit();
 
-            // 絞り込み検索用に、曲一覧のListViewを取得し保持
-            musicListView = musicListFragment.getMusicListView();
-
             // 絞り込み検索
+/*
             SearchView searchView = (SearchView) toolbar.getMenu().findItem(R.id.action_refine_search).getActionView();
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
             // 変更で反映
             searchView.setSubmitButtonEnabled(false);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -145,7 +151,7 @@ public class MusicListActivity extends AppCompatActivity
                 }
             });
             // searchView.clearFocus();
-
+*/
 
         } catch (Exception e) {
             // TODO: http://www.adamrocker.com/blog/288/bug-report-system-for-android.html
@@ -167,6 +173,47 @@ public class MusicListActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_music, menu);
+
+        // 絞り込み検索
+        MenuItem searchItem = menu.findItem(R.id.action_refine_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        // 変更で反映
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setQueryHint("曲名絞り込み(部分一致)");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String queryText) {
+                // フィルター取得
+                // TODO: このstaticの使い方ってありなのか・・・？
+                Filter filter = ((MusicListAdapter)getMusicListView().getAdapter()).getFilter();
+                if (TextUtils.isEmpty(queryText)) {
+                    // MusicListFragmentのフィルタクリア
+                    LogUtil.logDebug("曲一覧フィルタクリア");
+                    filter.filter(null);
+                    // getMusicListView().getAdapter().clearTextFilter();
+                } else {
+                    // MusicListFragmentのフィルタ実施
+                    LogUtil.logDebug("曲一覧フィルタクリア実施：" + queryText);
+                    filter.filter(queryText);
+                    // ※以下の方法だと謎のラベル表示が行われてしまう
+                    //  http://stackoverflow.com/questions/23857313/filter-text-display-in-searchview-not-removing
+                    // getMusicListView().setFilterText(queryText);
+                }
+                // TODO: trueでもfalseでも問題なく動くけど・・・？
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String queryText) {
+                // do nothing
+                return false;
+            }
+        });
+
+
         return true;
     }
 
@@ -241,6 +288,16 @@ public class MusicListActivity extends AppCompatActivity
 
         LogUtil.logExiting();
         return super.dispatchKeyEvent(e);
+    }
+
+
+
+    public static ListView getMusicListView() {
+        return musicListView;
+    }
+
+    public static void setMusicListView(ListView musicListView) {
+        MusicListActivity.musicListView = musicListView;
     }
 
 

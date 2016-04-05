@@ -20,8 +20,10 @@ import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
@@ -58,6 +60,7 @@ public class MusicListFragment extends Fragment {
         List<MusicMst> musicMstList = getMusicMstDao(getActivity()).loadAll();
         adapter = new MusicListAdapter(getActivity());
         adapter.setMusicList(musicMstList);
+        adapter.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
         musicListView = (ListView) view.findViewById(R.id.musicListView);
         musicListView.setAdapter(adapter);
 
@@ -93,6 +96,9 @@ public class MusicListFragment extends Fragment {
 
             }
         });
+
+        // 絞り込み検索用に、曲一覧のListViewを取得し保持
+        MusicListActivity.setMusicListView(musicListView);
 
         return view;
     }
