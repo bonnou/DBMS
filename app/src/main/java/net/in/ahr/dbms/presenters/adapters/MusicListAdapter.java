@@ -88,7 +88,10 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = layoutInflater.inflate(R.layout.list_music_list, parent, false);
+        // 受け取ったビューがnullなら新しくビューを生成（再利用による性能改善）
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.list_music_list, parent, false);
+        }
 
         // TODO: サーチ部分の色変更をやめる（クリアランプ、難易度の幅が考慮できていなかった）
 
@@ -132,7 +135,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
                 clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                clearLampView.setTextColor(Color.parseColor("#dddddd"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp) ) {
                 clearLampView.setBackgroundColor(Color.parseColor("#EFEFEF"));
                 clearLampView.setTextColor(Color.parseColor("#333333"));
