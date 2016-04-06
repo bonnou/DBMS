@@ -72,10 +72,14 @@
         android:divider="#999999"
         android:dividerHeight="0.5sp"
         android:fadeScrollbars="false"
-        android:fastScrollEnabled="true"
         android:smoothScrollbar="true"
         />
 <!--
+
+android:fastScrollEnabled="true"：スクロールバーつまみ機能ON
+※以下バグのため、一旦設定を削除した。
+http://stackoverflow.com/questions/24598977/android-requestlayout-improperly-called
+
 fadeScrollbars：スクロールバーをフェードアウトさせない
 fastScrollEnabled：スクロールバーをタップ移動可能にする
 smoothScrollbar：スクロールバーの移動をスムーズにする
@@ -84,6 +88,7 @@ smoothScrollbar：スクロールバーの移動をスムーズにする
         android:listSelector="@drawable/music_list_selector"
 
         android:scrollbarStyle="outsideOverlay"
+
 -->
 
 </LinearLayout>
