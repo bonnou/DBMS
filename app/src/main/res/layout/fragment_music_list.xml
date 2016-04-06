@@ -71,6 +71,19 @@
         android:layout_height="wrap_content"
         android:divider="#999999"
         android:dividerHeight="0.5sp"
-    />
+        android:fadeScrollbars="false"
+        android:fastScrollEnabled="true"
+        android:smoothScrollbar="true"
+        />
+<!--
+fadeScrollbars：スクロールバーをフェードアウトさせない
+fastScrollEnabled：スクロールバーをタップ移動可能にする
+smoothScrollbar：スクロールバーの移動をスムーズにする
+
+        android:drawSelectorOnTop="true"
+        android:listSelector="@drawable/music_list_selector"
+
+        android:scrollbarStyle="outsideOverlay"
+-->
 
 </LinearLayout>

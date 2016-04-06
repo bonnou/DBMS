@@ -315,7 +315,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                     }
                 }
 */
-
                 if (prefix == null || prefix.length() == 0) {
                     ArrayList<MusicMst> list;
                     synchronized (mLock) {
