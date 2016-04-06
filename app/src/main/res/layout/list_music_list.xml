@@ -20,7 +20,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/musicResult_clearLump"
+        android:id="@+id/musicResult_clearLamp"
         android:background="#333333"
         android:layout_width="0dp"
         android:layout_weight="1"

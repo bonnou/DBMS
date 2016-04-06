@@ -88,9 +88,47 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // 受け取ったビューがnullなら新しくビューを生成（再利用による性能改善）
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_music_list, parent, false);
+        View view = convertView;
+        ViewHolder holder;
+
+        // 受け取ったビューがnullなら新しくビュー・ホルダーを生成（再利用による性能改善）
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.list_music_list, parent, false);
+
+            holder = new ViewHolder();
+            // クリアランプ
+            TextView clearLampView = (TextView) view.findViewById(R.id.musicResult_clearLamp);
+            holder.clearLampView = clearLampView;
+            // 難易度
+            TextView difficultView = (TextView) view.findViewById(R.id.music_difficult);
+            holder.difficultView = difficultView;
+            // 曲名
+            TextView nameView = (TextView) view.findViewById(R.id.music_name);
+            holder.nameView = nameView;
+            // スコアグラフ（実線）
+            TextView scoreGraphPositiveView = (TextView) view.findViewById(R.id.musicResult_scoreGraph);
+            holder.scoreGraphPositiveView = scoreGraphPositiveView;
+            // スコアグラフ（透明線）
+            TextView scoreGraphNegativeView = (TextView) view.findViewById(R.id.musicResult_scoreGraphNegative);
+            holder.scoreGraphNegativeView = scoreGraphNegativeView;
+            // スコアランク
+            ImageView scoreRankView = (ImageView) view.findViewById(R.id.musicResult_scoreRank);
+            holder.scoreRankView = scoreRankView;
+            // スコア情報
+            TextView scoreInfoView = (TextView) view.findViewById(R.id.musicResult_scoreInfo);
+            holder.scoreInfoView = scoreInfoView;
+            // ミス情報
+            TextView missInfoView = (TextView) view.findViewById(R.id.musicResult_missInfo);
+            holder.missInfoView = missInfoView;
+            // 進捗メモ
+            TextView memoProgresView = (TextView) view.findViewById(R.id.musicResult_memoProgress);
+            holder.memoProgresView = memoProgresView;
+
+            // ホルダーをビューにセット
+            view.setTag(holder);
+
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
 
         // TODO: サーチ部分の色変更をやめる（クリアランプ、難易度の幅が考慮できていなかった）
@@ -105,15 +143,13 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         }
 
         // クリアランプ
-        TextView clearLampView = (TextView)convertView.findViewById(R.id.musicResult_clearLump);
-
         // TODO: DBHR以外にプレイスタイルが増えた場合は文字を変えたい
-        clearLampView.setText(Html.fromHtml("H<br />R"));
+        holder.clearLampView.setText(Html.fromHtml("H<br />R"));
 
         if (!resultExistFlg) {
             // TODO: resのcolorsのほうがいい？
-            clearLampView.setBackgroundColor(Color.parseColor("#333333"));
-            clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+            holder.clearLampView.setBackgroundColor(Color.parseColor("#333333"));
+            holder.clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
         } else {
             String clearLamp = music.getMusicResultDBHR().getClearLamp();
 
@@ -121,62 +157,60 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 // ランプ点滅
                 clearLampAnimation.setDuration(100);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
-                clearLampView.startAnimation(clearLampAnimation);
-                clearLampView.setBackgroundColor(Color.parseColor("#666666"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.startAnimation(clearLampAnimation);
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#666666"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#ba55d3"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#ba55d3"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#00ffff"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#00ffff"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
-                clearLampView.setTextColor(Color.parseColor("#dddddd"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
+                holder.clearLampView.setTextColor(Color.parseColor("#dddddd"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#EFEFEF"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#EFEFEF"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#ffa500"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#ffa500"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#ffffff"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#ffffff"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
                 // ランプ点滅
                 clearLampAnimation.setDuration(250);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
-                clearLampView.startAnimation(clearLampAnimation);
+                holder.clearLampView.startAnimation(clearLampAnimation);
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT.equals(clearLamp) ) {
-                clearLampView.setBackgroundColor(Color.parseColor("#ffff00"));
-                clearLampView.setTextColor(Color.parseColor("#333333"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#ffff00"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
                 // ランプ点滅
                 clearLampAnimation.setDuration(250);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
-                clearLampView.startAnimation(clearLampAnimation);
+                holder.clearLampView.startAnimation(clearLampAnimation);
             } else {
-                clearLampView.setBackgroundColor(Color.parseColor("#333333"));
-                clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#333333"));
+                holder.clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
             }
         }
 
         // 難易度
-        TextView difficultView = (TextView)convertView.findViewById(R.id.music_difficult);
-        difficultView.setText(music.getDifficult());
+        holder.difficultView.setText(music.getDifficult());
         String nha = music.getNha();
         if ( "NORMAL".equals(nha) ) {
-            difficultView.setBackgroundColor(Color.parseColor("#333366"));
+            holder.difficultView.setBackgroundColor(Color.parseColor("#333366"));
         } else if ( "HYPER".equals(nha) ) {
-            difficultView.setBackgroundColor(Color.parseColor("#666633"));
+            holder.difficultView.setBackgroundColor(Color.parseColor("#666633"));
         } else if ( "ANOTHER".equals(nha) ) {
-            difficultView.setBackgroundColor(Color.parseColor("#663333"));
+            holder.difficultView.setBackgroundColor(Color.parseColor("#663333"));
         }
 
         // 曲名
-        TextView nameView = (TextView)convertView.findViewById(R.id.music_name);
-        nameView.setText(music.getName());
+        holder.nameView.setText(music.getName());
 
         // スコアランク画像取得
         Bitmap scoreRankImg = null;
@@ -186,6 +220,8 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                     context,
                     "img/scoreRank/" + music.getMusicResultDBHR().getScoreRank() + ".gif");
         }
+        // スコアランク
+        holder.scoreRankView.setImageBitmap(scoreRankImg);
 
         // スコアグラフ
         double scoreRate;
@@ -197,24 +233,21 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         int scoreGraphWeight = (int) (100 * scoreRate);
         int scoreGraphNegativeWeight = 10000 - scoreGraphWeight;
 
+        // スコアグラフ（実線）
         LinearLayout.LayoutParams scoreGraphWeightParam = new LinearLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
         scoreGraphWeightParam.weight = scoreGraphWeight;
-        ((TextView)convertView.findViewById(R.id.musicResult_scoreGraph)).setLayoutParams(scoreGraphWeightParam);
+        holder.scoreGraphPositiveView.setLayoutParams(scoreGraphWeightParam);
 
+        // スコアグラフ（透明線）
         LinearLayout.LayoutParams scoreGraphWeightNegativeParam = new LinearLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
         scoreGraphWeightNegativeParam.weight = scoreGraphNegativeWeight;
-        ((TextView)convertView.findViewById(R.id.musicResult_scoreGraphNegative)).setLayoutParams(scoreGraphWeightNegativeParam);
-
-        // スコアランク
-        ImageView scoreRankView = (ImageView)convertView.findViewById(R.id.musicResult_scoreRank);
-        scoreRankView.setImageBitmap(scoreRankImg);
+        holder.scoreGraphNegativeView.setLayoutParams(scoreGraphWeightNegativeParam);
 
         // スタイル情報
         String inpactBeginTag = "<b><big>";
         String inpactEndTag = "</big></b>";
 
         // スコア情報
-        TextView scoreInfoView = (TextView)convertView.findViewById(R.id.musicResult_scoreInfo);
         final String SCORE_INFO_FORMAT = "score: " + inpactBeginTag + "{0}" + inpactEndTag + " ({1}%)";
         String[] scoreInfoReplaceArr;
         if (resultExistFlg) {
@@ -229,10 +262,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             };
         }
         String scoreInfo = MessageFormat.format(SCORE_INFO_FORMAT, (Object[])scoreInfoReplaceArr);
-        scoreInfoView.setText(Html.fromHtml(scoreInfo));
+        holder.scoreInfoView.setText(Html.fromHtml(scoreInfo));
 
         // ミス情報
-        TextView missInfoView = (TextView)convertView.findViewById(R.id.musicResult_missInfo);
         final String MISS_INFO_FORMAT = "bp: " + inpactBeginTag + "{0}" + inpactEndTag + " ({1}%)";
         String[] missInfoReplaceArr;
         if (resultExistFlg) {
@@ -247,10 +279,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             };
         }
         String missInfo = MessageFormat.format(MISS_INFO_FORMAT, (Object[])missInfoReplaceArr);
-        missInfoView.setText(Html.fromHtml(missInfo));
+        holder.missInfoView.setText(Html.fromHtml(missInfo));
 
         // 進捗メモ
-        TextView memoProgresView = (TextView)convertView.findViewById(R.id.musicResult_memoProgress);
         final String MEMO_PROGRESS_FORMAT = "進捗: {0}";
         String[] memoProgressReplaceArr;
         if (resultExistFlg) {
@@ -263,9 +294,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             };
         }
         String memoProgress = MessageFormat.format(MEMO_PROGRESS_FORMAT, (Object[])memoProgressReplaceArr);
-        memoProgresView.setText(memoProgress);
+        holder.memoProgresView.setText(memoProgress);
 
-        return convertView;
+        return view;
     }
 
     // ArrayAdapterの実装をパクリ、フィルタ元のみロード時のListに変更
@@ -343,6 +374,30 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             }
         };
     }
+
+
+    static class ViewHolder {
+        // クリアランプ
+        TextView clearLampView;
+        // 難易度
+        TextView difficultView;
+        // 曲名
+        TextView nameView;
+        // スコアグラフ（実線）
+        TextView scoreGraphPositiveView;
+        // スコアグラフ（透明線）
+        TextView scoreGraphNegativeView;
+        // スコアランク
+        ImageView scoreRankView;
+        // スコア情報
+        TextView scoreInfoView;
+        // ミス情報
+        TextView missInfoView;
+        // 進捗メモ
+        TextView memoProgresView;
+    }
+
+
 
 
 /*
