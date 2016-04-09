@@ -5,7 +5,9 @@ import android.content.Context;
 import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.data.strage.util.CSVParser;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
+import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,13 +119,18 @@ public class MusicMstMaintenance {
             java.util.Date insDate = sdf.parse(csvArr[13]);
 
             if ( !sdf.format(insDate).equals(csvArr[13]) ) {
-                throw new IllegalStateException("SimpleDateFormatのフォーマット指定不正");
+                throw new DbmsSystemException(
+                        AppConst.ERR_CD_90001,
+                        AppConst.ERR_STEP_CD_MUMM_00001,
+                        AppConst.ERR_MESSAGE_MUMM_00001);
             }
 
             musicMst.setInsDate(insDate);
         } catch (ParseException pe) {
-            // TODO:適切な例外処理は？
-            pe.printStackTrace();
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90001,
+                    AppConst.ERR_STEP_CD_MUMM_00002,
+                    AppConst.ERR_MESSAGE_MUMM_00002);
         }
 
         musicMst.setUpdDate(new java.util.Date());

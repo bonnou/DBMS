@@ -1,5 +1,37 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+Properties props = new Properties()
+File propsFile = file('fabric.properties')
+if (
+       ( System.getenv("FABRIC_KEY") == null || "".equals(System.getenv("FABRIC_KEY")) )
+    || ( System.getenv("FABRIC_SECRET") == null || "".equals(System.getenv("FABRIC_SECRET")) )
+) {
+    throw new GradleException("Missing System.env for fabric.properties.");
+}
+propsFile.write(
+    "apiKey=" + System.getenv("FABRIC_KEY") + "\n" + "apiSecret=" + System.getenv("FABRIC_SECRET") + "\n"
+)
+
+if ( System.getenv("ANDROID_RELEASE_KEY") == null || "".equals(System.getenv("ANDROID_RELEASE_KEY")) ) {
+    throw new GradleException("Missing System.env for release password.");
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 23
@@ -20,9 +52,9 @@ android {
         }
         release {
             storeFile file("conf/release.jks")
-            storePassword "androidreleasekey"
-            keyAlias "androidreleasekey"
-            keyPassword "androidreleasekey"
+            storePassword System.getenv("ANDROID_RELEASE_KEY")
+            keyAlias System.getenv("ANDROID_RELEASE_KEY")
+            keyPassword System.getenv("ANDROID_RELEASE_KEY")
         }
     }
 
@@ -35,7 +67,7 @@ android {
             applicationIdSuffix ".debug"
         }
         release {
-            debuggable false
+            debuggable true
             minifyEnabled false
 // TODO: 以下の設定があるとgradleビルド時にエラーが発生する。
 //            minifyEnabled true
@@ -78,4 +110,7 @@ dependencies {
 //        exclude(group: 'com.android.support', module: 'support-annotations')
     }
     compile 'com.deploygate:sdk:3.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
+        transitive = true;
+    }
 }

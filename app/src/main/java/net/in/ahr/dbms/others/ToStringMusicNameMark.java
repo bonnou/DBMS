@@ -1,6 +1,7 @@
 package net.in.ahr.dbms.others;
 
 import net.in.ahr.dbms.data.strage.util.LogUtil;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,15 +18,11 @@ public class ToStringMusicNameMark {
         try {
             Method method = this.getClass().getMethod("getName");
             ret = (String) method.invoke(this, null);
-        } catch (NoSuchMethodException nsme) {
-            nsme.printStackTrace();
-            // TODO: 適切な例外処理
-        } catch (InvocationTargetException ite) {
-            ite.printStackTrace();
-            // TODO: 適切な例外処理
-        } catch (IllegalAccessException iae) {
-            iae.printStackTrace();
-            // TODO: 適切な例外処理
+        } catch (Exception e) {
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90005,
+                    AppConst.ERR_STEP_CD_UTIL_00002,
+                    AppConst.ERR_MESSAGE_UTIL_00002);
         }
         LogUtil.logDebug("ToStringMusicNameMark_ret：" + ret);
         return ret;

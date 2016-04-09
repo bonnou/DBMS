@@ -16,6 +16,7 @@ import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
@@ -116,8 +117,10 @@ public class GSSImport {
                             sheetMusicMemo = "";
                         }
                         if ( sheetMusicName == null || sheetMusicNha == null ) {
-                            // TODO: 適切な例外
-                            LogUtil.logDebug("Googleスプレッドシートのインポート時エラー");
+                            throw new DbmsSystemException(
+                                    AppConst.ERR_CD_90007,
+                                    AppConst.ERR_STEP_CD_GSSI_00004,
+                                    AppConst.ERR_MESSAGE_GSSI_00004);
                         }
 
                         MusicMstDao musicMstDao = getMusicMstDao(c);
@@ -189,8 +192,10 @@ public class GSSImport {
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
-            // TODO: 適切な例外処理
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90002,
+                    AppConst.ERR_STEP_CD_GSSI_00001,
+                    AppConst.ERR_MESSAGE_GSSI_00001);
         }
 
     }

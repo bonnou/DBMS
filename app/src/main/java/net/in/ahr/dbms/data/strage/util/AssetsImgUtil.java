@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,16 +24,19 @@ public class AssetsImgUtil {
             is = context.getResources().getAssets().open(assetsImgPath);
             result = BitmapFactory.decodeStream(is);
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO: 適切な例外処理
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90006,
+                    AppConst.ERR_STEP_CD_UTIL_00003,
+                    AppConst.ERR_MESSAGE_UTIL_00003);
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    // TODO: 適切な例外処理
-                }
+                    throw new DbmsSystemException(
+                            AppConst.ERR_CD_90006,
+                            AppConst.ERR_STEP_CD_UTIL_00004,
+                            AppConst.ERR_MESSAGE_UTIL_00004);                }
             }
         }
 

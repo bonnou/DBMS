@@ -10,6 +10,9 @@ machine:
     version: openjdk7
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
+    FABRIC_KEY: ${FABRIC_KEY}                   # hint: local bash_profile
+    FABRIC_SECRET: ${FABRIC_SECRET}             # hint: local bash_profile
+    ANDROID_RELEASE_KEY: ${ANDROID_RELEASE_KEY} # hint: local bash_profile
 
 dependencies:
   override:
@@ -27,6 +30,7 @@ deployment:
       - ./gradlew assembleDebug
 #      - ./gradlew assembleRelease
       - git log -1 --oneline  > commitlog
+      # hint：https://deploygate.com/docs/api
       - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/bonnou/apps
 #      - curl -F "file=@app/build/outputs/apk/app-release.apk" -F "token=${DEPLOY_GATE}" -F "message=<commitlog" https://deploygate.com/api/users/yanayanalte/apps
 #      - curl -F "file=@app/build/outputs/apk/app-debug.apk" -F "project_id=XXX” -F "api_key=XXXXX” -F "os=Android" https://www.scirocco-cloud.com/api/v1/apps/upload

@@ -23,12 +23,16 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSImport;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
+import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
@@ -232,7 +236,10 @@ public class MusicListActivity extends AppCompatActivity
             gSSAsyncTask.execute();
             return true;
         } else if (id == R.id.action_debug_crash) {
-            throw new RuntimeException("action_debug_crash");
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90000,
+                    AppConst.ERR_STEP_CD_MEAC_00001,
+                    AppConst.ERR_MESSAGE_MEAC_00001);
         }
 
         return super.onOptionsItemSelected(item);

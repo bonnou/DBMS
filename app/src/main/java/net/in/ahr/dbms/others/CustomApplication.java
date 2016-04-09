@@ -3,6 +3,7 @@ package net.in.ahr.dbms.others;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.crashlytics.android.Crashlytics;
 import com.deploygate.sdk.DeployGate;
 
 import net.in.ahr.dbms.R;
@@ -11,6 +12,7 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 
 import greendao.DaoMaster;
 import greendao.DaoSession;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * GreenDao設定を追加したAndroidApplicationクラス
@@ -22,6 +24,7 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DeployGate.install(this); // ※debuggable="true"の場合のみ動作
+        Fabric.with(getApplicationContext(), new Crashlytics());
         setupDatabase();
 
         // 設定ファイルのフラグを読み取ってログ出力を切り替えます。

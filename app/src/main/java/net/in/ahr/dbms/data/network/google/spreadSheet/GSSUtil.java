@@ -33,6 +33,9 @@ import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
 import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.data.spreadsheet.WorksheetFeed;
 
+import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
+
 /**
  * Created by str2653z on 2016/03/28.
  */
@@ -85,15 +88,19 @@ public class GSSUtil {
             IOUtils.copy(is, fos);
             P12FILE = tempFile;
         } catch (IOException ioe) {
-            ioe.printStackTrace();
-            // TODO: 適切な例外処理
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90003,
+                    AppConst.ERR_STEP_CD_GSSI_00002,
+                    AppConst.ERR_MESSAGE_GSSI_00002);
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    // TODO: 適切な例外処理
+                    throw new DbmsSystemException(
+                            AppConst.ERR_CD_90003,
+                            AppConst.ERR_STEP_CD_GSSI_00003,
+                            AppConst.ERR_MESSAGE_GSSI_00003);
                 }
             }
         }

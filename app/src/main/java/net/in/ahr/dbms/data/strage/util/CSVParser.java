@@ -14,6 +14,9 @@ import java.util.StringTokenizer;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 public class CSVParser {
@@ -37,8 +40,10 @@ public class CSVParser {
             is.close();
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO: 適切な例外処理
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90004,
+                    AppConst.ERR_STEP_CD_UTIL_00001,
+                    AppConst.ERR_MESSAGE_UTIL_00001);
         }
 
         LogUtil.logExiting();
