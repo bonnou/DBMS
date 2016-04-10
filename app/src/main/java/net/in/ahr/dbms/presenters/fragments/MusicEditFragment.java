@@ -72,9 +72,22 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         LogUtil.logEntering();
 
         if (view == editButton) {
+            // 編集処理
             editResult(view);
+
+            // Navigation Drowerを非表示ロック
+            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            // バックスタックのフラグメントをポップ
             getFragmentManager().popBackStack();
+
         } else if (view == backButton) {
+            // Navigation Drowerを非表示ロック
+            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            // バックスタックのフラグメントをポップ
             getFragmentManager().popBackStack();
         }
 

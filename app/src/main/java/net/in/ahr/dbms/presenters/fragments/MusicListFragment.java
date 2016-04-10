@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -57,10 +58,11 @@ public class MusicListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
         // リストビューにGreenDaoから取得した値を設定
-        List<MusicMst> musicMstList = getMusicMstDao(getActivity()).loadAll();
+//        List<MusicMst> musicMstList = getMusicMstDao(getActivity()).loadAll();
         adapter = new MusicListAdapter(getActivity());
-        adapter.setMusicList(musicMstList);
-        adapter.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
+        adapter.searchApplyToListView();
+//        adapter.setMusicList(musicMstList);
+//        adapter.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
         musicListView = (ListView) view.findViewById(R.id.musicListView);
         musicListView.setAdapter(adapter);
 
@@ -83,6 +85,10 @@ public class MusicListFragment extends Fragment {
                 // 曲一覧画面を非表示
                 Fragment musicListFragment = manager.findFragmentByTag(MusicListFragment.TAG);
                 transaction.hide(musicListFragment);
+
+                // Navigation Drowerを非表示ロック
+                DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
                 // 曲編集画面へ遷移
                 MusicEditFragment musicEditFragment = new MusicEditFragment();

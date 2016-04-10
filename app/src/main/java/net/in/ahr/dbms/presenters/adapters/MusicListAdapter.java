@@ -1,8 +1,10 @@
 package net.in.ahr.dbms.presenters.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,13 +18,16 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.strage.shared.SearchCondPreferences;
 import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 
 import java.text.MessageFormat;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import greendao.MusicMst;
+import greendao.MusicMstDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -42,7 +48,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     static final AlphaAnimation clearLampAnimation = new AlphaAnimation(1, 0.01f);
 
-
+    private static MusicMstDao getMusicMstDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
 
     // TODO: マスタではなくスコアを含める必要あり
     public static List<MusicMst> musicList;
@@ -396,7 +404,109 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         TextView memoProgresView;
     }
 
+    public void searchApplyToListView() {
+        // SharedPreferenceラッパー取得
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SearchCondPreferences searchCondPreferences = new SearchCondPreferences(sharedPreferences);
 
+        // 難易度の条件リストを作成
+        List<String> difficultCondList = new ArrayList<String>();
+        if ( searchCondPreferences.getSearchConfDiff_10() ) {
+            difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_10);
+        }
+        if ( searchCondPreferences.getSearchConfDiff_11() ) {
+            difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_11);
+        }
+
+        // バージョンの条件リストを作成
+        List<String> versionCondList = new ArrayList<String>();
+        if ( searchCondPreferences.getSearchConfVersion_1st() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_1ST);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_sub() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SUB);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_2nd() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_2ND);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_3rd() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_3RD);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_4th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_4TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_5th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_5TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_6th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_6TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_7th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_7TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_8th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_8TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_9th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_9TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_10th() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_10TH);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_RED() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_RED);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_SKY() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SKY);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_DD() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_DD);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_GOLD() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_GOLD);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_DJT() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_DJT);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_EMP() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_EMP);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_SIR() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SIR);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_RA() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_RA);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_LC() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_LC);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_tri() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_TRI);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_SPA() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SPA);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_PEN() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_PEN);
+        }
+        if ( searchCondPreferences.getSearchConfVersion_cop() ) {
+            versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_COP);
+        }
+
+        // 検索
+        MusicMstDao musicMstDao = getMusicMstDao(context);
+        List<MusicMst> musicMstList = musicMstDao.queryBuilder()
+                .where( MusicMstDao.Properties.Difficult.in(difficultCondList) )
+                .where(MusicMstDao.Properties.Version.in(versionCondList))
+                .list();
+
+        // 検索結果を再設定
+        this.setMusicList(musicMstList);
+        this.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
+
+        // リフレッシュ
+        this.notifyDataSetChanged();
+    }
 
 
 /*

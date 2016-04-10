@@ -1,24 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_camara" android:icon="@android:drawable/ic_menu_camera"
-            android:title="Import" />
-        <item android:id="@+id/nav_gallery" android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item android:id="@+id/nav_manage" android:icon="@android:drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
+    <item android:title="WHERE : difficult">
         <menu>
-            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
+            <item
+                android:id="@+id/nav_where_difficult_10"
+                android:title="　　☆10"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_difficult_11"
+                android:title="　　☆11"
+                android:state_selected="true"
+                />
         </menu>
     </item>
+    <item android:title="WHERE : version">
+        <menu>
+            <item
+                android:id="@+id/nav_where_version_1st"
+                android:title="　　1st style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_sub"
+                android:title="　　substream"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_2nd"
+                android:title="　　2nd style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_3rd"
+                android:title="　　3rd style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_4th"
+                android:title="　　4th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_5th"
+                android:title="　　5th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_6th"
+                android:title="　　6th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_7th"
+                android:title="　　7th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_8th"
+                android:title="　　8th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_9th"
+                android:title="　　9th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_10th"
+                android:title="　　10th style"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_RED"
+                android:title="　　IIDX RED"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_SKY"
+                android:title="　　HAPPY SKY"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_DD"
+                android:title="　　DistorteD"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_GOLD"
+                android:title="　　GOLD"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_DJT"
+                android:title="　　DJ TROOPERS"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_EMP"
+                android:title="　　EMPRESS"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_SIR"
+                android:title="　　SIRIUS"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_RA"
+                android:title="　　Resort Anthem"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_LC"
+                android:title="　　Lincle"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_tri"
+                android:title="　　tricoro"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_SPA"
+                android:title="　　SPADA"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_PEN"
+                android:title="　　PENDUAL"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_version_cop"
+                android:title="　　copula"
+                android:state_selected="true"
+                />
+        </menu>
+    </item>
+<!--
+
+
+    SPA
+
+
+
+    cop
+    PEN
+
+-->
+
+<!--
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_where_difficult_10"
+                android:title="☆10"
+                android:checkable="true"
+                />
+        </menu>
+    </item>
+    <item  android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_where_difficult_11"
+                android:title="☆10"
+                android:checkable="true"
+                />
+        </menu>
+    </item>
+-->
 
 </menu>
