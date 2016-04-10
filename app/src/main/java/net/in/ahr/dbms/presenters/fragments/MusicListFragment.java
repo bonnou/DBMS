@@ -58,11 +58,8 @@ public class MusicListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
         // リストビューにGreenDaoから取得した値を設定
-//        List<MusicMst> musicMstList = getMusicMstDao(getActivity()).loadAll();
-        adapter = new MusicListAdapter(getActivity());
-        adapter.searchApplyToListView();
-//        adapter.setMusicList(musicMstList);
-//        adapter.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
+        adapter = new MusicListAdapter( getActivity() );
+        adapter.searchApplyToListView( (MusicListActivity) getActivity() );
         musicListView = (ListView) view.findViewById(R.id.musicListView);
         musicListView.setAdapter(adapter);
 

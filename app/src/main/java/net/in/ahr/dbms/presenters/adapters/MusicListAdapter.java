@@ -5,9 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -156,8 +161,13 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
         if (!resultExistFlg) {
             // TODO: resのcolorsのほうがいい？
+            // 色設定
             holder.clearLampView.setBackgroundColor(Color.parseColor("#333333"));
             holder.clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+
+            // ランプ点滅停止
+            holder.clearLampView.clearAnimation();
+
         } else {
             String clearLamp = music.getMusicResultDBHR().getClearLamp();
 
@@ -448,7 +458,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         TextView memoProgresView;
     }
 
-    public void searchApplyToListView() {
+    public void searchApplyToListView(MusicListActivity musicListActivity) {
         // SharedPreferenceラッパー取得
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SearchCondPreferences searchCondPreferences = new SearchCondPreferences(sharedPreferences);
@@ -547,6 +557,15 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         // 検索結果を再設定
         this.setMusicList(musicMstList);
         this.setMusicListOrg(new ArrayList<MusicMst>(musicMstList));
+
+        // 曲名部分一致絞り込みのSearchViewに入力がある場合はフィルタする
+        Toolbar toolbar = (Toolbar) musicListActivity.findViewById(R.id.toolbar);
+        Menu menu = toolbar.getMenu();
+        MenuItem searchItem = menu.findItem(R.id.action_refine_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        Filter filter = this.getFilter();
+        filter.filter( searchView.getQuery().toString() );
 
         // リフレッシュ
         this.notifyDataSetChanged();

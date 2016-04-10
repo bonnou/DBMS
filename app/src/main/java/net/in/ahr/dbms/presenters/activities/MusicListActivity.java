@@ -385,7 +385,7 @@ public class MusicListActivity extends AppCompatActivity
 
         // 再検索
         MusicListAdapter musicListAdapter = (MusicListAdapter) musicListView.getAdapter();
-        musicListAdapter.searchApplyToListView();
+        musicListAdapter.searchApplyToListView(this);
 
 
         // NavigationDrawerを閉じる（閉じさせないようコメントアウト）
