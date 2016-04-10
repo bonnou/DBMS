@@ -26,6 +26,7 @@ public class SearchCondPreferences {
         editor = null;
     }
 
+    // 検索条件: 難易度10
     public boolean getSearchConfDiff_10() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_10, true);
     }
@@ -35,6 +36,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 難易度11
     public boolean getSearchConfDiff_11() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_11, true);
     }
@@ -44,15 +46,18 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 1st style
     public boolean getSearchConfVersion_1st() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_1ST, true);
     }
+
 
     public SearchCondPreferences putSearchConfVersion_1st(boolean searchConfVersion_1st) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_1ST, searchConfVersion_1st);
         return this;
     }
 
+    // 検索条件: substream
     public boolean getSearchConfVersion_sub() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SUB, true);
     }
@@ -62,6 +67,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 2nd style
     public boolean getSearchConfVersion_2nd() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_2ND, true);
     }
@@ -71,6 +77,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 3rd style
     public boolean getSearchConfVersion_3rd() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_3RD, true);
     }
@@ -80,6 +87,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 4th style
     public boolean getSearchConfVersion_4th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_4TH, true);
     }
@@ -89,6 +97,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 5th style
     public boolean getSearchConfVersion_5th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_5TH, true);
     }
@@ -98,6 +107,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 6th style
     public boolean getSearchConfVersion_6th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_6TH, true);
     }
@@ -107,6 +117,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 7th style
     public boolean getSearchConfVersion_7th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_7TH, true);
     }
@@ -116,6 +127,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 8th style
     public boolean getSearchConfVersion_8th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_8TH, true);
     }
@@ -125,6 +137,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 9th style
     public boolean getSearchConfVersion_9th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_9TH, true);
     }
@@ -134,6 +147,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: 10th style
     public boolean getSearchConfVersion_10th() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_10TH, true);
     }
@@ -143,6 +157,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: IIDX RED
     public boolean getSearchConfVersion_RED() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RED, true);
     }
@@ -152,6 +167,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: HAPPY SKY
     public boolean getSearchConfVersion_SKY() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SKY, true);
     }
@@ -161,6 +177,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: DistorteD
     public boolean getSearchConfVersion_DD() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DD, true);
     }
@@ -170,6 +187,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: GOLD
     public boolean getSearchConfVersion_GOLD() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_GOLD, true);
     }
@@ -179,6 +197,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: DJ TROOPERS
     public boolean getSearchConfVersion_DJT() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DJT, true);
     }
@@ -188,6 +207,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: EMPRESS
     public boolean getSearchConfVersion_EMP() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_EMP, true);
     }
@@ -197,6 +217,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: SIRIUS
     public boolean getSearchConfVersion_SIR() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SIR, true);
     }
@@ -206,6 +227,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: Resort Anthem
     public boolean getSearchConfVersion_RA() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RA, true);
     }
@@ -215,6 +237,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: Lincle
     public boolean getSearchConfVersion_LC() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_LC, true);
     }
@@ -224,6 +247,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: tricoro
     public boolean getSearchConfVersion_tri() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_TRI, true);
     }
@@ -233,6 +257,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: SPADA
     public boolean getSearchConfVersion_SPA() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SPA, true);
     }
@@ -242,6 +267,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // 検索条件: PENDUAL
     public boolean getSearchConfVersion_PEN() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_PEN , true);
     }
@@ -251,6 +277,7 @@ public class SearchCondPreferences {
         return this;
     }
 
+    // copula
     public boolean getSearchConfVersion_cop() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_COP, true);
     }
