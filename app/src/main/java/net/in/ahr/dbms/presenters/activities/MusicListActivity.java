@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -269,6 +270,11 @@ public class MusicListActivity extends AppCompatActivity
         // 絞り込み検索
         MenuItem searchItem = menu.findItem(R.id.action_refine_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        // デフォルト英字
+        searchView.setInputType(
+                InputType.TYPE_CLASS_TEXT
+              | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+              | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 

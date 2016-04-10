@@ -2,6 +2,8 @@ package net.in.ahr.dbms.data.strage.util;
 
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 public class LogUtil {
 
     // **********************************************************************
@@ -30,6 +32,11 @@ public class LogUtil {
 
     public static void logDebug(String message) {
         outputLog(Log.DEBUG, message, null);
+    }
+
+    public static void logError(String message) {
+        Crashlytics.log(message);
+        outputLog(Log.ERROR, message, null);
     }
 
     public static void logDebug(String message, Throwable throwable) {

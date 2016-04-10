@@ -162,47 +162,91 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             String clearLamp = music.getMusicResultDBHR().getClearLamp();
 
             if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp) ) {
+                // 色設定
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#666666"));
+                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
                 // ランプ点滅
                 clearLampAnimation.setDuration(100);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
-                holder.clearLampView.setBackgroundColor(Color.parseColor("#666666"));
-                holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#ba55d3"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#00ffff"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
                 holder.clearLampView.setTextColor(Color.parseColor("#dddddd"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#EFEFEF"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#ffa500"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#ffffff"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
                 // ランプ点滅
                 clearLampAnimation.setDuration(250);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
+
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT.equals(clearLamp) ) {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#ffff00"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
+
                 // ランプ点滅
                 clearLampAnimation.setDuration(250);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
+
             } else {
+                // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#333333"));
                 holder.clearLampView.setTextColor(Color.parseColor("#DDDDDD"));
+
+                // ランプ点滅停止
+                holder.clearLampView.clearAnimation();
+
             }
         }
 

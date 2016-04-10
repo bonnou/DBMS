@@ -12,6 +12,7 @@ import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
@@ -115,10 +116,12 @@ public class MusicMstMaintenance {
         musicMst.setMstVersion(
                 csvArr[12]);
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'JST' yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'JST' yyyy", Locale.ENGLISH);
             java.util.Date insDate = sdf.parse(csvArr[13]);
 
             if ( !sdf.format(insDate).equals(csvArr[13]) ) {
+                LogUtil.logError("sdf.format(insDate):" + sdf.format(insDate));
+                LogUtil.logError("csvArr[13]:" + csvArr[13]);
                 throw new DbmsSystemException(
                         AppConst.ERR_CD_90001,
                         AppConst.ERR_STEP_CD_MUMM_00001,
@@ -127,6 +130,7 @@ public class MusicMstMaintenance {
 
             musicMst.setInsDate(insDate);
         } catch (ParseException pe) {
+            LogUtil.logError("csvArr[13]:" + csvArr[13]);
             throw new DbmsSystemException(
                     AppConst.ERR_CD_90001,
                     AppConst.ERR_STEP_CD_MUMM_00002,
