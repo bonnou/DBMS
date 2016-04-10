@@ -58,6 +58,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     private EditText exScoreEditText;
     private EditText bpEditText;
     private EditText memoProgressEditText;
+    private EditText memoOtherEditText;
 
     private Button updateButton;
     private Button backButton;
@@ -176,7 +177,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         exScoreEditText = (EditText) view.findViewById(R.id.musicEditFragment_exScore);
         exScoreEditText.setInputType(
                 InputType.TYPE_CLASS_NUMBER
-              | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                        | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         );
         if (resultExistFlg) {
             exScoreEditText.setText(
@@ -199,6 +200,13 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         memoProgressEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         if (resultExistFlg) {
             memoProgressEditText.setText(music.getMusicResultDBHR().getMemoProgress());
+        }
+
+        // Formオブジェクト保持、初期値設定（進捗メモ）
+        memoOtherEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoOther);
+        memoOtherEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        if (resultExistFlg) {
+            memoOtherEditText.setText(music.getMusicResultDBHR().getMemoOther());
         }
 
         // 編集ボタンのクリックリスナーを設定
@@ -396,6 +404,9 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
         // 編集内容を取得（進捗メモ）
         music.getMusicResultDBHR().setMemoProgress(memoProgressEditText.getText().toString());
+
+        // 編集内容を取得（メモ）
+        music.getMusicResultDBHR().setMemoOther(memoOtherEditText.getText().toString());
 
         // スコアランク、スコア率、BP率を算出し設定
         MusicResultUtil musicResultUtil = new MusicResultUtil();
