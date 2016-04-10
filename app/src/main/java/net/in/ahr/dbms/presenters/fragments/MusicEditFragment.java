@@ -47,6 +47,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     private int musicPosition;
 
     private Spinner clearLampSpinner;
+    private static int selectedPosition = -1;
+
     private EditText exScoreEditText;
     private EditText bpEditText;
     private EditText memoProgressEditText;
@@ -126,7 +128,6 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
                 AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO,
                 AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT
         };
-        int selectedPosition = -1;
         for (int i = 0; i < clearLumpValArr.length; i++) {
             adapter.add(clearLumpValArr[i]);
             if (resultExistFlg) {
@@ -138,7 +139,11 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         if (selectedPosition == -1) {
             selectedPosition = 0;
         }
-        clearLampSpinner.setSelection(selectedPosition);
+        clearLampSpinner.post(new Runnable() {
+            public void run() {
+                clearLampSpinner.setSelection(selectedPosition, true);
+            }
+        });
         clearLampSpinner.setAdapter(adapter);
 
         // Formオブジェクト保持、初期値設定（EXスコア）
