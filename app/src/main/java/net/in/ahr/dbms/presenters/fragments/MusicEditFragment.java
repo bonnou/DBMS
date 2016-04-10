@@ -2,6 +2,7 @@ package net.in.ahr.dbms.presenters.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,6 +32,9 @@ import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +53,22 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     private Spinner clearLampSpinner;
     private static int selectedPosition = -1;
 
+    private TextView nameNhaTextView;
+
     private EditText exScoreEditText;
     private EditText bpEditText;
     private EditText memoProgressEditText;
 
-    private Button editButton;
+    private Button updateButton;
     private Button backButton;
+
+    private TextView genreTextView;
+    private TextView artistTextView;
+    private TextView versionTextView;
+    private TextView bpmTextView;
+    private TextView difficultTextView;
+    private TextView notesDbTextView;
+    private TextView chargeNotesTextView;
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
@@ -73,9 +87,9 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         LogUtil.logEntering();
 
-        if (view == editButton) {
+        if (view == updateButton) {
             // 編集処理
-            editResult(view);
+            updateResult(view);
 
             // Navigation Drowerを非表示ロック
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -105,6 +119,19 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
         View view = inflater.inflate(R.layout.fragment_music_edit, container, false);
 
+        // マスタ情報その1
+        // 曲名
+        nameNhaTextView = (TextView) view.findViewById(R.id.musicEditFragment_name_nha);
+        nameNhaTextView.setText(music.getName());
+        // N・H・Aにより背景色を設定
+        if ( AppConst.MUSIC_MST_NHA_VAL_NORMAL.equals(music.getNha()) ) {
+            nameNhaTextView.setBackgroundColor(Color.parseColor("#ccccff"));
+        } else if ( AppConst.MUSIC_MST_NHA_VAL_HYPER.equals(music.getNha()) ) {
+            nameNhaTextView.setBackgroundColor(Color.parseColor("#eeee99"));
+        } else if ( AppConst.MUSIC_MST_NHA_VAL_ANOTHER.equals(music.getNha()) ) {
+            nameNhaTextView.setBackgroundColor(Color.parseColor("#ff9999"));
+        }
+
         // リザルト存在フラグを設定
         boolean resultExistFlg = true;
         if ( music.getMusicResultDBHR() == null ) {
@@ -112,7 +139,6 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         }
 
         // クリアランプの選択肢を設定
-        // TODO: 一回設定しても再度編集を開くと「NO PLAY」になる
         clearLampSpinner = (Spinner) view.findViewById(R.id.musicEditFragment_clearLamp);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -176,8 +202,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         }
 
         // 編集ボタンのクリックリスナーを設定
-        editButton = (Button) view.findViewById(R.id.musicEditFragment_editButton);
-        editButton.setOnClickListener(this);
+        updateButton = (Button) view.findViewById(R.id.musicEditFragment_updateButton);
+        updateButton.setOnClickListener(this);
 
         // 戻るボタンのクリックリスナーを設定
         backButton = (Button) view.findViewById(R.id.musicEditFragment_backButton);
@@ -212,7 +238,95 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         });
 */
 
+        // マスタ情報その1
+        // ジャンル
+        genreTextView = (TextView) view.findViewById(R.id.musicEditFragment_genre);
+        genreTextView.setText(music.getGenre());
 
+        // アーティスト名
+        artistTextView = (TextView) view.findViewById(R.id.musicEditFragment_artist);
+        artistTextView.setText(music.getArtist());
+
+        // バージョン
+        versionTextView = (TextView) view.findViewById(R.id.musicEditFragment_version);
+        String version = null;
+        if ( AppConst.MUSIC_MST_VERSION_VAL_1ST.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_1ST;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_SUB.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_SUB;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_2ND.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_2ND;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_3RD.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_3RD;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_4TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_4TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_5TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_5TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_6TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_6TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_7TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_7TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_8TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_8TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_9TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_9TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_10TH.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_10TH;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_RED.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_RED;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_SKY.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_SKY;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_DD.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_DD;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_GOLD.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_GOLD;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_DJT.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_DJT;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_EMP.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_EMP;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_SIR.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_SIR;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_RA.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_RA;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_LC.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_LC;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_TRI.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_TRI;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_SPA.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_SPA;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_PEN.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_PEN;
+        } else if ( AppConst.MUSIC_MST_VERSION_VAL_COP.equals(music.getVersion()) ) {
+            version = AppConst.CONST_VERSION_FULL_COP;
+        }
+        versionTextView.setText(version);
+
+        // BPM
+        bpmTextView = (TextView) view.findViewById(R.id.musicEditFragment_bpm);
+        String bpm = null;
+        if ( music.getBpmFrom() == music.getBpmTo() ) {
+            bpm = String.valueOf(music.getBpmFrom());
+        } else {
+            bpm = String.valueOf(music.getBpmFrom())
+                + "〜"
+                + String.valueOf(music.getBpmTo());
+        }
+        bpmTextView.setText(bpm);
+
+        // 難易度
+        difficultTextView = (TextView) view.findViewById(R.id.musicEditFragment_difficult);
+        difficultTextView.setText(music.getDifficult());
+
+        // ノーツ数（DB）
+        notesDbTextView = (TextView) view.findViewById(R.id.musicEditFragment_notes_db);
+        int notesDb = ( music.getNotes() - music.getScratchNotes() ) * 2;
+        notesDbTextView.setText(
+                String.valueOf(notesDb));
+
+        // チャージノーツ
+        chargeNotesTextView = (TextView) view.findViewById(R.id.musicEditFragment_chargeNotes_db);
+        chargeNotesTextView.setText(
+                String.valueOf(music.getChargeNotes() * 2));
 
         // フラグメント用にメニューを変更
         // TODO: フラグメント専用のメニューを追加する場合はどうしよう
@@ -243,7 +357,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    private void editResult(View view) {
+    private void updateResult(View view) {
         LogUtil.logEntering();
 
         // リザルトがない場合はインスタンスを生成しセット
@@ -324,6 +438,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         LogUtil.logEntering();
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_EDIT);
         Menu menu = toolbar.getMenu();
         MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
         importGssItem.setVisible(false);

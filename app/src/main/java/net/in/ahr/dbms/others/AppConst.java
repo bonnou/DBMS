@@ -19,6 +19,13 @@ public class AppConst {
     /*********************************************************************************
      * 難易度
      *********************************************************************************/
+    public static final String MUSIC_MST_NHA_VAL_NORMAL  = "NORMAL";
+    public static final String MUSIC_MST_NHA_VAL_HYPER   = "HYPER";
+    public static final String MUSIC_MST_NHA_VAL_ANOTHER = "ANOTHER";
+
+    /*********************************************************************************
+     * NORMAL・HYPER・ANOTHER
+     *********************************************************************************/
     public static final String MUSIC_MST_DIFFICULT_VAL_10 = "10";
     public static final String MUSIC_MST_DIFFICULT_VAL_11 = "11";
 
@@ -75,6 +82,31 @@ public class AppConst {
     public static final String MUSIC_MST_VERSION_VAL_SPA  = "SPA";
     public static final String MUSIC_MST_VERSION_VAL_PEN  = "PEN";
     public static final String MUSIC_MST_VERSION_VAL_COP  = "cop";
+
+    public static final String CONST_VERSION_FULL_1ST  = "1st style";
+    public static final String CONST_VERSION_FULL_SUB  = "substream";
+    public static final String CONST_VERSION_FULL_2ND  = "2nd style";
+    public static final String CONST_VERSION_FULL_3RD  = "3rd style";
+    public static final String CONST_VERSION_FULL_4TH  = "4th style";
+    public static final String CONST_VERSION_FULL_5TH  = "5th style";
+    public static final String CONST_VERSION_FULL_6TH  = "6th style";
+    public static final String CONST_VERSION_FULL_7TH  = "7th style";
+    public static final String CONST_VERSION_FULL_8TH  = "8th style";
+    public static final String CONST_VERSION_FULL_9TH  = "9th style";
+    public static final String CONST_VERSION_FULL_10TH = "10th style";
+    public static final String CONST_VERSION_FULL_RED  = "IIDX RED";
+    public static final String CONST_VERSION_FULL_SKY  = "HAPPY SKY";
+    public static final String CONST_VERSION_FULL_DD   = "DistorteD";
+    public static final String CONST_VERSION_FULL_GOLD = "GOLD";
+    public static final String CONST_VERSION_FULL_DJT  = "DJ TROOPERS";
+    public static final String CONST_VERSION_FULL_EMP  = "EMPRESS";
+    public static final String CONST_VERSION_FULL_SIR  = "SIRIUS";
+    public static final String CONST_VERSION_FULL_RA   = "Resort Anthem";
+    public static final String CONST_VERSION_FULL_LC   = "Lincle";
+    public static final String CONST_VERSION_FULL_TRI  = "tricoro";
+    public static final String CONST_VERSION_FULL_SPA  = "SPADA";
+    public static final String CONST_VERSION_FULL_PEN  = "PENDUAL";
+    public static final String CONST_VERSION_FULL_COP  = "copula";
 
     private static final Integer INTEGER_ID_NAV_WHERE_VERSION_1ST  = new Integer(R.id.nav_where_version_1st);
     private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SUB  = new Integer(R.id.nav_where_version_sub);
@@ -160,6 +192,16 @@ public class AppConst {
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_SPA  = "SHARED_KEY_SEARCH_CONF_VERSION_SPA";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_PEN  = "SHARED_KEY_SEARCH_CONF_VERSION_PEN";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_COP  = "SHARED_KEY_SEARCH_CONF_VERSION_cop";
+
+    /*********************************************************************************
+     * Toolbarタイトル
+     *********************************************************************************/
+
+    /** MusicList */
+    public static final String TOOLBAR_TITLE_MUSIC_LIST  = "DBHR Search Result";
+
+    /** MusicEdit */
+    public static final String TOOLBAR_TITLE_MUSIC_EDIT  = "Edit Result";
 
     /*********************************************************************************
      * 例外情報（errCd）

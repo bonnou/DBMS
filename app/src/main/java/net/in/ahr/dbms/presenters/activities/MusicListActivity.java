@@ -47,6 +47,7 @@ public class MusicListActivity extends AppCompatActivity
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_music_list);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
             setSupportActionBar(toolbar);
 
             // 以下エラー回避
