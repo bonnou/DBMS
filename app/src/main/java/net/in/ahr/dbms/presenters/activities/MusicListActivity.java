@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -36,6 +37,8 @@ import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,6 +51,7 @@ public class MusicListActivity extends AppCompatActivity
             setContentView(R.layout.activity_music_list);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
+//            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
             setSupportActionBar(toolbar);
 
             // 以下エラー回避
@@ -426,5 +430,10 @@ public class MusicListActivity extends AppCompatActivity
         MusicListActivity.musicListView = musicListView;
     }
 
-
+/*
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+*/
 }

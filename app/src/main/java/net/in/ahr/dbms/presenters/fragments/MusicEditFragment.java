@@ -450,6 +450,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_EDIT);
+//        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         Menu menu = toolbar.getMenu();
         MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
         importGssItem.setVisible(false);
@@ -468,6 +469,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         LogUtil.logEntering();
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
+//            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         Menu menu = toolbar.getMenu();
         MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
         importGssItem.setVisible(true);

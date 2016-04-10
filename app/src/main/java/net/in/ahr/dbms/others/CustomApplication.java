@@ -13,6 +13,7 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import greendao.DaoMaster;
 import greendao.DaoSession;
 import io.fabric.sdk.android.Fabric;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * GreenDao設定を追加したAndroidApplicationクラス
@@ -25,6 +26,18 @@ public class CustomApplication extends Application {
         super.onCreate();
         DeployGate.install(this); // ※debuggable="true"の場合のみ動作
         Fabric.with(getApplicationContext(), new Crashlytics());
+/*
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("font/Roboto-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("font/GenShinGothic-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+*/
         setupDatabase();
 
         // 設定ファイルのフラグを読み取ってログ出力を切り替えます。
