@@ -1,6 +1,5 @@
 package net.in.ahr.dbms.presenters.activities;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -21,31 +20,20 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
-import net.in.ahr.dbms.data.network.google.spreadSheet.GSSImport;
-import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
-import net.in.ahr.dbms.data.strage.shared.SearchCondPreferences;
+import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
-import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
-import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MusicListActivity extends AppCompatActivity
@@ -94,85 +82,85 @@ public class MusicListActivity extends AppCompatActivity
 
             // SharedPreferencesラッパー取得
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SearchCondPreferences searchCondPreferences = new SearchCondPreferences(sharedPreferences).edit();
+            DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
 
             navigationView.getMenu().findItem(R.id.nav_where_difficult_10).setChecked(
-                    searchCondPreferences.getSearchConfDiff_10()
+                    dbmsSharedPreferences.getSearchConfDiff_10()
             );
             navigationView.getMenu().findItem(R.id.nav_where_difficult_11).setChecked(
-                    searchCondPreferences.getSearchConfDiff_11()
+                    dbmsSharedPreferences.getSearchConfDiff_11()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_1st).setChecked(
-                    searchCondPreferences.getSearchConfVersion_1st()
+                    dbmsSharedPreferences.getSearchConfVersion_1st()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_sub).setChecked(
-                    searchCondPreferences.getSearchConfVersion_sub()
+                    dbmsSharedPreferences.getSearchConfVersion_sub()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_2nd).setChecked(
-                    searchCondPreferences.getSearchConfVersion_2nd()
+                    dbmsSharedPreferences.getSearchConfVersion_2nd()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_3rd).setChecked(
-                    searchCondPreferences.getSearchConfVersion_3rd()
+                    dbmsSharedPreferences.getSearchConfVersion_3rd()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_4th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_4th()
+                    dbmsSharedPreferences.getSearchConfVersion_4th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_5th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_5th()
+                    dbmsSharedPreferences.getSearchConfVersion_5th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_6th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_6th()
+                    dbmsSharedPreferences.getSearchConfVersion_6th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_7th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_7th()
+                    dbmsSharedPreferences.getSearchConfVersion_7th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_8th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_8th()
+                    dbmsSharedPreferences.getSearchConfVersion_8th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_9th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_9th()
+                    dbmsSharedPreferences.getSearchConfVersion_9th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_10th).setChecked(
-                    searchCondPreferences.getSearchConfVersion_10th()
+                    dbmsSharedPreferences.getSearchConfVersion_10th()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_RED).setChecked(
-                    searchCondPreferences.getSearchConfVersion_RED()
+                    dbmsSharedPreferences.getSearchConfVersion_RED()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_SKY).setChecked(
-                    searchCondPreferences.getSearchConfVersion_SKY()
+                    dbmsSharedPreferences.getSearchConfVersion_SKY()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_DD).setChecked(
-                    searchCondPreferences.getSearchConfVersion_DD()
+                    dbmsSharedPreferences.getSearchConfVersion_DD()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_GOLD).setChecked(
-                    searchCondPreferences.getSearchConfVersion_GOLD()
+                    dbmsSharedPreferences.getSearchConfVersion_GOLD()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_DJT).setChecked(
-                    searchCondPreferences.getSearchConfVersion_DJT()
+                    dbmsSharedPreferences.getSearchConfVersion_DJT()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_EMP).setChecked(
-                    searchCondPreferences.getSearchConfVersion_EMP()
+                    dbmsSharedPreferences.getSearchConfVersion_EMP()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_SIR).setChecked(
-                    searchCondPreferences.getSearchConfVersion_SIR()
+                    dbmsSharedPreferences.getSearchConfVersion_SIR()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_RA).setChecked(
-                    searchCondPreferences.getSearchConfVersion_RA()
+                    dbmsSharedPreferences.getSearchConfVersion_RA()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_LC).setChecked(
-                    searchCondPreferences.getSearchConfVersion_LC()
+                    dbmsSharedPreferences.getSearchConfVersion_LC()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_tri).setChecked(
-                    searchCondPreferences.getSearchConfVersion_tri()
+                    dbmsSharedPreferences.getSearchConfVersion_tri()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_SPA).setChecked(
-                    searchCondPreferences.getSearchConfVersion_SPA()
+                    dbmsSharedPreferences.getSearchConfVersion_SPA()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_PEN).setChecked(
-                    searchCondPreferences.getSearchConfVersion_PEN()
+                    dbmsSharedPreferences.getSearchConfVersion_PEN()
             );
             navigationView.getMenu().findItem(R.id.nav_where_version_cop).setChecked(
-                    searchCondPreferences.getSearchConfVersion_cop()
+                    dbmsSharedPreferences.getSearchConfVersion_cop()
             );
 
 
@@ -346,18 +334,18 @@ public class MusicListActivity extends AppCompatActivity
 
         // SharedPreferenceラッパー取得
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SearchCondPreferences searchCondPreferences = new SearchCondPreferences(sharedPreferences).edit();
+        DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
 
         int id = item.getItemId();
 
         // TODO: リフレクション
         if (id == R.id.nav_where_difficult_10) {
             item.setChecked(!item.isChecked());
-            searchCondPreferences.putSearchConfDiff_10(item.isChecked());
+            dbmsSharedPreferences.putSearchConfDiff_10(item.isChecked());
 
         } else if (id == R.id.nav_where_difficult_11) {
             item.setChecked(!item.isChecked());
-            searchCondPreferences.putSearchConfDiff_11(item.isChecked());
+            dbmsSharedPreferences.putSearchConfDiff_11(item.isChecked());
 
         }
 
@@ -366,10 +354,10 @@ public class MusicListActivity extends AppCompatActivity
             if ( id == versionIdValMapEntry.getKey() ) {
                 item.setChecked(!item.isChecked());
                 try {
-                    Method method = searchCondPreferences.getClass().getMethod(
+                    Method method = dbmsSharedPreferences.getClass().getMethod(
                             "putSearchConfVersion_" + versionIdValMapEntry.getValue(),
                             new Class[]{boolean.class});
-                    method.invoke(searchCondPreferences, new Object[] {item.isChecked()});
+                    method.invoke(dbmsSharedPreferences, new Object[] {item.isChecked()});
                 } catch (Exception e) {
                     throw new DbmsSystemException(
                             AppConst.ERR_CD_90005,
@@ -381,7 +369,7 @@ public class MusicListActivity extends AppCompatActivity
         }
 
         // SharedPreferenceに反映
-        searchCondPreferences.apply();
+        dbmsSharedPreferences.apply();
 
         // 再検索
         MusicListAdapter musicListAdapter = (MusicListAdapter) musicListView.getAdapter();

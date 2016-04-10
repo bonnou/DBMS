@@ -7,16 +7,16 @@ import net.in.ahr.dbms.others.AppConst;
 /**
  * Created by str2653z on 2016/04/10.
  */
-public class SearchCondPreferences {
+public class DbmsSharedPreferences {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public SearchCondPreferences(SharedPreferences sharedPreferences) {
+    public DbmsSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public SearchCondPreferences edit() {
+    public DbmsSharedPreferences edit() {
         editor = sharedPreferences.edit();
         return this;
     }
@@ -31,7 +31,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_10, true);
     }
 
-    public SearchCondPreferences putSearchConfDiff_10(boolean searchConfDiff_10) {
+    public DbmsSharedPreferences putSearchConfDiff_10(boolean searchConfDiff_10) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_10, searchConfDiff_10);
         return this;
     }
@@ -41,7 +41,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_11, true);
     }
 
-    public SearchCondPreferences putSearchConfDiff_11(boolean searchConfDiff_11) {
+    public DbmsSharedPreferences putSearchConfDiff_11(boolean searchConfDiff_11) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_11, searchConfDiff_11);
         return this;
     }
@@ -52,7 +52,7 @@ public class SearchCondPreferences {
     }
 
 
-    public SearchCondPreferences putSearchConfVersion_1st(boolean searchConfVersion_1st) {
+    public DbmsSharedPreferences putSearchConfVersion_1st(boolean searchConfVersion_1st) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_1ST, searchConfVersion_1st);
         return this;
     }
@@ -62,7 +62,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SUB, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_sub(boolean searchConfVersion_sub) {
+    public DbmsSharedPreferences putSearchConfVersion_sub(boolean searchConfVersion_sub) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SUB, searchConfVersion_sub);
         return this;
     }
@@ -72,7 +72,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_2ND, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_2nd(boolean searchConfVersion_2nd) {
+    public DbmsSharedPreferences putSearchConfVersion_2nd(boolean searchConfVersion_2nd) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_2ND, searchConfVersion_2nd);
         return this;
     }
@@ -82,7 +82,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_3RD, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_3rd(boolean searchConfVersion_3rd) {
+    public DbmsSharedPreferences putSearchConfVersion_3rd(boolean searchConfVersion_3rd) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_3RD, searchConfVersion_3rd);
         return this;
     }
@@ -92,7 +92,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_4TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_4th(boolean searchConfVersion_4th) {
+    public DbmsSharedPreferences putSearchConfVersion_4th(boolean searchConfVersion_4th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_4TH, searchConfVersion_4th);
         return this;
     }
@@ -102,7 +102,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_5TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_5th(boolean searchConfVersion_5th) {
+    public DbmsSharedPreferences putSearchConfVersion_5th(boolean searchConfVersion_5th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_5TH, searchConfVersion_5th);
         return this;
     }
@@ -112,7 +112,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_6TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_6th(boolean searchConfVersion_6th) {
+    public DbmsSharedPreferences putSearchConfVersion_6th(boolean searchConfVersion_6th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_6TH, searchConfVersion_6th);
         return this;
     }
@@ -122,7 +122,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_7TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_7th(boolean searchConfVersion_7th) {
+    public DbmsSharedPreferences putSearchConfVersion_7th(boolean searchConfVersion_7th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_7TH, searchConfVersion_7th);
         return this;
     }
@@ -132,7 +132,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_8TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_8th(boolean searchConfVersion_8th) {
+    public DbmsSharedPreferences putSearchConfVersion_8th(boolean searchConfVersion_8th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_8TH, searchConfVersion_8th);
         return this;
     }
@@ -142,7 +142,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_9TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_9th(boolean searchConfVersion_9th) {
+    public DbmsSharedPreferences putSearchConfVersion_9th(boolean searchConfVersion_9th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_9TH, searchConfVersion_9th);
         return this;
     }
@@ -152,7 +152,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_10TH, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_10th(boolean searchConfVersion_10th) {
+    public DbmsSharedPreferences putSearchConfVersion_10th(boolean searchConfVersion_10th) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_10TH, searchConfVersion_10th);
         return this;
     }
@@ -162,7 +162,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RED, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_RED(boolean searchConfVersion_RED) {
+    public DbmsSharedPreferences putSearchConfVersion_RED(boolean searchConfVersion_RED) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RED, searchConfVersion_RED);
         return this;
     }
@@ -172,7 +172,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SKY, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_SKY(boolean searchConfVersion_SKY) {
+    public DbmsSharedPreferences putSearchConfVersion_SKY(boolean searchConfVersion_SKY) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SKY, searchConfVersion_SKY);
         return this;
     }
@@ -182,7 +182,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DD, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_DD(boolean searchConfVersion_DD) {
+    public DbmsSharedPreferences putSearchConfVersion_DD(boolean searchConfVersion_DD) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DD, searchConfVersion_DD);
         return this;
     }
@@ -192,7 +192,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_GOLD, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_GOLD(boolean searchConfVersion_GOLD) {
+    public DbmsSharedPreferences putSearchConfVersion_GOLD(boolean searchConfVersion_GOLD) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_GOLD, searchConfVersion_GOLD);
         return this;
     }
@@ -202,7 +202,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DJT, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_DJT(boolean searchConfVersion_DJT) {
+    public DbmsSharedPreferences putSearchConfVersion_DJT(boolean searchConfVersion_DJT) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_DJT, searchConfVersion_DJT);
         return this;
     }
@@ -212,7 +212,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_EMP, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_EMP(boolean searchConfVersion_EMP) {
+    public DbmsSharedPreferences putSearchConfVersion_EMP(boolean searchConfVersion_EMP) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_EMP, searchConfVersion_EMP);
         return this;
     }
@@ -222,7 +222,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SIR, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_SIR(boolean searchConfVersion_SIR) {
+    public DbmsSharedPreferences putSearchConfVersion_SIR(boolean searchConfVersion_SIR) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SIR, searchConfVersion_SIR);
         return this;
     }
@@ -232,7 +232,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RA, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_RA(boolean searchConfVersion_RA) {
+    public DbmsSharedPreferences putSearchConfVersion_RA(boolean searchConfVersion_RA) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_RA, searchConfVersion_RA);
         return this;
     }
@@ -242,7 +242,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_LC, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_LC(boolean searchConfVersion_LC) {
+    public DbmsSharedPreferences putSearchConfVersion_LC(boolean searchConfVersion_LC) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_LC, searchConfVersion_LC);
         return this;
     }
@@ -252,7 +252,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_TRI, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_tri(boolean searchConfVersion_tri) {
+    public DbmsSharedPreferences putSearchConfVersion_tri(boolean searchConfVersion_tri) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_TRI, searchConfVersion_tri);
         return this;
     }
@@ -262,7 +262,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SPA, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_SPA(boolean searchConfVersion_SPA) {
+    public DbmsSharedPreferences putSearchConfVersion_SPA(boolean searchConfVersion_SPA) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_SPA, searchConfVersion_SPA);
         return this;
     }
@@ -272,7 +272,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_PEN , true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_PEN(boolean searchConfVersion_PEN) {
+    public DbmsSharedPreferences putSearchConfVersion_PEN(boolean searchConfVersion_PEN) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_PEN, searchConfVersion_PEN);
         return this;
     }
@@ -282,7 +282,7 @@ public class SearchCondPreferences {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_COP, true);
     }
 
-    public SearchCondPreferences putSearchConfVersion_cop(boolean searchConfVersion_cop) {
+    public DbmsSharedPreferences putSearchConfVersion_cop(boolean searchConfVersion_cop) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_COP, searchConfVersion_cop);
         return this;
     }

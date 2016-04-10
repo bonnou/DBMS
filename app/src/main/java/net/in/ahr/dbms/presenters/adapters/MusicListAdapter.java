@@ -9,7 +9,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,18 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
-import net.in.ahr.dbms.data.strage.shared.SearchCondPreferences;
+import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
@@ -461,89 +458,89 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     public void searchApplyToListView(MusicListActivity musicListActivity) {
         // SharedPreferenceラッパー取得
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SearchCondPreferences searchCondPreferences = new SearchCondPreferences(sharedPreferences);
+        DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences);
 
         // 難易度の条件リストを作成
         List<String> difficultCondList = new ArrayList<String>();
-        if ( searchCondPreferences.getSearchConfDiff_10() ) {
+        if ( dbmsSharedPreferences.getSearchConfDiff_10() ) {
             difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_10);
         }
-        if ( searchCondPreferences.getSearchConfDiff_11() ) {
+        if ( dbmsSharedPreferences.getSearchConfDiff_11() ) {
             difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_11);
         }
 
         // バージョンの条件リストを作成
         List<String> versionCondList = new ArrayList<String>();
-        if ( searchCondPreferences.getSearchConfVersion_1st() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_1st() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_1ST);
         }
-        if ( searchCondPreferences.getSearchConfVersion_sub() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_sub() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SUB);
         }
-        if ( searchCondPreferences.getSearchConfVersion_2nd() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_2nd() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_2ND);
         }
-        if ( searchCondPreferences.getSearchConfVersion_3rd() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_3rd() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_3RD);
         }
-        if ( searchCondPreferences.getSearchConfVersion_4th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_4th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_4TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_5th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_5th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_5TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_6th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_6th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_6TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_7th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_7th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_7TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_8th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_8th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_8TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_9th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_9th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_9TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_10th() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_10th() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_10TH);
         }
-        if ( searchCondPreferences.getSearchConfVersion_RED() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_RED() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_RED);
         }
-        if ( searchCondPreferences.getSearchConfVersion_SKY() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_SKY() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SKY);
         }
-        if ( searchCondPreferences.getSearchConfVersion_DD() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_DD() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_DD);
         }
-        if ( searchCondPreferences.getSearchConfVersion_GOLD() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_GOLD() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_GOLD);
         }
-        if ( searchCondPreferences.getSearchConfVersion_DJT() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_DJT() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_DJT);
         }
-        if ( searchCondPreferences.getSearchConfVersion_EMP() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_EMP() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_EMP);
         }
-        if ( searchCondPreferences.getSearchConfVersion_SIR() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_SIR() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SIR);
         }
-        if ( searchCondPreferences.getSearchConfVersion_RA() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_RA() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_RA);
         }
-        if ( searchCondPreferences.getSearchConfVersion_LC() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_LC() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_LC);
         }
-        if ( searchCondPreferences.getSearchConfVersion_tri() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_tri() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_TRI);
         }
-        if ( searchCondPreferences.getSearchConfVersion_SPA() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_SPA() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_SPA);
         }
-        if ( searchCondPreferences.getSearchConfVersion_PEN() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_PEN() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_PEN);
         }
-        if ( searchCondPreferences.getSearchConfVersion_cop() ) {
+        if ( dbmsSharedPreferences.getSearchConfVersion_cop() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_COP);
         }
 
