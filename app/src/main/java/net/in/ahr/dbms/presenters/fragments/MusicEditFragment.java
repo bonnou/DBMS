@@ -138,6 +138,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         if (selectedPosition == -1) {
             selectedPosition = 0;
         }
+        clearLampSpinner.setSelection(selectedPosition);
         clearLampSpinner.setAdapter(adapter);
 
         // Formオブジェクト保持、初期値設定（EXスコア）
