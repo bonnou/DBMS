@@ -25,6 +25,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
@@ -121,6 +122,12 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             // スコアグラフ（透明線）
             TextView scoreGraphNegativeView = (TextView) view.findViewById(R.id.musicResult_scoreGraphNegative);
             holder.scoreGraphNegativeView = scoreGraphNegativeView;
+            // クリアグラフ（実線）
+            TextView clearGraphPositiveView = (TextView) view.findViewById(R.id.musicResult_clearGraph);
+            holder.clearGraphPositiveView = clearGraphPositiveView;
+            // スコアグラフ（透明線）
+            TextView clearGraphNegativeView = (TextView) view.findViewById(R.id.musicResult_clearGraphNegative);
+            holder.clearGraphNegativeView = clearGraphNegativeView;
             // スコアランク
             ImageView scoreRankView = (ImageView) view.findViewById(R.id.musicResult_scoreRank);
             holder.scoreRankView = scoreRankView;
@@ -130,9 +137,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             // ミス情報
             TextView missInfoView = (TextView) view.findViewById(R.id.musicResult_missInfo);
             holder.missInfoView = missInfoView;
-            // 進捗メモ
-            TextView memoProgresView = (TextView) view.findViewById(R.id.musicResult_memoProgress);
-            holder.memoProgresView = memoProgresView;
+            // メモ
+            TextView memoOtherView = (TextView) view.findViewById(R.id.musicResult_memoOther);
+            holder.memoOtherView = memoOtherView;
 
             // ホルダーをビューにセット
             view.setTag(holder);
@@ -156,6 +163,10 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         // TODO: DBHR以外にプレイスタイルが増えた場合は文字を変えたい
         holder.clearLampView.setText(Html.fromHtml("H<br />R"));
 
+        String clearLamp = AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY;
+        if ( resultExistFlg && music.getMusicResultDBHR().getClearLamp() != null ) {
+            clearLamp = music.getMusicResultDBHR().getClearLamp();
+        }
         if (!resultExistFlg) {
             // TODO: resのcolorsのほうがいい？
             // 色設定
@@ -166,7 +177,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             holder.clearLampView.clearAnimation();
 
         } else {
-            String clearLamp = music.getMusicResultDBHR().getClearLamp();
 
             if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp) ) {
                 // 色設定
@@ -302,6 +312,63 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         scoreGraphWeightNegativeParam.weight = scoreGraphNegativeWeight;
         holder.scoreGraphNegativeView.setLayoutParams(scoreGraphWeightNegativeParam);
 
+        // クリアグラフ
+        double clearProgressRate;
+        int remainingGaugeOrDeadNotes;
+        if ( resultExistFlg && music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes() != null ) {
+            remainingGaugeOrDeadNotes = music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes().intValue();
+        } else {
+            remainingGaugeOrDeadNotes = 0;
+        }
+        if(resultExistFlg) {
+            if (remainingGaugeOrDeadNotes == 0) {
+                clearProgressRate = 0;
+            } else if (
+                    AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp)
+            ) {
+                // 次のランプが増加型の場合
+                clearProgressRate = (double) remainingGaugeOrDeadNotes / (double) 80 * 100;
+            } else if (
+                    AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp)
+            ) {
+                // 次のランプが減少型の場合
+                MusicResultUtil musicResultUtil = new MusicResultUtil();
+                int maxNotes = musicResultUtil.retMaxScore(music);
+                clearProgressRate = (double) remainingGaugeOrDeadNotes / (double) maxNotes * 100;
+            } else if (
+                    AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT.equals(clearLamp)
+            ) {
+                // 次のランプが特定ノーツ数0の場合
+                MusicResultUtil musicResultUtil = new MusicResultUtil();
+                int maxNotes = musicResultUtil.retMaxScore(music);
+                clearProgressRate = (double) (maxNotes - remainingGaugeOrDeadNotes) / (double) maxNotes * 100;
+            } else {
+                // NO PLAY
+                clearProgressRate = 0;
+            }
+
+        } else {
+            clearProgressRate = 0;
+        }
+        int clearGraphWeight = (int) (100 * clearProgressRate);
+        int clearGraphNegativeWeight = 10000 - clearGraphWeight;
+
+        // クリアグラフ（実線）
+        LinearLayout.LayoutParams clearGraphWeightParam = new LinearLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+        clearGraphWeightParam.weight = clearGraphWeight;
+        holder.clearGraphPositiveView.setLayoutParams(clearGraphWeightParam);
+
+        // クリアグラフ（透明線）
+        LinearLayout.LayoutParams clearGraphWeightNegativeParam = new LinearLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+        clearGraphWeightNegativeParam.weight = clearGraphNegativeWeight;
+        holder.clearGraphNegativeView.setLayoutParams(clearGraphWeightNegativeParam);
+
         // スタイル情報
         String inpactBeginTag = "<b><big>";
         String inpactEndTag = "</big></b>";
@@ -340,20 +407,20 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         String missInfo = MessageFormat.format(MISS_INFO_FORMAT, (Object[])missInfoReplaceArr);
         holder.missInfoView.setText(Html.fromHtml(missInfo));
 
-        // 進捗メモ
-        final String MEMO_PROGRESS_FORMAT = "進捗: {0}";
-        String[] memoProgressReplaceArr;
+        // メモ
+        final String MEMO_OTHER_FORMAT = "メモ: {0}";
+        String[] memoOtherReplaceArr;
         if (resultExistFlg) {
-            memoProgressReplaceArr = new String[] {
-                    String.valueOf(music.getMusicResultDBHR().getMemoProgress())
+            memoOtherReplaceArr = new String[] {
+                    String.valueOf(music.getMusicResultDBHR().getMemoOther())
             };
         } else {
-            memoProgressReplaceArr = new String[] {
+            memoOtherReplaceArr = new String[] {
                     "ー"
             };
         }
-        String memoProgress = MessageFormat.format(MEMO_PROGRESS_FORMAT, (Object[])memoProgressReplaceArr);
-        holder.memoProgresView.setText(memoProgress);
+        String memoOther = MessageFormat.format(MEMO_OTHER_FORMAT, (Object[])memoOtherReplaceArr);
+        holder.memoOtherView.setText(memoOther);
 
         return view;
     }
@@ -445,14 +512,18 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         TextView scoreGraphPositiveView;
         // スコアグラフ（透明線）
         TextView scoreGraphNegativeView;
+        // クリアグラフ（実線）
+        TextView clearGraphPositiveView;
+        // クリアグラフ（透明線）
+        TextView clearGraphNegativeView;
         // スコアランク
         ImageView scoreRankView;
         // スコア情報
         TextView scoreInfoView;
         // ミス情報
         TextView missInfoView;
-        // 進捗メモ
-        TextView memoProgresView;
+        // メモ
+        TextView memoOtherView;
     }
 
     public void searchApplyToListView(MusicListActivity musicListActivity) {

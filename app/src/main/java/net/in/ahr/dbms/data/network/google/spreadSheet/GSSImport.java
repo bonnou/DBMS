@@ -141,8 +141,7 @@ public class GSSImport {
                             resultDBHR.setClearLamp(sheetMusicDbhrClearLamp);
                             resultDBHR.setExScore(Integer.parseInt(sheetMusicExScore));
                             resultDBHR.setBp(Integer.parseInt(sheetMusicBp));
-                            resultDBHR.setMemoProgress(sheetMusicProgress);
-                            resultDBHR.setMemoOther(sheetMusicMemo);
+                            resultDBHR.setMemoOther(sheetMusicProgress + AppConst.CONST_HALF_SPACE + sheetMusicMemo);
 
                             // スコアランク、スコア率、BP率を算出し設定
                             MusicResultUtil musicResultUtil = new MusicResultUtil();

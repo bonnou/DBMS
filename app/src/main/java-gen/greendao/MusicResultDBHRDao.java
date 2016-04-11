@@ -30,7 +30,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
         public final static Property ScoreRank = new Property(4, String.class, "scoreRank", false, "SCORE_RANK");
         public final static Property ScoreRate = new Property(5, Double.class, "scoreRate", false, "SCORE_RATE");
         public final static Property MissRate = new Property(6, Double.class, "missRate", false, "MISS_RATE");
-        public final static Property MemoProgress = new Property(7, String.class, "memoProgress", false, "MEMO_PROGRESS");
+        public final static Property RemainingGaugeOrDeadNotes = new Property(7, Integer.class, "remainingGaugeOrDeadNotes", false, "REMAINING_GAUGE_OR_DEAD_NOTES");
         public final static Property MemoOther = new Property(8, String.class, "memoOther", false, "MEMO_OTHER");
         public final static Property PGreat = new Property(9, String.class, "pGreat", false, "P_GREAT");
         public final static Property Great = new Property(10, String.class, "great", false, "GREAT");
@@ -62,7 +62,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
                 "'SCORE_RANK' TEXT," + // 4: scoreRank
                 "'SCORE_RATE' REAL," + // 5: scoreRate
                 "'MISS_RATE' REAL," + // 6: missRate
-                "'MEMO_PROGRESS' TEXT," + // 7: memoProgress
+                "'REMAINING_GAUGE_OR_DEAD_NOTES' INTEGER," + // 7: remainingGaugeOrDeadNotes
                 "'MEMO_OTHER' TEXT," + // 8: memoOther
                 "'P_GREAT' TEXT," + // 9: pGreat
                 "'GREAT' TEXT," + // 10: great
@@ -120,9 +120,9 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
             stmt.bindDouble(7, missRate);
         }
  
-        String memoProgress = entity.getMemoProgress();
-        if (memoProgress != null) {
-            stmt.bindString(8, memoProgress);
+        Integer remainingGaugeOrDeadNotes = entity.getRemainingGaugeOrDeadNotes();
+        if (remainingGaugeOrDeadNotes != null) {
+            stmt.bindLong(8, remainingGaugeOrDeadNotes);
         }
  
         String memoOther = entity.getMemoOther();
@@ -188,7 +188,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // scoreRank
             cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5), // scoreRate
             cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6), // missRate
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // memoProgress
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // remainingGaugeOrDeadNotes
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // memoOther
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // pGreat
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // great
@@ -212,7 +212,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
         entity.setScoreRank(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setScoreRate(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
         entity.setMissRate(cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6));
-        entity.setMemoProgress(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setRemainingGaugeOrDeadNotes(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
         entity.setMemoOther(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setPGreat(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setGreat(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));

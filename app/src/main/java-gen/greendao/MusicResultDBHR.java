@@ -13,7 +13,7 @@ public class MusicResultDBHR implements java.io.Serializable {
     private String scoreRank;
     private Double scoreRate;
     private Double missRate;
-    private String memoProgress;
+    private Integer remainingGaugeOrDeadNotes;
     private String memoOther;
     private String pGreat;
     private String great;
@@ -31,7 +31,7 @@ public class MusicResultDBHR implements java.io.Serializable {
         this.id = id;
     }
 
-    public MusicResultDBHR(Long id, String clearLamp, Integer exScore, Integer bp, String scoreRank, Double scoreRate, Double missRate, String memoProgress, String memoOther, String pGreat, String great, String good, String bad, String poor, String comboBreak, java.util.Date insDate, java.util.Date updDate) {
+    public MusicResultDBHR(Long id, String clearLamp, Integer exScore, Integer bp, String scoreRank, Double scoreRate, Double missRate, Integer remainingGaugeOrDeadNotes, String memoOther, String pGreat, String great, String good, String bad, String poor, String comboBreak, java.util.Date insDate, java.util.Date updDate) {
         this.id = id;
         this.clearLamp = clearLamp;
         this.exScore = exScore;
@@ -39,7 +39,7 @@ public class MusicResultDBHR implements java.io.Serializable {
         this.scoreRank = scoreRank;
         this.scoreRate = scoreRate;
         this.missRate = missRate;
-        this.memoProgress = memoProgress;
+        this.remainingGaugeOrDeadNotes = remainingGaugeOrDeadNotes;
         this.memoOther = memoOther;
         this.pGreat = pGreat;
         this.great = great;
@@ -107,12 +107,12 @@ public class MusicResultDBHR implements java.io.Serializable {
         this.missRate = missRate;
     }
 
-    public String getMemoProgress() {
-        return memoProgress;
+    public Integer getRemainingGaugeOrDeadNotes() {
+        return remainingGaugeOrDeadNotes;
     }
 
-    public void setMemoProgress(String memoProgress) {
-        this.memoProgress = memoProgress;
+    public void setRemainingGaugeOrDeadNotes(Integer remainingGaugeOrDeadNotes) {
+        this.remainingGaugeOrDeadNotes = remainingGaugeOrDeadNotes;
     }
 
     public String getMemoOther() {

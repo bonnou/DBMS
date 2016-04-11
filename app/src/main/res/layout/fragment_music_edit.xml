@@ -96,10 +96,11 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
-                android:text="進捗メモ: "
+                android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotesLabel"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
                 />
 
             <EditText
-                android:id="@+id/musicEditFragment_memoProgress"
+                android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotes"
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
@@ -124,10 +125,11 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
-                android:text="メモ（その他）: "
+                android:text="メモ: "
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
@@ -140,10 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
-                android:padding="2pt"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:textSize="9pt"
+                android:padding="4pt"
                 />
 
         </LinearLayout>

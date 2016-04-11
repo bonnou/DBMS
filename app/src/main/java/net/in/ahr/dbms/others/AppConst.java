@@ -55,6 +55,43 @@ public class AppConst {
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO = "FULL COMBO";
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_PERFECT = "PERFECT";
 
+    public static final String[] CLEAR_LUMP_VAL_ARR = {
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT
+    };
+
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY= "EASY<br>残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED = "EASY<br>残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR = "EASY<br>残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR = "EASY<br>残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR = "NORMAL<br>残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR = "HARD<br>到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR = "EXHARD<br>到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EXHARD_CLEAR = "COMBO BREAK";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FULL_COMBO = "GOOD数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__PERFECT = "GREAT数";
+
+    public static final String[] REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR = {
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EXHARD_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FULL_COMBO,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__PERFECT
+    };
+
     /*********************************************************************************
      * バージョン
      *********************************************************************************/
@@ -270,5 +307,10 @@ public class AppConst {
     public static final String ERR_STEP_CD_UTIL_00004 = "UTIL-00004";
     public static final String ERR_MESSAGE_UTIL_00004 = "画像読み込み処理にてファイルクローズエラー";
 
+    /*********************************************************************************
+     * その他定数
+     *********************************************************************************/
+    public static final String CONST_HALF_COLON = ":";
+    public static final String CONST_HALF_SPACE = " ";
 
 }

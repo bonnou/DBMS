@@ -50,13 +50,17 @@ public class GreenDaoGenerator {
         musicResult_DBHR.addStringProperty("scoreRank");
         musicResult_DBHR.addDoubleProperty("scoreRate");
         musicResult_DBHR.addDoubleProperty("missRate");
-        musicResult_DBHR.addStringProperty("memoProgress");
+
+        // 残ゲージor到達ノーツ数
+        musicResult_DBHR.addIntProperty("remainingGaugeOrDeadNotes");    // #60にて追加
+
+//        musicResult_DBHR.addStringProperty("memoProgress");               // #60にて削除
         musicResult_DBHR.addStringProperty("memoOther");
-        musicResult_DBHR.addStringProperty("pGreat");
-        musicResult_DBHR.addStringProperty("great");
-        musicResult_DBHR.addStringProperty("good");
-        musicResult_DBHR.addStringProperty("bad");
-        musicResult_DBHR.addStringProperty("poor");
+        musicResult_DBHR.addStringProperty("pGreat");                       // 現在未使用
+        musicResult_DBHR.addStringProperty("great");                        // 現在未使用
+        musicResult_DBHR.addStringProperty("good");                         // 現在未使用
+        musicResult_DBHR.addStringProperty("bad");                          // 現在未使用
+        musicResult_DBHR.addStringProperty("poor");                         // 現在未使用
         musicResult_DBHR.addStringProperty("comboBreak");
         musicResult_DBHR.addDateProperty("insDate");
         musicResult_DBHR.addDateProperty("updDate");

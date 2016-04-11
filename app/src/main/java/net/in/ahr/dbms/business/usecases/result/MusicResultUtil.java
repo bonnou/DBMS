@@ -17,6 +17,16 @@ public class MusicResultUtil {
     public static final String MAP_KEY_SCORE_RATE = "scoreRate";
     public static final String MAP_KEY_MISS_RATE = "missRate";
 
+    public int retMaxScore(MusicMst musicMst) {
+        LogUtil.logEntering();
+
+        int notes = ( musicMst.getNotes() - musicMst.getScratchNotes() ) * 2
+                + musicMst.getChargeNotes() * 2;
+
+        LogUtil.logExiting();
+        return notes;
+    }
+
     public Map calcRankRate (int exScore, int bp, MusicMst musicMst) {
         LogUtil.logEntering();
 
@@ -24,8 +34,7 @@ public class MusicResultUtil {
         int maxScore = ( musicMst.getNotes() - musicMst.getScratchNotes() ) * 2 * 2
                        + musicMst.getChargeNotes() * 2 * 4;
         // 全ノーツ数を算出
-        int notes = ( musicMst.getNotes() - musicMst.getScratchNotes() ) * 2
-                    + musicMst.getChargeNotes() * 2;
+        int notes = retMaxScore(musicMst);
 
         // スコアランクを判定
         String scoreRank;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -57,7 +58,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
     private EditText exScoreEditText;
     private EditText bpEditText;
-    private EditText memoProgressEditText;
+    private TextView remainingGaugeOrDeadNotesTextView;
+    private EditText remainingGaugeOrDeadNotesEditText;
     private EditText memoOtherEditText;
 
     private Button updateButton;
@@ -139,27 +141,22 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
             resultExistFlg = false;
         }
 
-        // クリアランプの選択肢を設定
+        // クリアランプの選択肢を設定（同時に残ゲージor到達ノーツ数ラベルも決定）
         clearLampSpinner = (Spinner) view.findViewById(R.id.musicEditFragment_clearLamp);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        String[] clearLumpValArr = {
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO,
-                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT
-        };
+        // クリアランプコード値配列
+        String[] clearLumpValArr = AppConst.CLEAR_LUMP_VAL_ARR;
+        // 残ゲージor到達ノーツ数ラベル配列
+        String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
+        // 残ゲージor到達ノーツ数ラベル
+        String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY;
         for (int i = 0; i < clearLumpValArr.length; i++) {
             adapter.add(clearLumpValArr[i]);
             if (resultExistFlg) {
                 if (clearLumpValArr[i].equals(music.getMusicResultDBHR().getClearLamp())) {
                     selectedPosition = i;
+                    remainingGaugeOrDeadNotesLabel = remainingGaugeOrDeadNotesLabelArr[i];
                 }
             }
         }
@@ -188,21 +185,33 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         bpEditText = (EditText) view.findViewById(R.id.musicEditFragment_bp);
         bpEditText.setInputType(
                 InputType.TYPE_CLASS_NUMBER
-              | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                        | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         );
         if (resultExistFlg) {
             bpEditText.setText(
                     String.valueOf(music.getMusicResultDBHR().getBp()));
         }
 
-        // Formオブジェクト保持、初期値設定（進捗メモ）
-        memoProgressEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoProgress);
-        memoProgressEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        // 残ゲージor到達ノーツ数ラベル
+        remainingGaugeOrDeadNotesTextView = (TextView) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotesLabel);
+        remainingGaugeOrDeadNotesTextView.setText(
+                Html.fromHtml(remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE));
+
+        // Formオブジェクト保持、初期値設定（残ゲージor到達ノーツ数）
+        remainingGaugeOrDeadNotesEditText = (EditText) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotes);
+        remainingGaugeOrDeadNotesEditText.setInputType(
+                InputType.TYPE_CLASS_NUMBER
+                        | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        );
+        String remainingGaugeOrDeadNotes = "";
+        if ( music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes() != null ) {
+            remainingGaugeOrDeadNotes = String.valueOf(music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes());
+        }
         if (resultExistFlg) {
-            memoProgressEditText.setText(music.getMusicResultDBHR().getMemoProgress());
+            remainingGaugeOrDeadNotesEditText.setText(remainingGaugeOrDeadNotes);
         }
 
-        // Formオブジェクト保持、初期値設定（進捗メモ）
+        // Formオブジェクト保持、初期値設定（メモ）
         memoOtherEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoOther);
         memoOtherEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         if (resultExistFlg) {
@@ -312,7 +321,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         // BPM
         bpmTextView = (TextView) view.findViewById(R.id.musicEditFragment_bpm);
         String bpm = null;
-        if ( music.getBpmFrom() == music.getBpmTo() ) {
+        if (music.getBpmFrom().equals(music.getBpmTo()) ) {
             bpm = String.valueOf(music.getBpmFrom());
         } else {
             bpm = String.valueOf(music.getBpmFrom())
@@ -402,8 +411,14 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         }
         music.getMusicResultDBHR().setBp(editedBp);
 
-        // 編集内容を取得（進捗メモ）
-        music.getMusicResultDBHR().setMemoProgress(memoProgressEditText.getText().toString());
+        // 編集内容を取得（残ゲージor到達ノーツ数）
+        int remainingGaugeOrDeadNotes;
+        if ( "".equals(remainingGaugeOrDeadNotesEditText.getText().toString()) ) {
+            remainingGaugeOrDeadNotes = 0;
+        } else {
+            remainingGaugeOrDeadNotes = Integer.parseInt(remainingGaugeOrDeadNotesEditText.getText().toString());
+        }
+        music.getMusicResultDBHR().setRemainingGaugeOrDeadNotes(remainingGaugeOrDeadNotes);
 
         // 編集内容を取得（メモ）
         music.getMusicResultDBHR().setMemoOther(memoOtherEditText.getText().toString());
