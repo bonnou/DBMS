@@ -126,10 +126,13 @@ public class GSSImport {
                         MusicMstDao musicMstDao = getMusicMstDao(c);
                         MusicMst music = musicMstDao.queryBuilder()
                                 // TODO: ”Blind Justice ～Torn souls,Hurt Faiths～”でエラーになった。like検索にして回避したけど、","をエスケープしたらいけるかも。
-                                .where(MusicMstDao.Properties.Name.like(StringUtils.substring(sheetMusicName, 0, 10) + "%"))
-//                                .where(MusicMstDao.Properties.Name.eq(sheetMusicName.replace("'", "\\'").replace(",", "\\,")))
+//                                .where(MusicMstDao.Properties.Name.like(StringUtils.substring(sheetMusicName, 0, 12) + "%"))
+                                .where(MusicMstDao.Properties.Name.eq(sheetMusicName.replace("'", "\'")))      // .replace(",", "\\,")
                                 .where(MusicMstDao.Properties.Nha.eq(sheetMusicNha))
                                 .list().get(0);
+
+                        LogUtil.logDebug("[forDiff]sheetMusicName:[" + sheetMusicName + "]");
+                        LogUtil.logDebug("[forDiff]music.getName():[" + music.getName() + "]");
 
                         if (music != null) {
                             MusicResultDBHR resultDBHR = music.getMusicResultDBHR();

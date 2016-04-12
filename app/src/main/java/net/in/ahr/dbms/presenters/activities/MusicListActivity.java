@@ -25,24 +25,39 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.BeanToCsv;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
+import greendao.MusicMst;
+import greendao.MusicMstDao;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ListView musicListView;
+
+    private static MusicMstDao getMusicMstDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,11 +337,21 @@ public class MusicListActivity extends AppCompatActivity
             GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
             gSSAsyncTask.execute();
             return true;
+
+        } else if (id == R.id.action_export_csv) {
+            // 全件取得しcsvに書き込み
+            Toast.makeText(this, "BEGIN export to CSV...", Toast.LENGTH_LONG).show();
+            List<MusicMst> musicMstList = getMusicMstDao(getApplicationContext()).loadAll();
+            MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+            musicMstMaintenance.exportMusicInfoCsv(musicMstList, getApplicationContext());
+            Toast.makeText(this, "END export to CSV...", Toast.LENGTH_LONG).show();
+
         } else if (id == R.id.action_debug_crash) {
             throw new DbmsSystemException(
                     AppConst.ERR_CD_90000,
                     AppConst.ERR_STEP_CD_MEAC_00001,
                     AppConst.ERR_MESSAGE_MEAC_00001);
+
         }
 
         return super.onOptionsItemSelected(item);

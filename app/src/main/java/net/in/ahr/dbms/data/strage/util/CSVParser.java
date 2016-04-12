@@ -14,10 +14,10 @@ import java.util.StringTokenizer;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import com.opencsv.CSVReader;
+
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 public class CSVParser {
 
@@ -47,6 +47,7 @@ public class CSVParser {
         }
 
         LogUtil.logExiting();
+
         return resultList;
     }
 }

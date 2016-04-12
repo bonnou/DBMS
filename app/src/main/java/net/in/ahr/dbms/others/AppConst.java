@@ -268,6 +268,9 @@ public class AppConst {
     /** Googleスプレッドシートインポート処理にてキー情報不足エラー */
     public static final String ERR_CD_90007 = "DBMS-90007";
 
+    /** CSVエクスポート処理にてエラー発生 */
+    public static final String ERR_CD_90008 = "DBMS-90008";
+
     /*********************************************************************************
      * 例外情報（errStepCd、errMsg）
      *********************************************************************************/
@@ -282,6 +285,15 @@ public class AppConst {
 
     public static final String ERR_STEP_CD_MUMM_00002 = "MUMM-00002";
     public static final String ERR_MESSAGE_MUMM_00002 = "SimpleDateFormatのフォーマット時エラー";
+
+    public static final String ERR_STEP_CD_MUMM_00003 = "MUMM-00003";
+    public static final String ERR_MESSAGE_MUMM_00003 = "CSVエクスポート処理にてFileNotFoundException発生";
+
+    public static final String ERR_STEP_CD_MUMM_00004 = "MUMM-00004";
+    public static final String ERR_MESSAGE_MUMM_00004 = "CSVエクスポート処理にてIOException発生";
+
+    public static final String ERR_STEP_CD_MUMM_00005 = "MUMM-00005";
+    public static final String ERR_MESSAGE_MUMM_00005 = "CSVエクスポート処理にてクローズ時IOException発生";
 
     public static final String ERR_STEP_CD_GSSI_00001 = "GSSI-00001";
     public static final String ERR_MESSAGE_GSSI_00001 = "Googleスプレッドシートインポート処理にて予期せぬ関連エラー発生";
@@ -307,10 +319,35 @@ public class AppConst {
     public static final String ERR_STEP_CD_UTIL_00004 = "UTIL-00004";
     public static final String ERR_MESSAGE_UTIL_00004 = "画像読み込み処理にてファイルクローズエラー";
 
+
+    /*********************************************************************************
+     * CSVデータ部プレフィックス
+     *********************************************************************************/
+    /** CSVデータ部プレフィックス：MusicResultDBHR */
+    public static final String CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR = "MusicResultDBHR_";
+
+    /*********************************************************************************
+     * ファイル名プレフィックス
+     *********************************************************************************/
+    /** CSVエクスポートファイルパス */
+    public static final String FILENAME_PREFIX_EXPORT_CSV = "exportCsv_";
+
+    /*********************************************************************************
+     * ファイル名サフィックス
+     *********************************************************************************/
+    /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
+    public static final String FILENAME_SUFFIX_MUSIC_INFO_CSV = "_MUSIC_INFO.txt";
+    /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
+    public static final String FILENAME_SUFFIX_MUSIC_RESULT_DBHR_CSV = "_MUSIC_RESULT_DBHR.txt";
+
     /*********************************************************************************
      * その他定数
      *********************************************************************************/
+
+    public static final String MUSIC_MST_CSV_DATE_FORMAT = "EEE MMM dd HH:mm:ss 'JST' yyyy";
+    public static final String CONST_YMDHMS_FORMAT = "yyyyMMddHHmmss";
     public static final String CONST_HALF_COLON = ":";
     public static final String CONST_HALF_SPACE = " ";
+    public static final String CONST_BLANK = "";
 
 }
