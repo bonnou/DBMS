@@ -1,9 +1,11 @@
 package net.in.ahr.dbms.presenters.activities;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -48,6 +50,7 @@ import java.util.Map;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
+import greendao.MusicResultDBHRDao;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MusicListActivity extends AppCompatActivity
@@ -57,6 +60,10 @@ public class MusicListActivity extends AppCompatActivity
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
+
+    private static MusicResultDBHRDao getMusicResultDBHRDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
 
     @Override
@@ -347,11 +354,37 @@ public class MusicListActivity extends AppCompatActivity
             Toast.makeText(this, "END export to CSV...", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.action_debug_crash) {
-            throw new DbmsSystemException(
-                    AppConst.ERR_CD_90000,
-                    AppConst.ERR_STEP_CD_MEAC_00001,
-                    AppConst.ERR_MESSAGE_MEAC_00001);
+            // ダイアログで確認してから実施
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle(getResources().getString(R.string.action_debug_crash));
+            alertDialogBuilder.setMessage("曲リザルトを全て削除し異常終了します。よろしいですか？");
+            // OKボタン
+            alertDialogBuilder.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 曲マスタ＆リザルト全消し
+                            getMusicMstDao(getApplicationContext()).deleteAll();
+                            getMusicResultDBHRDao(getApplicationContext()).deleteAll();
 
+                            // ランタイム例外発生
+                            throw new DbmsSystemException(
+                                    AppConst.ERR_CD_90000,
+                                    AppConst.ERR_STEP_CD_MEAC_00001,
+                                    AppConst.ERR_MESSAGE_MEAC_00001);
+                        }
+                    });
+            // Cancelボタン
+            alertDialogBuilder.setCancelable(true);
+            alertDialogBuilder.setNegativeButton("Cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // アラートダイアログを表示
+            alertDialog.show();
         }
 
         return super.onOptionsItemSelected(item);
