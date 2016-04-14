@@ -11,8 +11,10 @@ import com.google.gdata.data.spreadsheet.CellEntry;
 import com.google.gdata.data.spreadsheet.CellFeed;
 import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
 import com.google.gdata.data.spreadsheet.WorksheetEntry;
+import com.google.gdata.util.ServiceException;
 
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
@@ -22,6 +24,8 @@ import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Map;
 
@@ -123,13 +127,10 @@ public class GSSImport {
                                     AppConst.ERR_MESSAGE_GSSI_00004);
                         }
 
+                        // 曲名・難易度によりレコード取得
                         MusicMstDao musicMstDao = getMusicMstDao(c);
-                        MusicMst music = musicMstDao.queryBuilder()
-                                // TODO: ”Blind Justice ～Torn souls,Hurt Faiths～”でエラーになった。like検索にして回避したけど、","をエスケープしたらいけるかも。
-//                                .where(MusicMstDao.Properties.Name.like(StringUtils.substring(sheetMusicName, 0, 12) + "%"))
-                                .where(MusicMstDao.Properties.Name.eq(sheetMusicName.replace("'", "\'")))      // .replace(",", "\\,")
-                                .where(MusicMstDao.Properties.Nha.eq(sheetMusicNha))
-                                .list().get(0);
+                        MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+                        MusicMst music = musicMstMaintenance.getMusicMstByPk(musicMstDao, sheetMusicName, sheetMusicNha);
 
                         LogUtil.logDebug("[forDiff]sheetMusicName:[" + sheetMusicName + "]");
                         LogUtil.logDebug("[forDiff]music.getName():[" + music.getName() + "]");
@@ -193,12 +194,28 @@ public class GSSImport {
                 }
             });
 
-        } catch (Exception e) {
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
             throw new DbmsSystemException(
                     AppConst.ERR_CD_90002,
                     AppConst.ERR_STEP_CD_GSSI_00001,
                     AppConst.ERR_MESSAGE_GSSI_00001);
+        } catch (ServiceException se) {
+            se.printStackTrace();
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90002,
+                    AppConst.ERR_STEP_CD_GSSI_00005,
+                    AppConst.ERR_MESSAGE_GSSI_00005);
+        } catch (GeneralSecurityException se) {
+            se.printStackTrace();
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90002,
+                    AppConst.ERR_STEP_CD_GSSI_00006,
+                    AppConst.ERR_MESSAGE_GSSI_00006);
         }
 
     }
+
+
+
 }

@@ -14,7 +14,53 @@ public class AppConst {
      * バージョン管理・マイグレーション
      *********************************************************************************/
     public static final int MUSIC_MST_MIG_VER_CD_1 = 1;
+    public static final String MUSIC_MST_MIG_VER_CD_1_CSV_PATH = "csv/musicMst/musicMst_0001.csv";
     public static final int MUSIC_MST_MIG_VER_CD_AFT_CNT_1 = 744;
+
+    /*********************************************************************************
+     * キー名（MUSIC_MST）
+     *********************************************************************************/
+    public static final String MUSICMST_KEY_NAME_ID = "id";
+    public static final String MUSICMST_KEY_NAME_NAME = "name";
+    public static final String MUSICMST_KEY_NAME_NHA = "nha";
+    public static final String MUSICMST_KEY_NAME_VERSION = "version";
+    public static final String MUSICMST_KEY_NAME_GENRE = "genre";
+    public static final String MUSICMST_KEY_NAME_ARTIST = "artist";
+    public static final String MUSICMST_KEY_NAME_BPMFROM = "bpmFrom";
+    public static final String MUSICMST_KEY_NAME_BPMTO = "bpmTo";
+    public static final String MUSICMST_KEY_NAME_DIFFICULT = "difficult";
+    public static final String MUSICMST_KEY_NAME_NOTES = "notes";
+    public static final String MUSICMST_KEY_NAME_SCRATCHNOTES = "scratchNotes";
+    public static final String MUSICMST_KEY_NAME_CHARGENOTES = "chargeNotes";
+    public static final String MUSICMST_KEY_NAME_BACKSPINSCRATCHNOTES = "backSpinScratchNotes";
+    public static final String MUSICMST_KEY_NAME_SORTNUMINDIFFICULT = "sortNumInDifficult";
+    public static final String MUSICMST_KEY_NAME_MSTVERSION = "mstVersion";
+    public static final String MUSICMST_KEY_NAME_INSDATE = "insDate";
+    public static final String MUSICMST_KEY_NAME_UPDDATE = "updDate";
+    public static final String MUSICMST_KEY_NAME_MUSICRESULTIDDBHR = "musicResultIdDBHR";
+
+    /*********************************************************************************
+     * キー名（MUSIC_RESULT_DBHR）
+     *********************************************************************************/
+    public static final String MUSICRESULTDBHR_KEY_NAME_ID = "id";
+    public static final String MUSICRESULTDBHR_KEY_NAME_CLEARLAMP = "clearLamp";
+    public static final String MUSICRESULTDBHR_KEY_NAME_EXSCORE = "exScore";
+    public static final String MUSICRESULTDBHR_KEY_NAME_BP = "bp";
+    public static final String MUSICRESULTDBHR_KEY_NAME_SCORERANK = "scoreRank";
+    public static final String MUSICRESULTDBHR_KEY_NAME_SCORERATE = "scoreRate";
+    public static final String MUSICRESULTDBHR_KEY_NAME_MISSRATE = "missRate";
+    public static final String MUSICRESULTDBHR_KEY_NAME_REMAININGGAUGEORDEADNOTES = "remainingGaugeOrDeadNotes";
+    public static final String MUSICRESULTDBHR_KEY_NAME_MEMOOTHER = "memoOther";
+    public static final String MUSICRESULTDBHR_KEY_NAME_PGREAT = "pGreat";
+    public static final String MUSICRESULTDBHR_KEY_NAME_GREAT = "great";
+    public static final String MUSICRESULTDBHR_KEY_NAME_GOOD = "good";
+    public static final String MUSICRESULTDBHR_KEY_NAME_BAD = "bad";
+    public static final String MUSICRESULTDBHR_KEY_NAME_POOR = "poor";
+    public static final String MUSICRESULTDBHR_KEY_NAME_COMBOBREAK = "comboBreak";
+    public static final String MUSICRESULTDBHR_KEY_NAME_INSDATE = "insDate";
+    public static final String MUSICRESULTDBHR_KEY_NAME_UPDDATE = "updDate";
+
+
 
     /*********************************************************************************
      * 難易度
@@ -271,6 +317,12 @@ public class AppConst {
     /** CSVエクスポート処理にてエラー発生 */
     public static final String ERR_CD_90008 = "DBMS-90008";
 
+    /** CSVインポート処理にてエラー発生 */
+    public static final String ERR_CD_90009 = "DBMS-90009";
+
+    /** 曲マスタのPK取得結果0件エラー（想定外） */
+    public static final String ERR_CD_90010 = "DBMS-90010";
+
     /*********************************************************************************
      * 例外情報（errStepCd、errMsg）
      *********************************************************************************/
@@ -295,8 +347,23 @@ public class AppConst {
     public static final String ERR_STEP_CD_MUMM_00005 = "MUMM-00005";
     public static final String ERR_MESSAGE_MUMM_00005 = "CSVエクスポート処理にてクローズ時IOException発生";
 
+    public static final String ERR_STEP_CD_MUMM_00006 = "MUMM-00006";
+    public static final String ERR_MESSAGE_MUMM_00006 = "CSVインポート処理にてキー情報不足エラー";
+
+    public static final String ERR_STEP_CD_MUMM_00007 = "MUMM-00007";
+    public static final String ERR_MESSAGE_MUMM_00007 = "CSVインポート処理にてMUSIC_MST登録日時パースエラー発生";
+
+    public static final String ERR_STEP_CD_MUMM_00008 = "MUMM-00008";
+    public static final String ERR_MESSAGE_MUMM_00008 = "CSVインポート処理にてMUSIC_MST更新日時パースエラー発生";
+
+    public static final String ERR_STEP_CD_MUMM_00009 = "MUMM-00009";
+    public static final String ERR_MESSAGE_MUMM_00009 = "曲マスタのPK取得結果0件エラー（想定外）";
+
+    public static final String ERR_STEP_CD_MUMM_00010 = "MUMM-00010";
+    public static final String ERR_MESSAGE_MUMM_00010 = "CSVインポート処理にて予期せぬエラー発生";
+
     public static final String ERR_STEP_CD_GSSI_00001 = "GSSI-00001";
-    public static final String ERR_MESSAGE_GSSI_00001 = "Googleスプレッドシートインポート処理にて予期せぬ関連エラー発生";
+    public static final String ERR_MESSAGE_GSSI_00001 = "Googleスプレッドシートインポート処理にてIOException発生";
 
     public static final String ERR_STEP_CD_GSSI_00002 = "GSSI-00002";
     public static final String ERR_MESSAGE_GSSI_00002 = "Googleスプレッドシートインポート処理にてP12ファイル読み込み時エラー";
@@ -306,6 +373,12 @@ public class AppConst {
 
     public static final String ERR_STEP_CD_GSSI_00004 = "GSSI-00004";
     public static final String ERR_MESSAGE_GSSI_00004 = "Googleスプレッドシートインポート処理にてキー情報不足エラー";
+
+    public static final String ERR_STEP_CD_GSSI_00005 = "GSSI-00005";
+    public static final String ERR_MESSAGE_GSSI_00005 = "Googleスプレッドシートインポート処理にてServiceException発生";
+
+    public static final String ERR_STEP_CD_GSSI_00006 = "GSSI-00006";
+    public static final String ERR_MESSAGE_GSSI_00006 = "Googleスプレッドシートインポート処理にてGeneralSecurityException発生";
 
     public static final String ERR_STEP_CD_UTIL_00001 = "UTIL-00001";
     public static final String ERR_MESSAGE_UTIL_00001 = "csv読み込み時エラー";
@@ -337,8 +410,6 @@ public class AppConst {
      *********************************************************************************/
     /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
     public static final String FILENAME_SUFFIX_MUSIC_INFO_CSV = "_MUSIC_INFO.txt";
-    /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
-    public static final String FILENAME_SUFFIX_MUSIC_RESULT_DBHR_CSV = "_MUSIC_RESULT_DBHR.txt";
 
     /*********************************************************************************
      * その他定数
@@ -346,8 +417,9 @@ public class AppConst {
 
     public static final String MUSIC_MST_CSV_DATE_FORMAT = "EEE MMM dd HH:mm:ss 'JST' yyyy";
     public static final String CONST_YMDHMS_FORMAT = "yyyyMMddHHmmss";
+    public static final String CONST_BLANK = "";
     public static final String CONST_HALF_COLON = ":";
     public static final String CONST_HALF_SPACE = " ";
-    public static final String CONST_BLANK = "";
+    public static final String CONST_HALF_SLASH = "/";
 
 }

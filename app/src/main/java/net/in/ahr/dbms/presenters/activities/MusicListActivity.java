@@ -347,11 +347,17 @@ public class MusicListActivity extends AppCompatActivity
 
         } else if (id == R.id.action_export_csv) {
             // 全件取得しcsvに書き込み
-            Toast.makeText(this, "BEGIN export to CSV...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "BEGIN export DB to CSV...", Toast.LENGTH_LONG).show();
             List<MusicMst> musicMstList = getMusicMstDao(getApplicationContext()).loadAll();
             MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
-            musicMstMaintenance.exportMusicInfoCsv(musicMstList, getApplicationContext());
-            Toast.makeText(this, "END export to CSV...", Toast.LENGTH_LONG).show();
+            musicMstMaintenance.exportMusicInfoToCsv(musicMstList, getApplicationContext());
+            Toast.makeText(this, "END export DB to CSV...", Toast.LENGTH_LONG).show();
+
+        } else if (id == R.id.action_import_csv) {
+            // csvインポート処理呼び出し
+            MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+            // ※getApplicationContextだと落ちる
+            musicMstMaintenance.importMusicInfoFromCsv(MusicListActivity.this);
 
         } else if (id == R.id.action_debug_crash) {
             // ダイアログで確認してから実施

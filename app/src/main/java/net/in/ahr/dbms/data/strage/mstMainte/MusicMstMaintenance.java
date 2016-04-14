@@ -1,6 +1,10 @@
 package net.in.ahr.dbms.data.strage.mstMainte;
 
 import android.content.Context;
+import android.os.Environment;
+import android.support.v4.util.SparseArrayCompat;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.BeanToCsv;
@@ -12,8 +16,12 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
+import net.in.ahr.dbms.others.util.MyStrUtils;
+import net.in.ahr.dbms.presenters.adapters.FileInfo;
+import net.in.ahr.dbms.presenters.dialogs.FileInfoSelectionDialog;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,14 +31,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
+import greendao.MusicResultDBHRDao;
 
-import static net.in.ahr.dbms.others.AppConst.*;
+import net.in.ahr.dbms.others.AppConst.*;
 
 /**
  * Created by str2653z on 2016/03/16.
@@ -39,6 +50,10 @@ public class MusicMstMaintenance {
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
+
+    private static MusicResultDBHRDao getMusicResultDBHRDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
 
     public void execute(Context c) {
@@ -52,17 +67,17 @@ public class MusicMstMaintenance {
         long cnt = musicMstDao.count();
         LogUtil.logDebug("musicMst cnt:" + cnt);
 
-        if ( BuildConfig.VERSION_CODE == MUSIC_MST_MIG_VER_CD_1) {
+        if ( BuildConfig.VERSION_CODE == AppConst.MUSIC_MST_MIG_VER_CD_1) {
             LogUtil.logDebug("要マスタ全件インポート");
 
             // バージョンに対応するマスタ件数でない場合はマスタを初期化
-            if ( cnt != MUSIC_MST_MIG_VER_CD_AFT_CNT_1 ) {
+            if ( cnt != AppConst.MUSIC_MST_MIG_VER_CD_AFT_CNT_1 ) {
                 // 全消し
                 musicMstDao.deleteAll();
 
                 // csvを読み込み
                 CSVParser csvParser = new CSVParser();
-                List<String[]> csvArrList = csvParser.parse(c, "csv/musicMst/musicMst_0001.csv");
+                List<String[]> csvArrList = csvParser.parse(c, AppConst.MUSIC_MST_MIG_VER_CD_1_CSV_PATH, true);
 
                 // insert用に1つ生成
 //                MusicMst musicMst = new MusicMst();
@@ -154,7 +169,7 @@ public class MusicMstMaintenance {
 
     }
 
-    public void exportMusicInfoCsv(List<MusicMst> musicMstList, Context context) {
+    public void exportMusicInfoToCsv(List<MusicMst> musicMstList, Context context) {
         LogUtil.logEntering();
 
         FileOutputStream musicMstFos = null;
@@ -176,42 +191,42 @@ public class MusicMstMaintenance {
             // レコード（初期値はヘッダ部）
             String[] csvRecord = new String[]{
                     // MusicMst
-                    "id",
-                    "name",
-                    "nha",
-                    "version",
-                    "genre",
-                    "artist",
-                    "bpmFrom",
-                    "bpmTo",
-                    "difficult",
-                    "notes",
-                    "scratchNotes",
-                    "chargeNotes",
-                    "backSpinScratchNotes",
-                    "sortNumInDifficult",
-                    "mstVersion",
-                    "insDate",
-                    "updDate",
-                    "musicResultIdDBHR",
+                    AppConst.MUSICMST_KEY_NAME_ID,
+                    AppConst.MUSICMST_KEY_NAME_NAME,
+                    AppConst.MUSICMST_KEY_NAME_NHA,
+                    AppConst.MUSICMST_KEY_NAME_VERSION,
+                    AppConst.MUSICMST_KEY_NAME_GENRE,
+                    AppConst.MUSICMST_KEY_NAME_ARTIST,
+                    AppConst.MUSICMST_KEY_NAME_BPMFROM,
+                    AppConst.MUSICMST_KEY_NAME_BPMTO,
+                    AppConst.MUSICMST_KEY_NAME_DIFFICULT,
+                    AppConst.MUSICMST_KEY_NAME_NOTES,
+                    AppConst.MUSICMST_KEY_NAME_SCRATCHNOTES,
+                    AppConst.MUSICMST_KEY_NAME_CHARGENOTES,
+                    AppConst.MUSICMST_KEY_NAME_BACKSPINSCRATCHNOTES,
+                    AppConst.MUSICMST_KEY_NAME_SORTNUMINDIFFICULT,
+                    AppConst.MUSICMST_KEY_NAME_MSTVERSION,
+                    AppConst.MUSICMST_KEY_NAME_INSDATE,
+                    AppConst.MUSICMST_KEY_NAME_UPDDATE,
+                    AppConst.MUSICMST_KEY_NAME_MUSICRESULTIDDBHR,
                     // MusicResultDBHR
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "id",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "clearLamp",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "exScore",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "bp",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "scoreRank",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "scoreRate",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "missRate",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "remainingGaugeOrDeadNotes",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "memoOther",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "pGreat",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "great",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "good",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "bad",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "poor",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "comboBreak",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "insDate",
-                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + "updDate"
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_ID,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_CLEARLAMP,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_EXSCORE,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BP,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERANK,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERATE,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MISSRATE,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_REMAININGGAUGEORDEADNOTES,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MEMOOTHER,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_PGREAT,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GREAT,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GOOD,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BAD,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_POOR,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_COMBOBREAK,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_INSDATE,
+                    AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_UPDDATE,
             };
 
             // ヘッダ部を書き込み
@@ -311,56 +326,11 @@ public class MusicMstMaintenance {
                     };
                 }
                 writer.writeNext(csvRecord, true);
+                // ※flushしておかないと出力されないことがある
+                // http://java.akjava.com/library/opencsv
+                writer.flush();
+
             }
-/*
-            musicMstStrat.setColumnMapping(musicMstColumns);
-            BeanToCsv musicMsteanToCsv = new BeanToCsv();
-            musicMsteanToCsv.write(musicMstStrat, musicMstWriter, musicMstList);
-
-            // MusicMstリスト件数分のMusicResultDBHRリストを作成（nullの場合はデフォルト値で生成）
-            List<MusicResultDBHR> musicResultDBHRList = new ArrayList<MusicResultDBHR>();
-            for (MusicMst musicMst : musicMstList) {
-                if ( musicMst.getMusicResultDBHR() != null ) {
-                    musicResultDBHRList.add( musicMst.getMusicResultDBHR() );
-                } else {
-                    // nullの場合のデフォルトオブジェクト
-                    MusicResultDBHR defaultMusicResultDBHR = new MusicResultDBHR();
-                    defaultMusicResultDBHR.setId(musicMst.getId());
-                    defaultMusicResultDBHR.setClearLamp(AppConst.CONST_BLANK);     // インポート時のnull判断はクリアランプ空文字で実施
-                    defaultMusicResultDBHR.setExScore(0);
-                    defaultMusicResultDBHR.setBp(0);
-                    defaultMusicResultDBHR.setScoreRank(AppConst.CONST_BLANK);
-                    defaultMusicResultDBHR.setScoreRate(0.0);
-                    defaultMusicResultDBHR.setMissRate(0.0);
-                    defaultMusicResultDBHR.setRemainingGaugeOrDeadNotes(0);
-                    defaultMusicResultDBHR.setMemoOther(AppConst.CONST_BLANK);
-                    defaultMusicResultDBHR.setPGreat("");
-                    defaultMusicResultDBHR.setGreat("");
-                    defaultMusicResultDBHR.setGood("");
-                    defaultMusicResultDBHR.setBad("");
-                    defaultMusicResultDBHR.setPoor("");
-                    defaultMusicResultDBHR.setComboBreak("");
-                    defaultMusicResultDBHR.setInsDate(new Date());
-                    defaultMusicResultDBHR.setUpdDate(new Date());
-                    musicResultDBHRList.add(defaultMusicResultDBHR);
-                }
-            }
-
-            // MusicMstをcsv出力
-            musicResultDBHRFos = context.openFileOutput(
-                    AppConst.FILENAME_PREFIX_EXPORT_CSV + dateStr + AppConst.FILENAME_SUFFIX_MUSIC_RESULT_DBHR_CSV,
-                    Context.MODE_PRIVATE);
-            musicResultDBHRWriter = new CSVWriter(new PrintWriter(musicResultDBHRFos));
-            ColumnPositionMappingStrategy<MusicResultDBHR> musicResultDBHRStrat = new ColumnPositionMappingStrategy<MusicResultDBHR>();
-            String[] musicResultDBHRColumns = new String[]{
-
-            };
-            musicResultDBHRStrat.setColumnMapping(musicResultDBHRColumns);
-            BeanToCsv musicResultDBHRBeanToCsv = new BeanToCsv();
-            musicResultDBHRBeanToCsv.write(musicResultDBHRStrat, musicResultDBHRWriter, musicResultDBHRList);
-
-*/
-
 
         } catch (FileNotFoundException fnfe) {
             throw new DbmsSystemException(
@@ -400,5 +370,299 @@ public class MusicMstMaintenance {
         }
 
         LogUtil.logExiting();
+    }
+
+    public void importMusicInfoFromCsv(final Context context) {
+        LogUtil.logEntering();
+
+        // リスナーのコールバックを定義
+        FileInfoSelectionDialog.OnFileSelectListener listener
+                = new FileInfoSelectionDialog.OnFileSelectListener() {
+            @Override
+            public void onFileSelect(File file) {
+                LogUtil.logEntering();
+
+                Toast.makeText(context, "BEGIN import CSV to DB...", Toast.LENGTH_LONG).show();
+
+                // csvを読み込み
+                CSVParser csvParser = new CSVParser();
+                // filesフォルダからの相対パスを作成し読み込み
+                String csvRelativePath = file.getPath()
+                        .replace(context.getFilesDir().getAbsolutePath(), AppConst.CONST_BLANK)
+                        .replace(AppConst.CONST_HALF_SLASH, AppConst.CONST_BLANK);
+                List<String[]> csvArrList = csvParser.parse(context, csvRelativePath, false);
+
+                // ヘッダ部Mapの生成
+                Map<String, String> indexHeadMap = new HashMap<String, String>();
+
+                // csvを1行づつ処理
+                for (int i = 0; i < csvArrList.size(); i++) {
+                    // csvレコード取得
+                    String[] csvArr = csvArrList.get(i);
+
+                    if (i == 0) {
+                        // ヘッダ部のMapを作成
+                        for (int j = 0; j < csvArr.length; j++) {
+                            indexHeadMap.put(String.valueOf(j), csvArr[j]);
+                        }
+                    } else {
+                        // ローカル変数
+                        String pkName = "";
+                        String pkNha = "";
+                        MusicMst music = null;
+                        MusicResultDBHR musicResultDBHR = null;
+
+                        // DBアクセス用
+                        MusicMstDao musicMstDao = getMusicMstDao(context);
+                        MusicResultDBHRDao musicResultDBHRDao = getMusicResultDBHRDao(context);
+
+                        // 日時パース用
+                        SimpleDateFormat sdf = new SimpleDateFormat(AppConst.MUSIC_MST_CSV_DATE_FORMAT, Locale.ENGLISH);
+
+                        for (int j = 0; j < csvArr.length; j++) {
+                            // 処理対象
+                            String head = indexHeadMap.get(String.valueOf(j));
+                            String value = csvArr[j];
+
+                            // MusicMst
+                            if (AppConst.MUSICMST_KEY_NAME_ID.equals(head)) {
+                                // do nothing
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_NAME.equals(head)) {
+                                pkName = value;
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_NHA.equals(head)) {
+                                pkNha = value;
+
+                                // この時点でキー情報が無いのは想定外
+                                if (TextUtils.isEmpty(pkName) && TextUtils.isEmpty(pkNha)) {
+                                    LogUtil.logError("■pkName" + pkName);
+                                    LogUtil.logError("■pkNha" + pkNha);
+                                    throw new DbmsSystemException(
+                                            AppConst.ERR_CD_90009,
+                                            AppConst.ERR_STEP_CD_MUMM_00006,
+                                            AppConst.ERR_MESSAGE_MUMM_00006);
+                                }
+
+                                // MusicMst取得
+                                music = getMusicMstByPk(musicMstDao, pkName, pkNha);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_VERSION.equals(head)) {
+                                music.setVersion(value);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_GENRE.equals(head)) {
+                                music.setGenre(value);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_ARTIST.equals(head)) {
+                                music.setArtist(value);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_BPMFROM.equals(head)) {
+                                music.setBpmFrom(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_BPMTO.equals(head)) {
+                                music.setBpmTo(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_DIFFICULT.equals(head)) {
+                                music.setDifficult(value);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_NOTES.equals(head)) {
+                                music.setNotes(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_SCRATCHNOTES.equals(head)) {
+                                music.setScratchNotes(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_CHARGENOTES.equals(head)) {
+                                music.setChargeNotes(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_BACKSPINSCRATCHNOTES.equals(head)) {
+                                music.setBackSpinScratchNotes(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_SORTNUMINDIFFICULT.equals(head)) {
+                                music.setSortNumInDifficult(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_MSTVERSION.equals(head)) {
+                                music.setMstVersion(value);
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_INSDATE.equals(head)) {
+                                if (!TextUtils.isEmpty(value)) {
+                                    java.util.Date insDate;
+                                    try {
+                                        insDate = sdf.parse(value);
+                                    } catch (ParseException pe) {
+                                        throw new DbmsSystemException(
+                                                AppConst.ERR_CD_90009,
+                                                AppConst.ERR_STEP_CD_MUMM_00007,
+                                                AppConst.ERR_MESSAGE_MUMM_00007);
+                                    }
+                                    music.setInsDate(insDate);
+                                }
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_UPDDATE.equals(head)) {
+                                if (!TextUtils.isEmpty(value)) {
+                                    java.util.Date updDate;
+                                    try {
+                                        updDate = sdf.parse(value);
+                                    } catch (ParseException pe) {
+                                        throw new DbmsSystemException(
+                                                AppConst.ERR_CD_90009,
+                                                AppConst.ERR_STEP_CD_MUMM_00008,
+                                                AppConst.ERR_MESSAGE_MUMM_00008);
+                                    }
+                                    music.setUpdDate(updDate);
+                                }
+
+                            } else if (AppConst.MUSICMST_KEY_NAME_MUSICRESULTIDDBHR.equals(head)) {
+                                music.setMusicResultIdDBHR(
+                                        Long.parseLong(value));
+
+                            }
+                            // MusicResultDBHR
+                            else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_ID).equals(head)) {
+                                // 空の場合は新規生成
+                                if (AppConst.CONST_BLANK.equals(value) || music.getMusicResultDBHR() == null) {
+                                    musicResultDBHR = new MusicResultDBHR();
+                                    musicResultDBHR.setId(music.getId());
+                                    music.setMusicResultIdDBHR(musicResultDBHR.getId());
+                                    music.setMusicResultDBHR(musicResultDBHR);
+                                } else {
+                                    musicResultDBHR = music.getMusicResultDBHR();
+                                    musicResultDBHR.setId(
+                                            Long.parseLong(value));
+                                }
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_CLEARLAMP).equals(head)) {
+                                musicResultDBHR.setClearLamp(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_EXSCORE).equals(head)) {
+                                musicResultDBHR.setExScore(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BP).equals(head)) {
+                                musicResultDBHR.setBp(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERANK).equals(head)) {
+                                musicResultDBHR.setScoreRank(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERATE).equals(head)) {
+                                musicResultDBHR.setScoreRate(
+                                        MyStrUtils.parseDoubleOrRetZero(value));
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MISSRATE).equals(head)) {
+                                musicResultDBHR.setMissRate(
+                                        MyStrUtils.parseDoubleOrRetZero(value));
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_REMAININGGAUGEORDEADNOTES).equals(head)) {
+                                musicResultDBHR.setRemainingGaugeOrDeadNotes(
+                                        MyStrUtils.parseIntOrRetZero(value));
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MEMOOTHER).equals(head)) {
+                                musicResultDBHR.setMemoOther(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_PGREAT).equals(head)) {
+                                musicResultDBHR.setPGreat(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GREAT).equals(head)) {
+                                musicResultDBHR.setGreat(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GOOD).equals(head)) {
+                                musicResultDBHR.setGood(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BAD).equals(head)) {
+                                musicResultDBHR.setBad(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_POOR).equals(head)) {
+                                musicResultDBHR.setPoor(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_COMBOBREAK).equals(head)) {
+                                musicResultDBHR.setComboBreak(value);
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_INSDATE).equals(head)) {
+                                if (!TextUtils.isEmpty(value)) {
+                                    java.util.Date insDate;
+                                    try {
+                                        insDate = sdf.parse(value);
+                                    } catch (ParseException pe) {
+                                        throw new DbmsSystemException(
+                                                AppConst.ERR_CD_90009,
+                                                AppConst.ERR_STEP_CD_MUMM_00007,
+                                                AppConst.ERR_MESSAGE_MUMM_00007);
+                                    }
+                                    musicResultDBHR.setInsDate(insDate);
+                                }
+
+                            } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_UPDDATE).equals(head)) {
+                                if (!TextUtils.isEmpty(value)) {
+                                    java.util.Date updDate;
+                                    try {
+                                        updDate = sdf.parse(value);
+                                    } catch (ParseException pe) {
+                                        throw new DbmsSystemException(
+                                                AppConst.ERR_CD_90009,
+                                                AppConst.ERR_STEP_CD_MUMM_00008,
+                                                AppConst.ERR_MESSAGE_MUMM_00008);
+                                    }
+                                    musicResultDBHR.setUpdDate(updDate);
+                                }
+
+                            }
+
+                            // 全カラム処理完了したら更新
+                            if (j == csvArr.length - 1) {
+                                musicMstDao.insertOrReplace(music);
+                                if (musicResultDBHR == null) {
+                                    LogUtil.logError("musicResultDBHRオブジェクトがnull:" + music.getName() + "[" + music.getNha() + "]");
+                                }
+                                musicResultDBHRDao.insertOrReplace(musicResultDBHR);
+                                LogUtil.logDebug("MusicMst:" + music.getName() + "[" + music.getNha() + "] update finish!");
+                            }
+
+                        }
+                    }
+                }
+
+                Toast.makeText(context, "END import CSV to DB...", Toast.LENGTH_LONG).show();
+                LogUtil.logExiting();
+            };
+        };
+
+        // ダイアログ表示
+        FileInfoSelectionDialog dileDialog = new FileInfoSelectionDialog(context, listener, FileInfoSelectionDialog.MODE_IMPORT_CSV);
+        dileDialog.show(new File(context.getFilesDir().getAbsolutePath()));
+
+        LogUtil.logExiting();
+    }
+
+    /**
+     * 曲名・難易度によりレコード取得
+     * @param musicMstDao
+     * @param name
+     * @param nha
+     * @return
+     */
+    public MusicMst getMusicMstByPk(MusicMstDao musicMstDao, String name, String nha) {
+        LogUtil.logEntering();
+
+        List<MusicMst> list = musicMstDao.queryBuilder()
+                .where(MusicMstDao.Properties.Name.eq(name.replace("'", "\'")))      // .replace(",", "\\,")
+                .where(MusicMstDao.Properties.Nha.eq(nha))
+                .list();
+
+        if (list.size() == 0) {
+            LogUtil.logError("input.name:[" + name + "]");
+            LogUtil.logError("input.nha:[" + nha + "]");
+            throw new DbmsSystemException(
+                    AppConst.ERR_CD_90010,
+                    AppConst.ERR_STEP_CD_MUMM_00009,
+                    AppConst.ERR_MESSAGE_MUMM_00009);
+        }
+
+        return list.get(0);
     }
 }

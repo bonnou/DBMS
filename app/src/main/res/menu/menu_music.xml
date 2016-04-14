@@ -23,6 +23,11 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_import_csv"
+        android:title="@string/action_import_csv"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_debug_crash"
         android:title="@string/action_debug_crash"
         android:orderInCategory="100"

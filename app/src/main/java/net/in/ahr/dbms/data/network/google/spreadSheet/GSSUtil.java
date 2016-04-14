@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Arrays;
 import java.net.URL;
@@ -32,6 +33,7 @@ import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
 import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
 import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.data.spreadsheet.WorksheetFeed;
+import com.google.gdata.util.ServiceException;
 
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
@@ -106,7 +108,7 @@ public class GSSUtil {
         }
     }
 
-    private static Credential authorize() throws Exception {
+    private static Credential authorize() throws IOException, GeneralSecurityException {
         System.out.println("authorize in");
 
         HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
@@ -134,7 +136,7 @@ public class GSSUtil {
         return credential;
     }
 
-    public static SpreadsheetService getService() throws Exception {
+    public static SpreadsheetService getService() throws IOException, GeneralSecurityException {
         System.out.println("service in");
 
         SpreadsheetService service = new SpreadsheetService(APPLICATION_NAME);
@@ -154,7 +156,7 @@ public class GSSUtil {
         return service;
     }
 
-    public static SpreadsheetEntry findSpreadsheetByName(SpreadsheetService service, String spreadsheetName) throws Exception {
+    public static SpreadsheetEntry findSpreadsheetByName(SpreadsheetService service, String spreadsheetName) throws IOException, ServiceException {
         System.out.println("findSpreadsheetByName in");
         SpreadsheetQuery sheetQuery = new SpreadsheetQuery(SPREADSHEET_FEED_URL);
         sheetQuery.setTitleQuery(spreadsheetName);
@@ -167,7 +169,7 @@ public class GSSUtil {
         return ssEntry;
     }
 
-    public static WorksheetEntry findWorksheetByName(SpreadsheetService service, SpreadsheetEntry ssEntry, String sheetName) throws Exception {
+    public static WorksheetEntry findWorksheetByName(SpreadsheetService service, SpreadsheetEntry ssEntry, String sheetName) throws IOException, ServiceException {
         System.out.println("findWorksheetByName in");
         WorksheetQuery worksheetQuery = new WorksheetQuery(ssEntry.getWorksheetFeedUrl());
         worksheetQuery.setTitleQuery(sheetName);

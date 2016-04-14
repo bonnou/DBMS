@@ -21,7 +21,7 @@ import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 
 public class CSVParser {
 
-    public List<String[]> parse(Context context, String assetsCsvPath) {
+    public List<String[]> parse(Context context, String csvPath, boolean isAssets) {
         LogUtil.logEntering();
 
         // 返却値の宣言
@@ -31,7 +31,12 @@ public class CSVParser {
         AssetManager assetManager = context.getResources().getAssets();
         try {
             // CSVファイルの読み込み
-            InputStream is = assetManager.open(assetsCsvPath);
+            InputStream is;
+            if (isAssets) {
+                is = assetManager.open(csvPath);
+            } else {
+                is = context.openFileInput(csvPath);
+            }
             CSVReader reader = new CSVReader(new InputStreamReader(is));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {

@@ -204,12 +204,10 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
                         | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         );
         String remainingGaugeOrDeadNotes = "";
-        if ( music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes() != null ) {
+        if ( resultExistFlg && music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes() != null ) {
             remainingGaugeOrDeadNotes = String.valueOf(music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes());
         }
-        if (resultExistFlg) {
-            remainingGaugeOrDeadNotesEditText.setText(remainingGaugeOrDeadNotes);
-        }
+        remainingGaugeOrDeadNotesEditText.setText(remainingGaugeOrDeadNotes);
 
         // Formオブジェクト保持、初期値設定（メモ）
         memoOtherEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoOther);
