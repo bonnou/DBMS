@@ -314,7 +314,7 @@ public class MusicMstMaintenance {
                             String.valueOf(musicMst.getMusicResultDBHR().getScoreRate()),
                             String.valueOf(musicMst.getMusicResultDBHR().getMissRate()),
                             String.valueOf(musicMst.getMusicResultDBHR().getRemainingGaugeOrDeadNotes()),
-                            musicMst.getMusicResultDBHR().getMemoOther(),
+                            musicMst.getMusicResultDBHR().getMemoOther().replaceAll("\r\n", "<br>").replaceAll("\r", "<br>").replaceAll("\n", "<br>"),
                             musicMst.getMusicResultDBHR().getPGreat(),
                             musicMst.getMusicResultDBHR().getGreat(),
                             musicMst.getMusicResultDBHR().getGood(),
@@ -418,6 +418,8 @@ public class MusicMstMaintenance {
 
                         // 日時パース用
                         SimpleDateFormat sdf = new SimpleDateFormat(AppConst.MUSIC_MST_CSV_DATE_FORMAT, Locale.ENGLISH);
+
+                        boolean noResultFlg = false;
 
                         for (int j = 0; j < csvArr.length; j++) {
                             // 処理対象
@@ -525,101 +527,140 @@ public class MusicMstMaintenance {
                             }
                             // MusicResultDBHR
                             else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_ID).equals(head)) {
-                                // 空の場合は新規生成
-                                if (AppConst.CONST_BLANK.equals(value) || music.getMusicResultDBHR() == null) {
+                                // 空の場合はリザルトオブジェクト未設定
+                                if ( AppConst.CONST_BLANK.equals(value) ) {
+                                    noResultFlg = true;
                                     musicResultDBHR = new MusicResultDBHR();
                                     musicResultDBHR.setId(music.getId());
-                                    music.setMusicResultIdDBHR(musicResultDBHR.getId());
                                     music.setMusicResultDBHR(musicResultDBHR);
                                 } else {
+                                    noResultFlg = false;
                                     musicResultDBHR = music.getMusicResultDBHR();
-                                    musicResultDBHR.setId(
-                                            Long.parseLong(value));
+                                    if (musicResultDBHR == null) {
+                                        musicResultDBHR = new MusicResultDBHR();
+                                    }
+                                    musicResultDBHR.setId(music.getId());
                                 }
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_CLEARLAMP).equals(head)) {
-                                musicResultDBHR.setClearLamp(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setClearLamp(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_EXSCORE).equals(head)) {
-                                musicResultDBHR.setExScore(
-                                        MyStrUtils.parseIntOrRetZero(value));
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setExScore(
+                                            MyStrUtils.parseIntOrRetZero(value));
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BP).equals(head)) {
-                                musicResultDBHR.setBp(
-                                        MyStrUtils.parseIntOrRetZero(value));
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setBp(
+                                            MyStrUtils.parseIntOrRetZero(value));
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERANK).equals(head)) {
-                                musicResultDBHR.setScoreRank(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setScoreRank(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_SCORERATE).equals(head)) {
-                                musicResultDBHR.setScoreRate(
-                                        MyStrUtils.parseDoubleOrRetZero(value));
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setScoreRate(
+                                            MyStrUtils.parseDoubleOrRetZero(value));
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MISSRATE).equals(head)) {
                                 musicResultDBHR.setMissRate(
                                         MyStrUtils.parseDoubleOrRetZero(value));
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_REMAININGGAUGEORDEADNOTES).equals(head)) {
-                                musicResultDBHR.setRemainingGaugeOrDeadNotes(
-                                        MyStrUtils.parseIntOrRetZero(value));
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setRemainingGaugeOrDeadNotes(
+                                            MyStrUtils.parseIntOrRetZero(value));
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_MEMOOTHER).equals(head)) {
-                                musicResultDBHR.setMemoOther(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setMemoOther(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_PGREAT).equals(head)) {
-                                musicResultDBHR.setPGreat(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setPGreat(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GREAT).equals(head)) {
-                                musicResultDBHR.setGreat(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setGreat(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_GOOD).equals(head)) {
-                                musicResultDBHR.setGood(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setGood(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_BAD).equals(head)) {
-                                musicResultDBHR.setBad(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setBad(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_POOR).equals(head)) {
-                                musicResultDBHR.setPoor(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setPoor(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_COMBOBREAK).equals(head)) {
-                                musicResultDBHR.setComboBreak(value);
+                                if (!noResultFlg) {
+                                    musicResultDBHR.setComboBreak(value);
+                                }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_INSDATE).equals(head)) {
-                                if (!TextUtils.isEmpty(value)) {
-                                    java.util.Date insDate;
-                                    try {
-                                        insDate = sdf.parse(value);
-                                    } catch (ParseException pe) {
-                                        throw new DbmsSystemException(
-                                                AppConst.ERR_CD_90009,
-                                                AppConst.ERR_STEP_CD_MUMM_00007,
-                                                AppConst.ERR_MESSAGE_MUMM_00007);
+                                if (!noResultFlg) {
+                                    if (!TextUtils.isEmpty(value)) {
+                                        java.util.Date insDate;
+                                        try {
+                                            insDate = sdf.parse(value);
+                                        } catch (ParseException pe) {
+                                            throw new DbmsSystemException(
+                                                    AppConst.ERR_CD_90009,
+                                                    AppConst.ERR_STEP_CD_MUMM_00007,
+                                                    AppConst.ERR_MESSAGE_MUMM_00007);
+                                        }
+                                        musicResultDBHR.setInsDate(insDate);
                                     }
-                                    musicResultDBHR.setInsDate(insDate);
                                 }
 
                             } else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_UPDDATE).equals(head)) {
-                                if (!TextUtils.isEmpty(value)) {
-                                    java.util.Date updDate;
-                                    try {
-                                        updDate = sdf.parse(value);
-                                    } catch (ParseException pe) {
-                                        throw new DbmsSystemException(
-                                                AppConst.ERR_CD_90009,
-                                                AppConst.ERR_STEP_CD_MUMM_00008,
-                                                AppConst.ERR_MESSAGE_MUMM_00008);
+                                if (!noResultFlg) {
+                                    if (!TextUtils.isEmpty(value)) {
+                                        java.util.Date updDate;
+                                        try {
+                                            updDate = sdf.parse(value);
+                                        } catch (ParseException pe) {
+                                            throw new DbmsSystemException(
+                                                    AppConst.ERR_CD_90009,
+                                                    AppConst.ERR_STEP_CD_MUMM_00008,
+                                                    AppConst.ERR_MESSAGE_MUMM_00008);
+                                        }
+                                        musicResultDBHR.setUpdDate(updDate);
                                     }
-                                    musicResultDBHR.setUpdDate(updDate);
                                 }
 
                             }
 
                             // 全カラム処理完了したら更新
                             if (j == csvArr.length - 1) {
-                                musicMstDao.insertOrReplace(music);
-                                if (musicResultDBHR == null) {
-                                    LogUtil.logError("musicResultDBHRオブジェクトがnull:" + music.getName() + "[" + music.getNha() + "]");
+                                music.setMusicResultIdDBHR(music.getId());
+                                if (!noResultFlg) {
+                                    // リザルトありの場合は更新
+                                    musicMstDao.insertOrReplace(music);
+                                    musicResultDBHRDao.insertOrReplace(musicResultDBHR);
+                                } else {
+                                    // リザルトなしの場合は削除
+                                    music.setMusicResultIdDBHR(0);
+                                    musicMstDao.insertOrReplace(music);
+                                    deleteMusicResultDbhrByPk(musicMstDao, musicResultDBHRDao, music.getName(), music.getNha());
                                 }
-                                musicResultDBHRDao.insertOrReplace(musicResultDBHR);
                                 LogUtil.logDebug("MusicMst:" + music.getName() + "[" + music.getNha() + "] update finish!");
                             }
 
@@ -640,7 +681,7 @@ public class MusicMstMaintenance {
     }
 
     /**
-     * 曲名・難易度によりレコード取得
+     * 曲名・難易度により曲マスタレコード取得
      * @param musicMstDao
      * @param name
      * @param nha
@@ -665,4 +706,35 @@ public class MusicMstMaintenance {
 
         return list.get(0);
     }
+
+
+    /**
+     * 曲名・難易度によりリザルトレコード削除（存在する場合のみ）
+     * @param musicMstDao
+     * @param musicResultDBHRDao
+     * @param name
+     * @param nha
+     * @return
+     */
+    public void deleteMusicResultDbhrByPk(MusicMstDao musicMstDao, MusicResultDBHRDao musicResultDBHRDao, String name, String nha) {
+        LogUtil.logEntering();
+
+        List<MusicMst> list = musicMstDao.queryBuilder()
+                .where(MusicMstDao.Properties.Name.eq(name.replace("'", "\'")))      // .replace(",", "\\,")
+                .where(MusicMstDao.Properties.Nha.eq(nha))
+                .list();
+
+        if (list.size() != 0) {
+            MusicResultDBHR musicResultDBHR = list.get(0).getMusicResultDBHR();
+            if (musicResultDBHR != null) {
+                musicResultDBHRDao.delete(musicResultDBHR);
+                LogUtil.logDebug("musicResultDBHR delete finish:" + name + "(" + nha + ")");
+            } else {
+                LogUtil.logDebug("musicResultDBHR recordなし");
+            }
+        }
+
+        LogUtil.logExiting();
+    }
+
 }

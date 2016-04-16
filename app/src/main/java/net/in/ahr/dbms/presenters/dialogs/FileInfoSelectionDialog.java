@@ -56,6 +56,15 @@ public class FileInfoSelectionDialog implements OnItemClickListener {
         List<FileInfo> listFileInfo = new ArrayList<FileInfo>();
         if( null != aFile )
         {
+/*
+            // CSVインポートモードの場合、ファイル名降順に
+            if (mode == MODE_IMPORT_CSV) {
+                File[] sortFileArr = new File[aFile.length];
+                for (int i = aFile.length - 1; i >= 0; i--) {
+                    sortFileArr[sortFileArr.length - i] = aFile[i];
+                }
+            }
+*/
             for( File fileTemp : aFile )
             {
                 if (mode == MODE_IMPORT_CSV) {

@@ -409,7 +409,7 @@ public class AppConst {
      * ファイル名サフィックス
      *********************************************************************************/
     /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
-    public static final String FILENAME_SUFFIX_MUSIC_INFO_CSV = "_MUSIC_INFO.txt";
+    public static final String FILENAME_SUFFIX_MUSIC_INFO_CSV = "_MUSIC_INFO.csv";
 
     /*********************************************************************************
      * その他定数

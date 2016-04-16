@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -283,7 +284,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
         // スコアランク画像取得
         Bitmap scoreRankImg = null;
-        if (resultExistFlg) {
+        if ( resultExistFlg && !TextUtils.isEmpty(music.getMusicResultDBHR().getScoreRank()) ) {
             AssetsImgUtil assetsImgUtil = new AssetsImgUtil();
             scoreRankImg = assetsImgUtil.getAssetsImg(
                     context,
