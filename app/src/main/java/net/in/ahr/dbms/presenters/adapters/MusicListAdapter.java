@@ -50,7 +50,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     LayoutInflater layoutInflater = null;
     private final Object mLock = new Object();
 
-    static final AlphaAnimation clearLampAnimation = new AlphaAnimation(1, 0.01f);
+    static final AlphaAnimation clearLampAnimation = new AlphaAnimation(0.7f, 1f);
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
@@ -185,7 +185,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
 
                 // ランプ点滅
-                clearLampAnimation.setDuration(100);
+                clearLampAnimation.setDuration(50);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
 
@@ -245,7 +245,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
 
                 // ランプ点滅
-                clearLampAnimation.setDuration(250);
+                clearLampAnimation.setDuration(500);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
 
@@ -255,7 +255,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
 
                 // ランプ点滅
-                clearLampAnimation.setDuration(250);
+                clearLampAnimation.setDuration(500);
                 clearLampAnimation.setRepeatCount(Animation.INFINITE);
                 holder.clearLampView.startAnimation(clearLampAnimation);
 
@@ -286,7 +286,12 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
         // スコアランク画像取得
         Bitmap scoreRankImg = null;
-        if ( resultExistFlg && !TextUtils.isEmpty(music.getMusicResultDBHR().getScoreRank()) ) {
+        boolean scoreExistFlg = false;
+        if (
+                resultExistFlg
+             && !TextUtils.isEmpty(music.getMusicResultDBHR().getScoreRank())
+             && music.getMusicResultDBHR().getExScore() != null
+             && music.getMusicResultDBHR().getExScore().intValue() != 0) {
             AssetsImgUtil assetsImgUtil = new AssetsImgUtil();
             scoreRankImg = assetsImgUtil.getAssetsImg(
                     context,

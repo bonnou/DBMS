@@ -59,7 +59,7 @@ public class ResultExportIntentService extends IntentService {
         for (File file : files) {
             if (
                     file.isFile()
-                 && file.getName().indexOf(AppConst.FILENAME_PREFIX_EXPORT_CSV) > 0
+                 && file.getName().contains(AppConst.FILENAME_PREFIX_EXPORT_CSV)
             ) {
                 deteleTargetFileNameList.add(file.getName());
             }
@@ -79,6 +79,7 @@ public class ResultExportIntentService extends IntentService {
                 File delFile = new File(getApplicationContext().getFilesDir().getAbsolutePath() + deteleTargetFileName);
                 if (delFile.exists()) {
                     delFile.delete();
+                    LogUtil.logDebug("■file delete success:" + delFile.getName());
                 }
             }
         }

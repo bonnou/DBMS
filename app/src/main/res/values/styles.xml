@@ -16,7 +16,7 @@
     <!-- 曲一覧画面のNavigationDrawerのメニュー項目 -->
     <style name="musicListDrawerStyle">
         <item name="android:textSize">14sp</item> <!-- menu item text size-->
-        <item name="android:listPreferredItemHeightSmall">30dp</item><!-- menu item height-->
+        <item name="listPreferredItemHeightSmall">30dp</item><!-- menu item height-->
     </style>
 
 </resources>
