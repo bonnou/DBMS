@@ -3,6 +3,7 @@ package net.in.ahr.dbms.presenters.activities;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,9 +39,14 @@ import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
+import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -57,6 +63,9 @@ public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ListView musicListView;
+
+    /** プログレスバー */
+    private ProgressDialog progressDialog;
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
@@ -354,6 +363,15 @@ public class MusicListActivity extends AppCompatActivity
             Toast.makeText(this, "END export DB to CSV...", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.action_import_csv) {
+            // プログレスダイアログ生成
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("CSVインポート実施中...");
+            progressDialog.setMessage("しばらくお待ちください。");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMax(AppConst.MUSIC_MST_MIG_VER_CD_AFT_CNT_1);
+            progressDialog.show();
+
+
             // csvインポート処理呼び出し
             MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
             // ※getApplicationContextだと落ちる
@@ -441,9 +459,7 @@ public class MusicListActivity extends AppCompatActivity
         dbmsSharedPreferences.apply();
 
         // 再検索
-        MusicListAdapter musicListAdapter = (MusicListAdapter) musicListView.getAdapter();
-        musicListAdapter.searchApplyToListView(this);
-
+        searchApplyToListView();
 
         // NavigationDrawerを閉じる（閉じさせないようコメントアウト）
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -451,6 +467,16 @@ public class MusicListActivity extends AppCompatActivity
 
         return true;
     }
+
+    /**
+     * 曲リスト再検索処理
+     */
+    public void searchApplyToListView() {
+        MusicListAdapter musicListAdapter = (MusicListAdapter) musicListView.getAdapter();
+        musicListAdapter.searchApplyToListView(this);
+    }
+
+
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
@@ -498,6 +524,68 @@ public class MusicListActivity extends AppCompatActivity
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+*/
+
+    @Override
+    protected void onResume() {
+        LogUtil.logEntering();
+
+        super.onResume();
+        // EventBus の登録
+        EventBus.getDefault().register(this);
+
+        LogUtil.logExiting();
+    }
+
+    @Override
+    protected void onPause() {
+        LogUtil.logEntering();
+
+        // 登録の解除
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+
+        LogUtil.logExiting();
+    }
+
+    // EventBusイベントハンドラの宣言
+    @Subscribe
+    public void onEvent(SearchApplyEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★SearchApplyEvent★★★");
+
+        searchApplyToListView();
+
+        LogUtil.logExiting();
+    }
+
+/*
+    @Subscribe
+    public void onEvent(ProgresDialogIncrementEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★ProgresDialogIncrementEvent★★★");
+
+        progressDialog.setProgress(progressDialog.getProgress() + 1);
+
+        LogUtil.logExiting();
+    }
+*/
+
+    @Subscribe
+    public void onEvent(ProgresDialogDismissEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★ProgresDialogDismissEvent★★★");
+
+        progressDialog.dismiss();
+
+        LogUtil.logExiting();
+    }
+
+/*
+    // イベントハンドラの宣言。メインスレッド上で実行することを強制する場合
+    public void onEventMainThread(CursorLoadedEvent event) {
+
     }
 */
 }

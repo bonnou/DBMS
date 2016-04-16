@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.presenters.adapters.FileInfo;
 import net.in.ahr.dbms.presenters.adapters.FileInfoArrayAdapter;
@@ -56,15 +57,6 @@ public class FileInfoSelectionDialog implements OnItemClickListener {
         List<FileInfo> listFileInfo = new ArrayList<FileInfo>();
         if( null != aFile )
         {
-/*
-            // CSVインポートモードの場合、ファイル名降順に
-            if (mode == MODE_IMPORT_CSV) {
-                File[] sortFileArr = new File[aFile.length];
-                for (int i = aFile.length - 1; i >= 0; i--) {
-                    sortFileArr[sortFileArr.length - i] = aFile[i];
-                }
-            }
-*/
             for( File fileTemp : aFile )
             {
                 if (mode == MODE_IMPORT_CSV) {
@@ -76,7 +68,11 @@ public class FileInfoSelectionDialog implements OnItemClickListener {
                     listFileInfo.add(new FileInfo(fileTemp.getName(), fileTemp));
                 }
             }
-            Collections.sort( listFileInfo );
+            Collections.sort(listFileInfo);
+            // CSVインポートモードの場合、ファイル名降順に
+            if (mode == MODE_IMPORT_CSV) {
+                Collections.reverse(listFileInfo);
+            }
         }
         // 親フォルダに戻るパスの追加
         if( null != fileDirectory.getParent() )

@@ -15,9 +15,13 @@ import net.in.ahr.dbms.data.strage.util.CSVParser;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
+import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.others.util.MyStrUtils;
+import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.FileInfo;
+import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.dialogs.FileInfoSelectionDialog;
 
 import java.io.BufferedWriter;
@@ -42,6 +46,8 @@ import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
 
 import net.in.ahr.dbms.others.AppConst.*;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by str2653z on 2016/03/16.
@@ -663,10 +669,15 @@ public class MusicMstMaintenance {
                                 }
                                 LogUtil.logDebug("MusicMst:" + music.getName() + "[" + music.getNha() + "] update finish!");
                             }
-
                         }
                     }
                 }
+
+                // 再検索通知
+                new SearchApplyEvent().start();
+
+                // プログレスバーを閉じる
+                new ProgresDialogDismissEvent().start();
 
                 Toast.makeText(context, "END import CSV to DB...", Toast.LENGTH_LONG).show();
                 LogUtil.logExiting();

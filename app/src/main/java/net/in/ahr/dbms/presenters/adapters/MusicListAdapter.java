@@ -207,7 +207,8 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
                 // 色設定
-                holder.clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#00ff00"));
+//                holder.clearLampView.setBackgroundColor(Color.parseColor("#00ff7f"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
 
                 // ランプ点滅停止
@@ -215,6 +216,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
             } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
                 // 色設定
+//                holder.clearLampView.setBackgroundColor(Color.parseColor("#ff0000"));
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#dc143c"));
                 holder.clearLampView.setTextColor(Color.parseColor("#dddddd"));
 
