@@ -1,12 +1,15 @@
 package net.in.ahr.dbms.presenters.activities;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,12 +37,14 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
+import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
+import net.in.ahr.dbms.others.events.musicList.ProgresDialogShowEvent;
 import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
@@ -85,12 +90,15 @@ public class MusicListActivity extends AppCompatActivity
 //            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
             setSupportActionBar(toolbar);
 
+
             // 以下エラー回避
             // Caused by: java.lang.NullPointerException: Attempt to invoke interface method 'android.view.View android.view.MenuItem.getActionView()' on a null object reference
             toolbar.inflateMenu(R.menu.menu_music);
 
 
 
+            // 自動CSVエクスポートサービス起動
+            scheduleService();
 
 
 
@@ -297,8 +305,8 @@ public class MusicListActivity extends AppCompatActivity
         // デフォルト英字
         searchView.setInputType(
                 InputType.TYPE_CLASS_TEXT
-              | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-              | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                        | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                        | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
@@ -369,8 +377,6 @@ public class MusicListActivity extends AppCompatActivity
             progressDialog.setMessage("しばらくお待ちください。");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMax(AppConst.MUSIC_MST_MIG_VER_CD_AFT_CNT_1);
-            progressDialog.show();
-
 
             // csvインポート処理呼び出し
             MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
@@ -570,7 +576,19 @@ public class MusicListActivity extends AppCompatActivity
 
         LogUtil.logExiting();
     }
+
+                progressDialog.show();
 */
+
+    @Subscribe
+    public void onEvent(ProgresDialogShowEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★ProgresDialogShowEvent★★★");
+
+        progressDialog.show();
+
+        LogUtil.logExiting();
+    }
 
     @Subscribe
     public void onEvent(ProgresDialogDismissEvent event) {
@@ -586,6 +604,31 @@ public class MusicListActivity extends AppCompatActivity
     // イベントハンドラの宣言。メインスレッド上で実行することを強制する場合
     public void onEventMainThread(CursorLoadedEvent event) {
 
+    }
+*/
+
+    /**
+     * 自動CSVエクスポートサービス起動
+     */
+    public void scheduleService() {
+        LogUtil.logEntering();
+
+        Context context = getBaseContext();
+        Intent intent = new Intent(context, ResultExportIntentService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, -1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // 1時間に1回実施
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * 60, pendingIntent);
+    }
+
+    /*
+    protected void cancelService(){
+        Context context = getBaseContext();
+        Intent intent = new Intent(context, ResultExportIntentService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, -1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 */
 }

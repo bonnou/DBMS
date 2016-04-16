@@ -16,6 +16,7 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
+import net.in.ahr.dbms.others.events.musicList.ProgresDialogShowEvent;
 import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.others.util.MyStrUtils;
@@ -388,7 +389,10 @@ public class MusicMstMaintenance {
             public void onFileSelect(File file) {
                 LogUtil.logEntering();
 
-                Toast.makeText(context, "BEGIN import CSV to DB...", Toast.LENGTH_LONG).show();
+                // プログレスバーを表示する
+                new ProgresDialogShowEvent().start();
+
+//                Toast.makeText(context, "BEGIN import CSV to DB...", Toast.LENGTH_LONG).show();
 
                 // csvを読み込み
                 CSVParser csvParser = new CSVParser();
