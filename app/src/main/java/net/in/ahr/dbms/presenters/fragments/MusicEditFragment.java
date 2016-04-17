@@ -141,6 +141,9 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
             resultExistFlg = false;
         }
 
+        // Spinner選択位置を初期化
+        selectedPosition = -1;
+
         // クリアランプの選択肢を設定（同時に残ゲージor到達ノーツ数ラベルも決定）
         clearLampSpinner = (Spinner) view.findViewById(R.id.musicEditFragment_clearLamp);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
@@ -161,7 +164,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
             }
         }
         if (selectedPosition == -1) {
-            selectedPosition = 0;
+         selectedPosition = 0;
         }
         clearLampSpinner.post(new Runnable() {
             public void run() {
@@ -169,6 +172,42 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
             }
         });
         clearLampSpinner.setAdapter(adapter);
+
+        // クリアランプの選択肢変更時の処理
+        clearLampSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            // アイテムが選択された時の動作
+            @Override
+            public void onItemSelected(AdapterView parent,View view, int position,long id) {
+                // Spinner を取得
+                Spinner spinner = (Spinner) parent;
+                // 選択されたアイテムのテキストを取得
+                String selectedClearLamp = spinner.getSelectedItem().toString();
+
+                // 選択肢に対応するラベルを「残ゲージor到達ノーツ数」ラベルに設定
+                String[] clearLumpValArr = AppConst.CLEAR_LUMP_VAL_ARR;
+                String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
+                String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY;
+                for (int i = 0; i < clearLumpValArr.length; i++) {
+                    if (clearLumpValArr[i].equals(selectedClearLamp)) {
+                        selectedPosition = i;
+                        remainingGaugeOrDeadNotesLabel = remainingGaugeOrDeadNotesLabelArr[i];
+                        break;
+                    }
+                }
+                remainingGaugeOrDeadNotesTextView.setText(
+                        Html.fromHtml(remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE));
+            }
+
+            // 何も選択されなかった時の動作
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+                // ありえない
+                // do nothing
+            }
+
+        });
+
 
         // Formオブジェクト保持、初期値設定（EXスコア）
         exScoreEditText = (EditText) view.findViewById(R.id.musicEditFragment_exScore);

@@ -32,14 +32,21 @@ import net.in.ahr.dbms.data.strage.util.AssetsImgUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.util.DbmsGreenDaoUtils;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import de.greenrobot.dao.query.Join;
+import de.greenrobot.dao.query.QueryBuilder;
+import de.greenrobot.dao.query.WhereCondition;
 import greendao.MusicMst;
 import greendao.MusicMstDao;
+import greendao.MusicResultDBHR;
+import greendao.MusicResultDBHRDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -539,7 +546,8 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences);
 
-        // 難易度の条件リストを作成
+        // 条件リストを作成
+        // 難易度
         List<String> difficultCondList = new ArrayList<String>();
         if ( dbmsSharedPreferences.getSearchConfDiff_10() ) {
             difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_10);
@@ -548,7 +556,157 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_11);
         }
 
-        // バージョンの条件リストを作成
+        // クリアランプ
+        boolean clearLampIsNullFlg = false;
+        List<String> clearLampCondList = new ArrayList<String>();
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY);
+            clearLampIsNullFlg = true;
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_FAILED() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_EASY_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_EASY_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_NORMAL_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_HARD_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_EXHARD_CLEAR() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_FULL_COMBO() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO);
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_PERFECT() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT);
+        }
+        // 全て選択されていない場合、絶対に条件を満たさない値を追加することで全非表示
+        if ( clearLampCondList.size() == 0 ) {
+            clearLampCondList.add(AppConst.CONST_NO_HIT_DUMMY_STRING);
+        }
+
+        // スコアランク
+        boolean scoreRankIsNullFlg = false;
+        List<String> scoreRankCondList = new ArrayList<String>();
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_AAA() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_AAA);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_AA() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_AA);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_A() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_A);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_B() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_B);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_C() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_C);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_D() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_D);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_E() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_E);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_F() ) {
+            scoreRankCondList.add(AppConst.MUSIC_MST_SCORE_RANK_VAL_F);
+        }
+        if ( dbmsSharedPreferences.getSearchConfScoreRank_NO_RANK() ) {
+            scoreRankIsNullFlg = true;
+        }
+        // 全て選択されていない場合、絶対に条件を満たさない値を追加することで全非表示
+        if ( scoreRankCondList.size() == 0 && !scoreRankIsNullFlg) {
+            scoreRankCondList.add(AppConst.CONST_NO_HIT_DUMMY_STRING);
+        }
+
+        // BPM範囲
+        int bpmRangeSelectedCnt = 0;
+        List<List<String>> bpmRangeCondAndListOrList = new ArrayList<List<String>>();
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_LLL_129() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 130 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_130_139()) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 130 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 140 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_140_149() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 140 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 150 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_150_159() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 150 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 160 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_160_169() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 160 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 170 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_170_179() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 170 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 180 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_180_189() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 180 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 190 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_190_199() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 190 ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " < 200 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_200_HHH() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " = " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " >= 200 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        if ( dbmsSharedPreferences.getSearchConfBpmRange_SOFLAN() ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " != " + MusicMstDao.Properties.BpmTo.columnName + " ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+        // 全て選択されていない場合、絶対に条件を満たさない値を追加することで全非表示
+        if ( bpmRangeCondAndListOrList.size() == 0 ) {
+            List<String> bpmRangeCondAndList = new ArrayList<String>();
+            bpmRangeCondAndList.add("T." + MusicMstDao.Properties.BpmFrom.columnName + " == 9999 ");
+            bpmRangeCondAndListOrList.add(bpmRangeCondAndList);
+        }
+
+        // バージョン
         List<String> versionCondList = new ArrayList<String>();
         if ( dbmsSharedPreferences.getSearchConfVersion_1st() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_1ST);
@@ -622,13 +780,145 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         if ( dbmsSharedPreferences.getSearchConfVersion_cop() ) {
             versionCondList.add(AppConst.MUSIC_MST_VERSION_VAL_COP);
         }
+        // 全て選択されていない場合、絶対に条件を満たさない値を追加することで全非表示
+        if ( versionCondList.size() == 0 ) {
+            versionCondList.add(AppConst.CONST_NO_HIT_DUMMY_STRING);
+        }
+
+        // 初回のみwhere、使用後は"and"を設定
+        String sqlWhereAnd = "where";
 
         // 検索
         MusicMstDao musicMstDao = getMusicMstDao(context);
-        List<MusicMst> musicMstList = musicMstDao.queryBuilder()
-                .where( MusicMstDao.Properties.Difficult.in(difficultCondList) )
-                .where(MusicMstDao.Properties.Version.in(versionCondList))
-                .list();
+        StringBuilder whereSb = new StringBuilder();
+
+        // 検索条件：難易度
+        String difficultCondStr = DbmsGreenDaoUtils.inStatementStr(difficultCondList);
+        if (difficultCondStr.length() > 0) {
+            whereSb.append(
+                    sqlWhereAnd + " T." + MusicMstDao.Properties.Difficult.columnName + " in(" + difficultCondStr + ") "
+            );
+            sqlWhereAnd = "and";
+        }
+
+        // 検索条件：クリアランプ
+        String clearLampCondStr = DbmsGreenDaoUtils.inStatementStr(clearLampCondList);
+        if (clearLampCondStr.length() > 0) {
+
+            whereSb.append(sqlWhereAnd);
+            // NO PLAYの場合は結合して値NULLの場合も対象（前かっこ結合）
+            if (clearLampIsNullFlg) {
+                whereSb.append("(");
+            }
+            whereSb.append(
+                    " T0." + MusicResultDBHRDao.Properties.ClearLamp.columnName + " in(" + clearLampCondStr + ") "
+            );
+            // NO PLAYの場合は結合して値NULLの場合も対象
+            if (clearLampIsNullFlg) {
+                whereSb.append(
+                        "or T0." + MusicResultDBHRDao.Properties.ClearLamp.columnName + " IS NULL) "
+                );
+            }
+            sqlWhereAnd = "and";
+        }
+
+        // 検索条件：スコアランク
+        String scoreRankCondStr = DbmsGreenDaoUtils.inStatementStr(scoreRankCondList);
+        if (scoreRankCondStr.length() > 0) {
+
+            whereSb.append(sqlWhereAnd);
+            // NO RANKの場合は結合して値NULLの場合も対象（前かっこ結合）
+            if (scoreRankIsNullFlg) {
+                whereSb.append("(");
+            }
+            whereSb.append(
+                    " T0." + MusicResultDBHRDao.Properties.ScoreRank.columnName + " in(" + scoreRankCondStr + ") "
+            );
+            // NO RANKの場合は結合して値NULLの場合も対象
+            if (scoreRankIsNullFlg) {
+                whereSb.append(
+                        "or T0." + MusicResultDBHRDao.Properties.ScoreRank.columnName + " IS NULL) "
+                );
+            }
+            sqlWhereAnd = "and";
+        }
+
+        // 検索条件：BPM範囲
+        if (bpmRangeCondAndListOrList.size() > 0) {
+
+            whereSb.append(sqlWhereAnd);
+            whereSb.append("(");
+
+            boolean firstCondListFlg = true;
+            for (List<String> bpmRangeCondAndList : bpmRangeCondAndListOrList) {
+
+                if (!firstCondListFlg) {
+                    whereSb.append("or ");
+                }
+                whereSb.append("(");
+
+                boolean firstCondFlg = true;
+                for (String bpmRangeCond : bpmRangeCondAndList) {
+
+                    if (!firstCondFlg) {
+                        whereSb.append("and ");
+                    }
+
+                    whereSb.append(bpmRangeCond);
+                    whereSb.append(" ");
+                    firstCondFlg = false;
+
+                }
+
+                whereSb.append(")");
+                firstCondListFlg = false;
+
+            }
+
+            whereSb.append(")");
+            sqlWhereAnd = "and";
+
+        }
+
+        // 検索条件：バージョン
+        String versionCondStr = DbmsGreenDaoUtils.inStatementStr(versionCondList);
+        if (versionCondStr.length() > 0) {
+            whereSb.append(
+                    sqlWhereAnd + " T." + MusicMstDao.Properties.Version.columnName + " in(" + versionCondStr + ") "
+            );
+            sqlWhereAnd = "and";
+        }
+
+        String whereStatement = whereSb.toString();
+        LogUtil.logDebug("■query:[SELECT T.*, T0.* FROM MUSIC_MST T LEFT JOIN MUSIC_RESULT_DBHR T0 ON T.'MUSIC_RESULT_ID_DBHR'=T0.'_id' " + whereStatement + ";]");
+
+        List<MusicMst> musicMstList = musicMstDao.queryDeep(whereStatement);
+/*
+
+                        musicMstDao
+        QueryBuilder<MusicMst> qb = musicMstDao.queryBuilder();
+        qb.where(MusicMstDao.Properties.Difficult.in(difficultCondList));
+        int bpmRangeIndex = 0;
+
+        while (bpmRangeIndex < bpmRangeSelectedCnt * 3) {
+            qb.or(
+                    qb.and(
+                            bpmRangeCondList.get(bpmRangeIndex++),
+                            bpmRangeCondList.get(bpmRangeIndex++),
+                            bpmRangeCondList.get(bpmRangeIndex++)
+                    )
+            );
+        }
+
+        qb.where(MusicMstDao.Properties.Version.in(versionCondList));
+/*
+        qb.join(MusicResultDBHR.class, MusicResultDBHRDao.Properties.Id);
+                .where(MusicResultDBHRDao.Properties.ClearLamp.in(clearLampCondList))
+                .where(MusicResultDBHRDao.Properties.ScoreRank.in(scoreRankCondList));
+
+
+        List<MusicMst> musicMstList = qb.list();
+*/
 
         // 検索結果を再設定
         this.setMusicList(musicMstList);

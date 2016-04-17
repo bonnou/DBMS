@@ -3,7 +3,7 @@ package net.in.ahr.dbms.others.util;
 /**
  * Created by str2653z on 2016/04/14.
  */
-public class MyStrUtils {
+public class DbmsStrUtils {
 
     /**
      * 文字列をint型に変換（出来ない場合は0に変換）

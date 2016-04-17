@@ -4,6 +4,11 @@
     <item android:title="WHERE : difficult">
         <menu>
             <item
+                android:id="@+id/nav_where_difficult_all_on_off"
+                android:title="　ALL ON/OFF"
+                android:state_selected="false"
+                />
+            <item
                 android:id="@+id/nav_where_difficult_10"
                 android:title="　　☆10"
                 android:state_selected="true"
@@ -15,8 +20,185 @@
                 />
         </menu>
     </item>
+    <item android:title="WHERE : clear lamp">
+        <menu>
+            <item
+                android:id="@+id/nav_where_clear_lamp_all_on_off"
+                android:title="　ALL ON/OFF"
+                android:state_selected="false"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_no_play"
+                android:title="　　NO PLAY"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_failed"
+                android:title="　　FAILED"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_assist_clear"
+                android:title="　　ASSIST CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_assist_easy_clear"
+                android:title="　　ASSIST EASY CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_easy_clear"
+                android:title="　　EASY CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_normal_clear"
+                android:title="　　NORMAL CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_hard_clear"
+                android:title="　　HARD CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_exhard_clear"
+                android:title="　　EXHARD CLEAR"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_full_combo"
+                android:title="　　FULL COMBO"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_clear_lamp_perfect"
+                android:title="　　PERFECT"
+                android:state_selected="true"
+                />
+        </menu>
+    </item>
+    <item android:title="WHERE : score rank">
+        <menu>
+            <item
+                android:id="@+id/nav_where_score_rank_all_on_off"
+                android:title="　ALL ON/OFF"
+                android:state_selected="false"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_aaa"
+                android:title="　　AAA"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_aa"
+                android:title="　　AA"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_a"
+                android:title="　　A"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_b"
+                android:title="　　B"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_c"
+                android:title="　　C"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_d"
+                android:title="　　D"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_e"
+                android:title="　　E"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_f"
+                android:title="　　F"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_score_rank_no_rank"
+                android:title="　　NO RANK"
+                android:state_selected="true"
+                />
+        </menu>
+    </item>
+    <item android:title="WHERE : bpm range">
+        <menu>
+            <item
+                android:id="@+id/nav_where_bpm_range_all_on_off"
+                android:title="　ALL ON/OFF"
+                android:state_selected="false"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_lll_129"
+                android:title="　　〜129"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_130_139"
+                android:title="　　130〜139"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_140_149"
+                android:title="　　140〜149"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_150_159"
+                android:title="　　150〜159"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_160_169"
+                android:title="　　160〜169"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_170_179"
+                android:title="　　170〜179"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_180_189"
+                android:title="　　180〜189"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_190_199"
+                android:title="　　190〜199"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_200_hhh"
+                android:title="　　200〜"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_where_bpm_range_soflan"
+                android:title="　　SOFT LANDING ON THE BODY"
+                android:state_selected="true"
+                />
+        </menu>
+    </item>
     <item android:title="WHERE : version">
         <menu>
+            <item
+                android:id="@+id/nav_where_version_all_on_off"
+                android:title="　ALL ON/OFF"
+                android:state_selected="false"
+                />
             <item
                 android:id="@+id/nav_where_version_1st"
                 android:title="　　1st style"

@@ -76,7 +76,7 @@ public class ResultExportIntentService extends IntentService {
             if (cnt < 10) {
                 cnt++;
             } else {
-                File delFile = new File(getApplicationContext().getFilesDir().getAbsolutePath() + deteleTargetFileName);
+                File delFile = new File(getApplicationContext().getFilesDir().getAbsolutePath() + AppConst.CONST_HALF_SLASH + deteleTargetFileName);
                 if (delFile.exists()) {
                     delFile.delete();
                     LogUtil.logDebug("■file delete success:" + delFile.getName());

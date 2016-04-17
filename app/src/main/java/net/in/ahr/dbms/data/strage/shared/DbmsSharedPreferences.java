@@ -26,6 +26,7 @@ public class DbmsSharedPreferences {
         editor = null;
     }
 
+
     // 検索条件: 難易度10
     public boolean getSearchConfDiff_10() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_10, true);
@@ -46,11 +47,304 @@ public class DbmsSharedPreferences {
         return this;
     }
 
+
+    // 検索条件: NO PLAY
+    public boolean getSearchConfClearLamp_NO_PLAY() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_NO_PLAY(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY, val);
+        return this;
+    }
+
+    // 検索条件: FAILED
+    public boolean getSearchConfClearLamp_FAILED() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_FAILED(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED, val);
+        return this;
+    }
+
+    // 検索条件: ASSIST CLEAR
+    public boolean getSearchConfClearLamp_ASSIST_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_ASSIST_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: ASSIST EASY CLEAR
+    public boolean getSearchConfClearLamp_ASSIST_EASY_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_ASSIST_EASY_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: EASY CLEAR
+    public boolean getSearchConfClearLamp_EASY_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EASY_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_EASY_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EASY_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: NORMAL CLEAR
+    public boolean getSearchConfClearLamp_NORMAL_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NORMAL_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_NORMAL_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NORMAL_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: HARD CLEAR
+    public boolean getSearchConfClearLamp_HARD_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_HARD_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_HARD_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_HARD_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: EXHARD CLEAR
+    public boolean getSearchConfClearLamp_EXHARD_CLEAR() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EXHARD_CLEAR, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_EXHARD_CLEAR(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EXHARD_CLEAR, val);
+        return this;
+    }
+
+    // 検索条件: FULL COMBO
+    public boolean getSearchConfClearLamp_FULL_COMBO() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FULL_COMBO, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_FULL_COMBO(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FULL_COMBO, val);
+        return this;
+    }
+
+    // 検索条件: PERFECT
+    public boolean getSearchConfClearLamp_PERFECT() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_PERFECT(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT, val);
+        return this;
+    }
+
+
+    // 検索条件: AAA
+    public boolean getSearchConfScoreRank_AAA() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_AAA(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA, val);
+        return this;
+    }
+
+    // 検索条件: AA
+    public boolean getSearchConfScoreRank_AA() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_AA(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA, val);
+        return this;
+    }
+
+    // 検索条件: A
+    public boolean getSearchConfScoreRank_A() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_A, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_A(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_A, val);
+        return this;
+    }
+
+    // 検索条件: B
+    public boolean getSearchConfScoreRank_B() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_B, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_B(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_B, val);
+        return this;
+    }
+
+    // 検索条件: C
+    public boolean getSearchConfScoreRank_C() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_C, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_C(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_C, val);
+        return this;
+    }
+
+    // 検索条件: D
+    public boolean getSearchConfScoreRank_D() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_D, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_D(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_D, val);
+        return this;
+    }
+
+    // 検索条件: E
+    public boolean getSearchConfScoreRank_E() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_E, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_E(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_E, val);
+        return this;
+    }
+
+    // 検索条件: F
+    public boolean getSearchConfScoreRank_F() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_F, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_F(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_F, val);
+        return this;
+    }
+
+    // 検索条件: NO RANK
+    public boolean getSearchConfScoreRank_NO_RANK() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfScoreRank_NO_RANK(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK, val);
+        return this;
+    }
+
+
+    // 検索条件: BPM LLL〜129
+    public boolean getSearchConfBpmRange_LLL_129() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_LLL_129(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129, val);
+        return this;
+    }
+
+    // 検索条件: BPM 130〜139
+    public boolean getSearchConfBpmRange_130_139() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_130_139(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139, val);
+        return this;
+    }
+
+    // 検索条件: BPM 140〜149
+    public boolean getSearchConfBpmRange_140_149() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_140_149, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_140_149(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_140_149, val);
+        return this;
+    }
+
+    // 検索条件: BPM 150〜159
+    public boolean getSearchConfBpmRange_150_159() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_150_159, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_150_159(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_150_159, val);
+        return this;
+    }
+
+    // 検索条件: BPM 160〜169
+    public boolean getSearchConfBpmRange_160_169() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_160_169, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_160_169(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_160_169, val);
+        return this;
+    }
+
+    // 検索条件: BPM 170〜179
+    public boolean getSearchConfBpmRange_170_179() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_170_179, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_170_179(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_170_179, val);
+        return this;
+    }
+
+    // 検索条件: BPM 180〜189
+    public boolean getSearchConfBpmRange_180_189() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_180_189, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_180_189(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_180_189, val);
+        return this;
+    }
+
+    // 検索条件: BPM 190〜199
+    public boolean getSearchConfBpmRange_190_199() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_190_199, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_190_199(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_190_199, val);
+        return this;
+    }
+
+    // 検索条件: BPM 200〜
+    public boolean getSearchConfBpmRange_200_HHH() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_200_HHH, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_200_HHH(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_200_HHH, val);
+        return this;
+    }
+
+    // 検索条件: ソフラン曲
+    public boolean getSearchConfBpmRange_SOFLAN() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfBpmRange_SOFLAN(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN, val);
+        return this;
+    }
+
+
     // 検索条件: 1st style
     public boolean getSearchConfVersion_1st() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_1ST, true);
     }
-
 
     public DbmsSharedPreferences putSearchConfVersion_1st(boolean searchConfVersion_1st) {
         editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_VERSION_1ST, searchConfVersion_1st);

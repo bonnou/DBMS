@@ -95,16 +95,16 @@ public class AppConst {
     /*********************************************************************************
      * クリアランプ
      *********************************************************************************/
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY= "NO PLAY";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAILED = "FAILED";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR = "ASSIST CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY           = "NO PLAY";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAILED            = "FAILED";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR      = "ASSIST CLEAR";
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR = "ASSIST EASY CLEAR";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR = "EASY CLEAR";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR = "NORMAL CLEAR";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR = "HARD CLEAR";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR = "EXHARD CLEAR";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO = "FULL COMBO";
-    public static final String MUSIC_MST_CLEAR_LAMP_VAL_PERFECT = "PERFECT";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR        = "EASY CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR      = "NORMAL CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR        = "HARD CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR      = "EXHARD CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO        = "FULL COMBO";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_PERFECT           = "PERFECT";
 
     public static final String[] CLEAR_LUMP_VAL_ARR = {
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY,
@@ -252,10 +252,55 @@ public class AppConst {
     }
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）
+     * SharedPreferencesキー（WHERE／ORDER BY）：難易度
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_DIFFICULT_10 = "SHARED_KEY_SEARCH_CONF_DIFF_10";
     public static final String SHARED_KEY_SEARCH_CONF_DIFFICULT_11 = "SHARED_KEY_SEARCH_CONF_DIFF_11";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（WHERE／ORDER BY）：クリアランプ
+     *********************************************************************************/
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY           = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED            = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR      = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EASY_CLEAR        = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EASY_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NORMAL_CLEAR      = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NORMAL_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_HARD_CLEAR        = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_HARD_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EXHARD_CLEAR      = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_EXHARD_CLEAR";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FULL_COMBO        = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FULL_COMBO";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT           = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（WHERE／ORDER BY）：スコアランク
+     *********************************************************************************/
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA     = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA      = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_A       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_A";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_B       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_B";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_C       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_C";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_D       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_D";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_E       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_E";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_F       = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_F";
+    public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（WHERE／ORDER BY）：BPM範囲
+     *********************************************************************************/
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_140_149 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_140_149";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_150_159 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_150_159";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_160_169 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_160_169";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_170_179 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_170_179";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_180_189 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_180_189";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_190_199 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_190_199";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_200_HHH = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_200_HHH";
+    public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN  = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（WHERE／ORDER BY）：バージョン
+     *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_1ST  = "SHARED_KEY_SEARCH_CONF_VERSION_1ST";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_SUB  = "SHARED_KEY_SEARCH_CONF_VERSION_SUB";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_2ND  = "SHARED_KEY_SEARCH_CONF_VERSION_2ND";
@@ -426,5 +471,9 @@ public class AppConst {
     public static final String CONST_HALF_COLON = ":";
     public static final String CONST_HALF_SPACE = " ";
     public static final String CONST_HALF_SLASH = "/";
+    public static final String CONST_HALF_QUOTE = "'";
+    public static final String CONST_HALF_COMMA = ",";
+
+    public static final String CONST_NO_HIT_DUMMY_STRING = "CONST_NO_HIT_DUMMY_STRING";
 
 }

@@ -24,6 +24,8 @@
         app:headerLayout="@layout/nav_header_music_list"
         app:menu="@menu/activity_music_list_drawer"
         app:theme="@style/musicListDrawerStyle"
+        app:itemTextColor="@color/nav_view_item_background"
         />
+<!--         app:itemBackground="@color/nav_view_item_background" -->
 
 </android.support.v4.widget.DrawerLayout>

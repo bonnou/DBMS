@@ -72,6 +72,71 @@ public class MusicListActivity extends AppCompatActivity
     /** プログレスバー */
     private ProgressDialog progressDialog;
 
+    // 難易度
+    MenuItem item_nav_where_difficult_10;
+    MenuItem item_nav_where_difficult_11;
+
+    // クリアランプ
+    MenuItem item_nav_where_clear_lamp_no_play;
+    MenuItem item_nav_where_clear_lamp_failed;
+    MenuItem item_nav_where_clear_lamp_assist_clear;
+    MenuItem item_nav_where_clear_lamp_assist_easy_clear;
+    MenuItem item_nav_where_clear_lamp_easy_clear;
+    MenuItem item_nav_where_clear_lamp_normal_clear;
+    MenuItem item_nav_where_clear_lamp_hard_clear;
+    MenuItem item_nav_where_clear_lamp_exhard_clear;
+    MenuItem item_nav_where_clear_lamp_full_combo;
+    MenuItem item_nav_where_clear_lamp_perfect;
+
+    // スコアランク
+    MenuItem item_nav_where_score_rank_aaa;
+    MenuItem item_nav_where_score_rank_aa;
+    MenuItem item_nav_where_score_rank_a;
+    MenuItem item_nav_where_score_rank_b;
+    MenuItem item_nav_where_score_rank_c;
+    MenuItem item_nav_where_score_rank_d;
+    MenuItem item_nav_where_score_rank_e;
+    MenuItem item_nav_where_score_rank_f;
+    MenuItem item_nav_where_score_rank_no_rank;
+
+    // BPM範囲
+    MenuItem item_nav_where_bpm_range_lll_129;
+    MenuItem item_nav_where_bpm_range_130_139;
+    MenuItem item_nav_where_bpm_range_140_149;
+    MenuItem item_nav_where_bpm_range_150_159;
+    MenuItem item_nav_where_bpm_range_160_169;
+    MenuItem item_nav_where_bpm_range_170_179;
+    MenuItem item_nav_where_bpm_range_180_189;
+    MenuItem item_nav_where_bpm_range_190_199;
+    MenuItem item_nav_where_bpm_range_200_hhh;
+    MenuItem item_nav_where_bpm_range_soflan;
+
+    // バージョン
+    MenuItem item_nav_where_version_1st;
+    MenuItem item_nav_where_version_sub;
+    MenuItem item_nav_where_version_2nd;
+    MenuItem item_nav_where_version_3rd;
+    MenuItem item_nav_where_version_4th;
+    MenuItem item_nav_where_version_5th;
+    MenuItem item_nav_where_version_6th;
+    MenuItem item_nav_where_version_7th;
+    MenuItem item_nav_where_version_8th;
+    MenuItem item_nav_where_version_9th;
+    MenuItem item_nav_where_version_10th;
+    MenuItem item_nav_where_version_RED;
+    MenuItem item_nav_where_version_SKY;
+    MenuItem item_nav_where_version_DD;
+    MenuItem item_nav_where_version_GOLD;
+    MenuItem item_nav_where_version_DJT;
+    MenuItem item_nav_where_version_EMP;
+    MenuItem item_nav_where_version_SIR;
+    MenuItem item_nav_where_version_RA;
+    MenuItem item_nav_where_version_LC;
+    MenuItem item_nav_where_version_tri;
+    MenuItem item_nav_where_version_SPA;
+    MenuItem item_nav_where_version_PEN;
+    MenuItem item_nav_where_version_cop;
+
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
@@ -128,82 +193,234 @@ public class MusicListActivity extends AppCompatActivity
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
 
-            navigationView.getMenu().findItem(R.id.nav_where_difficult_10).setChecked(
+            // 難易度
+            item_nav_where_difficult_10 = navigationView.getMenu().findItem(R.id.nav_where_difficult_10);
+            item_nav_where_difficult_10.setChecked(
                     dbmsSharedPreferences.getSearchConfDiff_10()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_difficult_11).setChecked(
+
+            item_nav_where_difficult_11 = navigationView.getMenu().findItem(R.id.nav_where_difficult_11);
+            item_nav_where_difficult_11.setChecked(
                     dbmsSharedPreferences.getSearchConfDiff_11()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_1st).setChecked(
+
+            // クリアランプ
+            item_nav_where_clear_lamp_no_play = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_no_play);
+            item_nav_where_clear_lamp_no_play.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY()
+            );
+            item_nav_where_clear_lamp_failed = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_failed);
+            item_nav_where_clear_lamp_failed.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_FAILED()
+            );
+            item_nav_where_clear_lamp_assist_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_assist_clear);
+            item_nav_where_clear_lamp_assist_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_EASY_CLEAR()
+            );
+            item_nav_where_clear_lamp_assist_easy_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_assist_easy_clear);
+            item_nav_where_clear_lamp_assist_easy_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_CLEAR()
+            );
+            item_nav_where_clear_lamp_easy_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_easy_clear);
+            item_nav_where_clear_lamp_easy_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_EASY_CLEAR()
+            );
+            item_nav_where_clear_lamp_normal_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_normal_clear);
+            item_nav_where_clear_lamp_normal_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_NORMAL_CLEAR()
+            );
+            item_nav_where_clear_lamp_hard_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_hard_clear);
+            item_nav_where_clear_lamp_hard_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_HARD_CLEAR()
+            );
+            item_nav_where_clear_lamp_exhard_clear = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_exhard_clear);
+            item_nav_where_clear_lamp_exhard_clear.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_EXHARD_CLEAR()
+            );
+            item_nav_where_clear_lamp_full_combo = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_full_combo);
+            item_nav_where_clear_lamp_full_combo.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_FULL_COMBO()
+            );
+            item_nav_where_clear_lamp_perfect = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_perfect);
+            item_nav_where_clear_lamp_perfect.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_PERFECT()
+            );
+
+            // スコアランク
+            item_nav_where_score_rank_aaa = navigationView.getMenu().findItem(R.id.nav_where_score_rank_aaa);
+            item_nav_where_score_rank_aaa.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_AAA()
+            );
+            item_nav_where_score_rank_aa = navigationView.getMenu().findItem(R.id.nav_where_score_rank_aa);
+            item_nav_where_score_rank_aa.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_AA()
+            );
+            item_nav_where_score_rank_a = navigationView.getMenu().findItem(R.id.nav_where_score_rank_a);
+            item_nav_where_score_rank_a.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_A()
+            );
+            item_nav_where_score_rank_b = navigationView.getMenu().findItem(R.id.nav_where_score_rank_b);
+            item_nav_where_score_rank_b.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_B()
+            );
+            item_nav_where_score_rank_c = navigationView.getMenu().findItem(R.id.nav_where_score_rank_c);
+            item_nav_where_score_rank_c.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_C()
+            );
+            item_nav_where_score_rank_d = navigationView.getMenu().findItem(R.id.nav_where_score_rank_d);
+            item_nav_where_score_rank_d.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_D()
+            );
+            item_nav_where_score_rank_e = navigationView.getMenu().findItem(R.id.nav_where_score_rank_e);
+            item_nav_where_score_rank_e.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_E()
+            );
+            item_nav_where_score_rank_f = navigationView.getMenu().findItem(R.id.nav_where_score_rank_f);
+            item_nav_where_score_rank_f.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_F()
+            );
+            item_nav_where_score_rank_no_rank = navigationView.getMenu().findItem(R.id.nav_where_score_rank_no_rank);
+            item_nav_where_score_rank_no_rank.setChecked(
+                    dbmsSharedPreferences.getSearchConfScoreRank_NO_RANK()
+            );
+
+            // BPM範囲
+            item_nav_where_bpm_range_lll_129 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_lll_129);
+            item_nav_where_bpm_range_lll_129.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_LLL_129()
+            );
+            item_nav_where_bpm_range_130_139 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_130_139);
+            item_nav_where_bpm_range_130_139.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_130_139()
+            );
+            item_nav_where_bpm_range_140_149 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_140_149);
+            item_nav_where_bpm_range_140_149.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_140_149()
+            );
+            item_nav_where_bpm_range_150_159 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_150_159);
+            item_nav_where_bpm_range_150_159.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_150_159()
+            );
+            item_nav_where_bpm_range_160_169 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_160_169);
+            item_nav_where_bpm_range_160_169.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_160_169()
+            );
+            item_nav_where_bpm_range_170_179 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_170_179);
+            item_nav_where_bpm_range_170_179.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_170_179()
+            );
+            item_nav_where_bpm_range_180_189 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_180_189);
+            item_nav_where_bpm_range_180_189.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_180_189()
+            );
+            item_nav_where_bpm_range_190_199 = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_190_199);
+            item_nav_where_bpm_range_190_199.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_190_199()
+            );
+            item_nav_where_bpm_range_200_hhh = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_200_hhh);
+            item_nav_where_bpm_range_200_hhh.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_200_HHH()
+            );
+            item_nav_where_bpm_range_soflan = navigationView.getMenu().findItem(R.id.nav_where_bpm_range_soflan);
+            item_nav_where_bpm_range_soflan.setChecked(
+                    dbmsSharedPreferences.getSearchConfBpmRange_SOFLAN()
+            );
+
+            // バージョン
+            item_nav_where_version_1st = navigationView.getMenu().findItem(R.id.nav_where_version_1st);
+            item_nav_where_version_1st.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_1st()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_sub).setChecked(
+            item_nav_where_version_sub = navigationView.getMenu().findItem(R.id.nav_where_version_sub);
+            item_nav_where_version_sub.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_sub()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_2nd).setChecked(
+            item_nav_where_version_2nd = navigationView.getMenu().findItem(R.id.nav_where_version_2nd);
+            item_nav_where_version_2nd.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_2nd()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_3rd).setChecked(
+            item_nav_where_version_3rd = navigationView.getMenu().findItem(R.id.nav_where_version_3rd);
+            item_nav_where_version_3rd.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_3rd()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_4th).setChecked(
+            item_nav_where_version_4th = navigationView.getMenu().findItem(R.id.nav_where_version_4th);
+            item_nav_where_version_4th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_4th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_5th).setChecked(
+            item_nav_where_version_5th = navigationView.getMenu().findItem(R.id.nav_where_version_5th);
+            item_nav_where_version_5th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_5th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_6th).setChecked(
+            item_nav_where_version_6th = navigationView.getMenu().findItem(R.id.nav_where_version_6th);
+            item_nav_where_version_6th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_6th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_7th).setChecked(
+            item_nav_where_version_7th = navigationView.getMenu().findItem(R.id.nav_where_version_7th);
+            item_nav_where_version_7th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_7th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_8th).setChecked(
+            item_nav_where_version_8th = navigationView.getMenu().findItem(R.id.nav_where_version_8th);
+            item_nav_where_version_8th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_8th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_9th).setChecked(
+            item_nav_where_version_9th = navigationView.getMenu().findItem(R.id.nav_where_version_9th);
+            item_nav_where_version_9th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_9th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_10th).setChecked(
+            item_nav_where_version_10th = navigationView.getMenu().findItem(R.id.nav_where_version_10th);
+            item_nav_where_version_10th.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_10th()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_RED).setChecked(
+            item_nav_where_version_RED = navigationView.getMenu().findItem(R.id.nav_where_version_RED);
+            item_nav_where_version_RED.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_RED()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_SKY).setChecked(
+            item_nav_where_version_SKY = navigationView.getMenu().findItem(R.id.nav_where_version_SKY);
+            item_nav_where_version_SKY.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_SKY()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_DD).setChecked(
+            item_nav_where_version_DD = navigationView.getMenu().findItem(R.id.nav_where_version_DD);
+            item_nav_where_version_DD.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_DD()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_GOLD).setChecked(
+            item_nav_where_version_GOLD = navigationView.getMenu().findItem(R.id.nav_where_version_GOLD);
+            item_nav_where_version_GOLD.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_GOLD()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_DJT).setChecked(
+            item_nav_where_version_DJT = navigationView.getMenu().findItem(R.id.nav_where_version_DJT);
+            item_nav_where_version_DJT.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_DJT()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_EMP).setChecked(
+            item_nav_where_version_EMP = navigationView.getMenu().findItem(R.id.nav_where_version_EMP);
+            item_nav_where_version_EMP.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_EMP()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_SIR).setChecked(
+            item_nav_where_version_SIR = navigationView.getMenu().findItem(R.id.nav_where_version_SIR);
+            item_nav_where_version_SIR.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_SIR()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_RA).setChecked(
+            item_nav_where_version_RA = navigationView.getMenu().findItem(R.id.nav_where_version_RA);
+            item_nav_where_version_RA.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_RA()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_LC).setChecked(
+            item_nav_where_version_LC = navigationView.getMenu().findItem(R.id.nav_where_version_LC);
+            item_nav_where_version_LC.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_LC()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_tri).setChecked(
+            item_nav_where_version_tri = navigationView.getMenu().findItem(R.id.nav_where_version_tri);
+            item_nav_where_version_tri.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_tri()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_SPA).setChecked(
+            item_nav_where_version_SPA = navigationView.getMenu().findItem(R.id.nav_where_version_SPA);
+            item_nav_where_version_SPA.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_SPA()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_PEN).setChecked(
+            item_nav_where_version_PEN = navigationView.getMenu().findItem(R.id.nav_where_version_PEN);
+            item_nav_where_version_PEN.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_PEN()
             );
-            navigationView.getMenu().findItem(R.id.nav_where_version_cop).setChecked(
+            item_nav_where_version_cop = navigationView.getMenu().findItem(R.id.nav_where_version_cop);
+            item_nav_where_version_cop.setChecked(
                     dbmsSharedPreferences.getSearchConfVersion_cop()
             );
 
@@ -429,10 +646,31 @@ public class MusicListActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
 
+        // メニュー取得
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         int id = item.getItemId();
 
         // TODO: リフレクション
-        if (id == R.id.nav_where_difficult_10) {
+        // 難易度
+        if (id == R.id.nav_where_difficult_all_on_off) {
+            // 1つでもOFFのものがあれば全てONに設定
+            // そうでなければ全てOFFに設定
+            if (
+                    dbmsSharedPreferences.getSearchConfDiff_10()
+                 && dbmsSharedPreferences.getSearchConfDiff_11()
+            ) {
+                item_nav_where_difficult_10.setChecked(false);
+                dbmsSharedPreferences.putSearchConfDiff_10(false);
+                item_nav_where_difficult_11.setChecked(false);
+                dbmsSharedPreferences.putSearchConfDiff_11(false);
+            } else {
+                item_nav_where_difficult_10.setChecked(true);
+                dbmsSharedPreferences.putSearchConfDiff_10(true);
+                item_nav_where_difficult_11.setChecked(true);
+                dbmsSharedPreferences.putSearchConfDiff_11(true);
+            }
+        } else if (id == R.id.nav_where_difficult_10) {
             item.setChecked(!item.isChecked());
             dbmsSharedPreferences.putSearchConfDiff_10(item.isChecked());
 
@@ -442,6 +680,430 @@ public class MusicListActivity extends AppCompatActivity
 
         }
 
+        // クリアランプ
+        if (id == R.id.nav_where_clear_lamp_all_on_off) {
+            // 1つでもOFFのものがあれば全てONに設定
+            // そうでなければ全てOFFに設定
+            if (
+                    dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_FAILED()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_EASY_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_EASY_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_NORMAL_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_HARD_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_EXHARD_CLEAR()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_FULL_COMBO()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_EXHARD_CLEAR()
+            ) {
+                item_nav_where_clear_lamp_no_play.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(false);
+                item_nav_where_clear_lamp_failed.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_FAILED(false);
+                item_nav_where_clear_lamp_assist_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_CLEAR(false);
+                item_nav_where_clear_lamp_assist_easy_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_EASY_CLEAR(false);
+                item_nav_where_clear_lamp_easy_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_EASY_CLEAR(false);
+                item_nav_where_clear_lamp_normal_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_NORMAL_CLEAR(false);
+                item_nav_where_clear_lamp_hard_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_HARD_CLEAR(false);
+                item_nav_where_clear_lamp_exhard_clear.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(false);
+                item_nav_where_clear_lamp_full_combo.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_FULL_COMBO(false);
+                item_nav_where_clear_lamp_perfect.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(false);
+            } else {
+                item_nav_where_clear_lamp_no_play.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(true);
+                item_nav_where_clear_lamp_failed.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_FAILED(true);
+                item_nav_where_clear_lamp_assist_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_CLEAR(true);
+                item_nav_where_clear_lamp_assist_easy_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_EASY_CLEAR(true);
+                item_nav_where_clear_lamp_easy_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_EASY_CLEAR(true);
+                item_nav_where_clear_lamp_normal_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_NORMAL_CLEAR(true);
+                item_nav_where_clear_lamp_hard_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_HARD_CLEAR(true);
+                item_nav_where_clear_lamp_exhard_clear.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(true);
+                item_nav_where_clear_lamp_full_combo.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_FULL_COMBO(true);
+                item_nav_where_clear_lamp_perfect.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(true);
+            }
+
+        } else if (id == R.id.nav_where_clear_lamp_no_play) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_failed) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_FAILED(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_assist_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_EASY_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_assist_easy_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_easy_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_EASY_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_normal_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_NORMAL_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_hard_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_HARD_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_exhard_clear) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_full_combo) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_FULL_COMBO(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_perfect) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(item.isChecked());
+
+        }
+
+        // スコアランク
+        if (id == R.id.nav_where_score_rank_all_on_off) {
+            // 1つでもOFFのものがあれば全てONに設定
+            // そうでなければ全てOFFに設定
+            if (
+                    dbmsSharedPreferences.getSearchConfScoreRank_AAA()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_AA()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_A()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_B()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_C()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_D()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_E()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_F()
+                 && dbmsSharedPreferences.getSearchConfScoreRank_NO_RANK()
+            ) {
+                // 画面上の選択状態、SharedPreferencesの設定をまとめてに設定
+                item_nav_where_score_rank_aaa.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_AAA(false);
+                item_nav_where_score_rank_aa.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_AA(false);
+                item_nav_where_score_rank_a.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_A(false);
+                item_nav_where_score_rank_b.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_B(false);
+                item_nav_where_score_rank_c.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_C(false);
+                item_nav_where_score_rank_d.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_D(false);
+                item_nav_where_score_rank_e.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_E(false);
+                item_nav_where_score_rank_f.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_F(false);
+                item_nav_where_score_rank_no_rank.setChecked(false);
+                dbmsSharedPreferences.putSearchConfScoreRank_NO_RANK(false);
+            } else {
+                item_nav_where_score_rank_aaa.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_AAA(true);
+                item_nav_where_score_rank_aa.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_AA(true);
+                item_nav_where_score_rank_a.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_A(true);
+                item_nav_where_score_rank_b.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_B(true);
+                item_nav_where_score_rank_c.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_C(true);
+                item_nav_where_score_rank_d.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_D(true);
+                item_nav_where_score_rank_e.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_E(true);
+                item_nav_where_score_rank_f.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_F(true);
+                item_nav_where_score_rank_no_rank.setChecked(true);
+                dbmsSharedPreferences.putSearchConfScoreRank_NO_RANK(true);
+            }
+
+        } else if (id == R.id.nav_where_score_rank_aaa) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_AAA(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_aa) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_AA(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_a) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_A(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_b) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_B(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_c) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_C(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_d) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_D(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_e) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_E(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_f) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_F(item.isChecked());
+
+        } else if (id == R.id.nav_where_score_rank_no_rank) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfScoreRank_NO_RANK(item.isChecked());
+
+        }
+
+        // BPM範囲
+        if (id == R.id.nav_where_bpm_range_all_on_off) {
+            // 1つでもOFFのものがあれば全てONに設定
+            // そうでなければ全てOFFに設定
+            if (
+                    dbmsSharedPreferences.getSearchConfBpmRange_LLL_129()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_130_139()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_140_149()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_150_159()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_160_169()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_170_179()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_180_189()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_190_199()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_200_HHH()
+                 && dbmsSharedPreferences.getSearchConfBpmRange_SOFLAN()
+                    ) {
+                item_nav_where_bpm_range_lll_129.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_LLL_129(false);
+                item_nav_where_bpm_range_130_139.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_130_139(false);
+                item_nav_where_bpm_range_140_149.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_140_149(false);
+                item_nav_where_bpm_range_150_159.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_150_159(false);
+                item_nav_where_bpm_range_160_169.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_160_169(false);
+                item_nav_where_bpm_range_170_179.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_170_179(false);
+                item_nav_where_bpm_range_180_189.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_180_189(false);
+                item_nav_where_bpm_range_190_199.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_190_199(false);
+                item_nav_where_bpm_range_200_hhh.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_200_HHH(false);
+                item_nav_where_bpm_range_soflan.setChecked(false);
+                dbmsSharedPreferences.putSearchConfBpmRange_SOFLAN(false);
+            } else {
+                item_nav_where_bpm_range_lll_129.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_LLL_129(true);
+                item_nav_where_bpm_range_130_139.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_130_139(true);
+                item_nav_where_bpm_range_140_149.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_140_149(true);
+                item_nav_where_bpm_range_150_159.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_150_159(true);
+                item_nav_where_bpm_range_160_169.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_160_169(true);
+                item_nav_where_bpm_range_170_179.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_170_179(true);
+                item_nav_where_bpm_range_180_189.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_180_189(true);
+                item_nav_where_bpm_range_190_199.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_190_199(true);
+                item_nav_where_bpm_range_200_hhh.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_200_HHH(true);
+                item_nav_where_bpm_range_soflan.setChecked(true);
+                dbmsSharedPreferences.putSearchConfBpmRange_SOFLAN(true);
+            }
+
+        } else if (id == R.id.nav_where_bpm_range_lll_129) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_LLL_129(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_130_139) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_130_139(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_140_149) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_140_149(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_150_159) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_150_159(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_160_169) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_160_169(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_170_179) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_170_179(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_180_189) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_180_189(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_190_199) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_190_199(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_200_hhh) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_200_HHH(item.isChecked());
+
+        } else if (id == R.id.nav_where_bpm_range_soflan) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfBpmRange_SOFLAN(item.isChecked());
+
+        }
+
+        // バージョン
+        if (id == R.id.nav_where_version_all_on_off) {
+            // 1つでもOFFのものがあれば全てONに設定
+            // そうでなければ全てOFFに設定
+            if (
+                    dbmsSharedPreferences.getSearchConfVersion_1st()
+                 && dbmsSharedPreferences.getSearchConfVersion_sub()
+                 && dbmsSharedPreferences.getSearchConfVersion_2nd()
+                 && dbmsSharedPreferences.getSearchConfVersion_3rd()
+                 && dbmsSharedPreferences.getSearchConfVersion_4th()
+                 && dbmsSharedPreferences.getSearchConfVersion_5th()
+                 && dbmsSharedPreferences.getSearchConfVersion_6th()
+                 && dbmsSharedPreferences.getSearchConfVersion_7th()
+                 && dbmsSharedPreferences.getSearchConfVersion_8th()
+                 && dbmsSharedPreferences.getSearchConfVersion_9th()
+                 && dbmsSharedPreferences.getSearchConfVersion_10th()
+                 && dbmsSharedPreferences.getSearchConfVersion_RED()
+                 && dbmsSharedPreferences.getSearchConfVersion_SKY()
+                 && dbmsSharedPreferences.getSearchConfVersion_DD()
+                 && dbmsSharedPreferences.getSearchConfVersion_GOLD()
+                 && dbmsSharedPreferences.getSearchConfVersion_DJT()
+                 && dbmsSharedPreferences.getSearchConfVersion_EMP()
+                 && dbmsSharedPreferences.getSearchConfVersion_SIR()
+                 && dbmsSharedPreferences.getSearchConfVersion_RA()
+                 && dbmsSharedPreferences.getSearchConfVersion_LC()
+                 && dbmsSharedPreferences.getSearchConfVersion_tri()
+                 && dbmsSharedPreferences.getSearchConfVersion_SPA()
+                 && dbmsSharedPreferences.getSearchConfVersion_PEN()
+                 && dbmsSharedPreferences.getSearchConfVersion_cop()
+                    ) {
+                item_nav_where_version_1st.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_1st(false);
+                item_nav_where_version_sub.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_sub(false);
+                item_nav_where_version_2nd.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_2nd(false);
+                item_nav_where_version_3rd.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_3rd(false);
+                item_nav_where_version_4th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_4th(false);
+                item_nav_where_version_5th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_5th(false);
+                item_nav_where_version_6th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_6th(false);
+                item_nav_where_version_7th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_7th(false);
+                item_nav_where_version_8th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_8th(false);
+                item_nav_where_version_9th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_9th(false);
+                item_nav_where_version_10th.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_10th(false);
+                item_nav_where_version_RED.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_RED(false);
+                item_nav_where_version_SKY.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_SKY(false);
+                item_nav_where_version_DD.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_DD(false);
+                item_nav_where_version_GOLD.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_GOLD(false);
+                item_nav_where_version_DJT.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_DJT(false);
+                item_nav_where_version_EMP.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_EMP(false);
+                item_nav_where_version_SIR.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_SIR(false);
+                item_nav_where_version_RA.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_RA(false);
+                item_nav_where_version_LC.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_LC(false);
+                item_nav_where_version_tri.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_tri(false);
+                item_nav_where_version_SPA.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_SPA(false);
+                item_nav_where_version_PEN.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_PEN(false);
+                item_nav_where_version_cop.setChecked(false);
+                dbmsSharedPreferences.putSearchConfVersion_cop(false);
+            } else {
+                item_nav_where_version_1st.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_1st(true);
+                item_nav_where_version_sub.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_sub(true);
+                item_nav_where_version_2nd.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_2nd(true);
+                item_nav_where_version_3rd.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_3rd(true);
+                item_nav_where_version_4th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_4th(true);
+                item_nav_where_version_5th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_5th(true);
+                item_nav_where_version_6th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_6th(true);
+                item_nav_where_version_7th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_7th(true);
+                item_nav_where_version_8th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_8th(true);
+                item_nav_where_version_9th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_9th(true);
+                item_nav_where_version_10th.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_10th(true);
+                item_nav_where_version_RED.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_RED(true);
+                item_nav_where_version_SKY.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_SKY(true);
+                item_nav_where_version_DD.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_DD(true);
+                item_nav_where_version_GOLD.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_GOLD(true);
+                item_nav_where_version_DJT.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_DJT(true);
+                item_nav_where_version_EMP.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_EMP(true);
+                item_nav_where_version_SIR.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_SIR(true);
+                item_nav_where_version_RA.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_RA(true);
+                item_nav_where_version_LC.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_LC(true);
+                item_nav_where_version_tri.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_tri(true);
+                item_nav_where_version_SPA.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_SPA(true);
+                item_nav_where_version_PEN.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_PEN(true);
+                item_nav_where_version_cop.setChecked(true);
+                dbmsSharedPreferences.putSearchConfVersion_cop(true);
+            }
+        }
         Map<Integer, String> versionIdValMap = AppConst.getVersionIdValMap();
         for (Map.Entry<Integer, String> versionIdValMapEntry : versionIdValMap.entrySet()) {
             if ( id == versionIdValMapEntry.getKey() ) {

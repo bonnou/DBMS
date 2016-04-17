@@ -18,6 +18,7 @@ import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
@@ -140,6 +141,7 @@ public class GSSImport {
                             if (resultDBHR == null) {
                                 resultDBHR = new MusicResultDBHR();
                                 resultDBHR.setId(music.getId());
+                                music.setMusicResultIdDBHR(music.getId());
                             }
 
                             resultDBHR.setClearLamp(sheetMusicDbhrClearLamp);
@@ -178,6 +180,9 @@ public class GSSImport {
                 }
             }
 
+            // 再検索通知
+            new SearchApplyEvent().start();
+/*
             // UIスレッドでリストビュー再描画
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -193,6 +198,7 @@ public class GSSImport {
                     Toast.makeText(GSSImport.activity, "END import from Google Spread Sheet...", Toast.LENGTH_LONG).show();
                 }
             });
+*/
 
         } catch (IOException ioe) {
             ioe.printStackTrace();

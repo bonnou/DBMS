@@ -17,6 +17,8 @@
     <style name="musicListDrawerStyle">
         <item name="android:textSize">14sp</item> <!-- menu item text size-->
         <item name="listPreferredItemHeightSmall">30dp</item><!-- menu item height-->
+        <item name="android:textColor">#cc0000</item><!-- menu item height-->
+        <item name="android:itemBackground">#ffcccc</item><!-- menu item height-->
     </style>
 
 </resources>
