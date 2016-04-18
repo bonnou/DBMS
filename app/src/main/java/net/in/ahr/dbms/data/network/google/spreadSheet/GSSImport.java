@@ -57,6 +57,9 @@ public class GSSImport {
         try {
             SpreadsheetService service = gSSUtil.getService();
 
+            // 登録日時・更新日時
+            java.util.Date nowDate = new java.util.Date();
+
             // スプレッドシート取得
             SpreadsheetEntry ssEntry = gSSUtil.findSpreadsheetByName(service, ssName);
             WorksheetEntry wsEntry = gSSUtil.findWorksheetByName(service, ssEntry, wsName);
@@ -162,6 +165,9 @@ public class GSSImport {
                                     (Double) resultMap.get(MusicResultUtil.MAP_KEY_SCORE_RATE));
                             resultDBHR.setMissRate(
                                     (Double) resultMap.get(MusicResultUtil.MAP_KEY_MISS_RATE));
+
+                            resultDBHR.setInsDate(nowDate);
+                            resultDBHR.setUpdDate(nowDate);
 
                             music.setMusicResultDBHR(resultDBHR);
 

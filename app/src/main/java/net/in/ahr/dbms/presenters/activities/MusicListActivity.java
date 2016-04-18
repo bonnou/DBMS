@@ -137,6 +137,22 @@ public class MusicListActivity extends AppCompatActivity
     MenuItem item_nav_where_version_PEN;
     MenuItem item_nav_where_version_cop;
 
+    // ORDER BY
+    MenuItem item_nav_orderby_difficult_name;
+    MenuItem item_nav_orderby_name;
+    MenuItem item_nav_orderby_ex_score;
+    MenuItem item_nav_orderby_bp;
+    MenuItem item_nav_orderby_score_rate;
+    MenuItem item_nav_orderby_miss_rate;
+    MenuItem item_nav_orderby_updated;
+//    MenuItem item_nav_orderby_clear_progress;
+
+    MenuItem[] allItemNavOrderByArr;
+
+    // ORDER SORT KIND
+    MenuItem item_nav_order_sort_kind_asc;
+    MenuItem item_nav_order_sort_kind_desc;
+
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
@@ -424,6 +440,82 @@ public class MusicListActivity extends AppCompatActivity
                     dbmsSharedPreferences.getSearchConfVersion_cop()
             );
 
+            // ORDER BY
+            item_nav_orderby_difficult_name = navigationView.getMenu().findItem(R.id.nav_orderby_difficult_name);
+            item_nav_orderby_difficult_name.setChecked(false);
+            item_nav_orderby_name = navigationView.getMenu().findItem(R.id.nav_orderby_name);
+            item_nav_orderby_name.setChecked(false);
+            item_nav_orderby_ex_score = navigationView.getMenu().findItem(R.id.nav_orderby_ex_score);
+            item_nav_orderby_ex_score.setChecked(false);
+            item_nav_orderby_bp = navigationView.getMenu().findItem(R.id.nav_orderby_bp);
+            item_nav_orderby_bp.setChecked(false);
+            item_nav_orderby_score_rate = navigationView.getMenu().findItem(R.id.nav_orderby_score_rate);
+            item_nav_orderby_score_rate.setChecked(false);
+            item_nav_orderby_miss_rate = navigationView.getMenu().findItem(R.id.nav_orderby_miss_rate);
+            item_nav_orderby_miss_rate.setChecked(false);
+            item_nav_orderby_updated = navigationView.getMenu().findItem(R.id.nav_orderby_updated);
+            item_nav_orderby_updated.setChecked(false);
+//            item_nav_orderby_clear_progress = navigationView.getMenu().findItem(R.id.nav_orderby_clear_progress);
+//            item_nav_orderby_clear_progress.setChecked(false);
+
+            String searchOrderByTarget = dbmsSharedPreferences.getSearchOrderByTarget();
+
+            if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME.equals(searchOrderByTarget) ) {
+                item_nav_orderby_difficult_name.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME.equals(searchOrderByTarget) ) {
+                item_nav_orderby_name.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE.equals(searchOrderByTarget) ) {
+                item_nav_orderby_ex_score.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_BP.equals(searchOrderByTarget) ) {
+                item_nav_orderby_bp.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE.equals(searchOrderByTarget) ) {
+                item_nav_orderby_score_rate.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE.equals(searchOrderByTarget) ) {
+                item_nav_orderby_miss_rate.setChecked(true);
+
+            } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_UPDATED.equals(searchOrderByTarget) ) {
+                item_nav_orderby_updated.setChecked(true);
+
+            }
+/*
+            else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS.equals(searchOrderByTarget) ) {
+                item_nav_orderby_clear_progress.setChecked(true);
+
+            }
+*/
+
+            allItemNavOrderByArr = new MenuItem[]{
+                    item_nav_orderby_difficult_name,
+                    item_nav_orderby_name,
+                    item_nav_orderby_ex_score,
+                    item_nav_orderby_bp,
+                    item_nav_orderby_score_rate,
+                    item_nav_orderby_miss_rate,
+                    item_nav_orderby_updated
+//                    ,
+//                    item_nav_orderby_clear_progress
+            };
+
+            // ORDER SORT KIND
+            item_nav_order_sort_kind_asc = navigationView.getMenu().findItem(R.id.nav_order_sort_kind_asc);
+            item_nav_order_sort_kind_asc.setChecked(false);
+            item_nav_order_sort_kind_desc = navigationView.getMenu().findItem(R.id.nav_order_sort_kind_desc);
+            item_nav_order_sort_kind_desc.setChecked(false);
+
+            String searchOrderSortKind = dbmsSharedPreferences.getSearchOrderSortKind();
+
+            if ( AppConst.SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC.equals(searchOrderSortKind) ) {
+                item_nav_order_sort_kind_asc.setChecked(true);
+
+            } else {
+                item_nav_order_sort_kind_desc.setChecked(true);
+
+            }
 
 /*
         // 新規メモをINSERT
@@ -1123,6 +1215,64 @@ public class MusicListActivity extends AppCompatActivity
             }
         }
 
+        // ORDER BY
+        if (id == R.id.nav_orderby_difficult_name) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_difficult_name);
+
+        } else if (id == R.id.nav_orderby_name) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_name);
+
+        } else if (id == R.id.nav_orderby_ex_score) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_ex_score);
+
+        } else if (id == R.id.nav_orderby_bp) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_BP);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_bp);
+
+        } else if (id == R.id.nav_orderby_score_rate) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_score_rate);
+
+        } else if (id == R.id.nav_orderby_miss_rate) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_miss_rate);
+
+        } else if (id == R.id.nav_orderby_updated) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_UPDATED);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_updated);
+
+        }
+/*
+        else if (id == R.id.nav_orderby_clear_progress) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_clear_progress);
+
+        }
+*/
+
+        if (id == R.id.nav_order_sort_kind_asc) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderSortKind(AppConst.SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC);
+            item_nav_order_sort_kind_desc.setChecked(false);
+
+        } else if (id == R.id.nav_order_sort_kind_desc) {
+            item.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderSortKind(AppConst.SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC);
+            item_nav_order_sort_kind_asc.setChecked(false);
+
+        }
+
         // SharedPreferenceに反映
         dbmsSharedPreferences.apply();
 
@@ -1134,6 +1284,17 @@ public class MusicListActivity extends AppCompatActivity
 //        drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    /**
+     * idの配列と除外idを受け取り、除外id以外を選択OFFにする
+     */
+    private void checkOffOther(MenuItem[] otherIdItemArr, MenuItem zyogaiIdItem) {
+        for (MenuItem otherIdItem: otherIdItemArr) {
+            if (otherIdItem != zyogaiIdItem) {
+                otherIdItem.setChecked(false);
+            }
+        }
     }
 
     /**

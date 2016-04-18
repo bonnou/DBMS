@@ -252,13 +252,13 @@ public class AppConst {
     }
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）：難易度
+     * SharedPreferencesキー（WHERE）：難易度
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_DIFFICULT_10 = "SHARED_KEY_SEARCH_CONF_DIFF_10";
     public static final String SHARED_KEY_SEARCH_CONF_DIFFICULT_11 = "SHARED_KEY_SEARCH_CONF_DIFF_11";
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）：クリアランプ
+     * SharedPreferencesキー（WHERE）：クリアランプ
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY           = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY";
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED            = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED";
@@ -272,7 +272,7 @@ public class AppConst {
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT           = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_PERFECT";
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）：スコアランク
+     * SharedPreferencesキー（WHERE）：スコアランク
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA     = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_AAA";
     public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA      = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_AA";
@@ -285,7 +285,7 @@ public class AppConst {
     public static final String SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK = "SHARED_KEY_SEARCH_CONF_SCORE_RANK_NO_RANK";
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）：BPM範囲
+     * SharedPreferencesキー（WHERE）：BPM範囲
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_LLL_129";
     public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139 = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_130_139";
@@ -299,7 +299,7 @@ public class AppConst {
     public static final String SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN  = "SHARED_KEY_SEARCH_CONF_BPM_RANGE_SOFLAN";
 
     /*********************************************************************************
-     * SharedPreferencesキー（WHERE／ORDER BY）：バージョン
+     * SharedPreferencesキー（WHERE）：バージョン
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_1ST  = "SHARED_KEY_SEARCH_CONF_VERSION_1ST";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_SUB  = "SHARED_KEY_SEARCH_CONF_VERSION_SUB";
@@ -325,6 +325,28 @@ public class AppConst {
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_SPA  = "SHARED_KEY_SEARCH_CONF_VERSION_SPA";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_PEN  = "SHARED_KEY_SEARCH_CONF_VERSION_PEN";
     public static final String SHARED_KEY_SEARCH_CONF_VERSION_COP  = "SHARED_KEY_SEARCH_CONF_VERSION_cop";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（ORDER BY）
+     *********************************************************************************/
+    public static final String SHARED_KEY_SEARCH_ORDER_BY_TARGET  = "SHARED_KEY_SEARCH_ORDER_BY_TARGET";
+
+    public static final String SHARED_KEY_SEARCH_ORDER_SORT_KIND  = "SHARED_KEY_SEARCH_ORDER_SORT_KIND";
+
+    /*********************************************************************************
+     * SharedPreferencesバリュー（ORDER BY）
+     *********************************************************************************/
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME  = "SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_NAME            = "SHARED_VALUE_SEARCH_ORDER_BY_NAME";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE         = "SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_BP              = "SHARED_VALUE_SEARCH_ORDER_BY_BP";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE      = "SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE       = "SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_UPDATED         = "SHARED_VALUE_SEARCH_ORDER_BY_UPDATED";
+//    public static final String SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS  = "SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS";
+
+    public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC  = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC";
+    public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC";
 
     /*********************************************************************************
      * Toolbarタイトル

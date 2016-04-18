@@ -42,6 +42,7 @@ import java.util.Map;
 import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
+import greendao.MusicResultDBHRDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -75,6 +76,10 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
+    }
+
+    private static MusicResultDBHRDao getMusicResultDBHRDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
 
     @Override
@@ -414,10 +419,13 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
     private void updateResult(View view) {
         LogUtil.logEntering();
 
+        java.util.Date nowDate = new java.util.Date();
+
         // リザルトがない場合はインスタンスを生成しセット
         if (music.getMusicResultDBHR() == null) {
             MusicResultDBHR dbhrResult = new MusicResultDBHR();
             dbhrResult.setId(music.getId());
+            dbhrResult.setInsDate(nowDate);
             music.setMusicResultDBHR(dbhrResult);
         }
 
@@ -474,10 +482,13 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         music.getMusicResultDBHR().setMissRate(
                 (Double) resultMap.get(MusicResultUtil.MAP_KEY_MISS_RATE));
 
+        music.getMusicResultDBHR().setUpdDate(nowDate);
+
         // TODO: https://blog.keiji.io/2014/02/about_fragment.html
         // TODO: 横展開
         // DB更新
-        getMusicMstDao(getActivity()).insertOrReplace(music);
+        getMusicMstDao(getActivity().getApplicationContext()).insertOrReplace(music);
+        getMusicResultDBHRDao(getActivity().getApplicationContext()).insertOrReplace(music.getMusicResultDBHR());
 
 
         // 更新内容でリストビューを再描画（選択箇所のみ）

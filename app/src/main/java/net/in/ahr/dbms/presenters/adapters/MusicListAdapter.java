@@ -555,6 +555,10 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         if ( dbmsSharedPreferences.getSearchConfDiff_11() ) {
             difficultCondList.add(AppConst.MUSIC_MST_DIFFICULT_VAL_11);
         }
+        // 全て選択されていない場合、絶対に条件を満たさない値を追加することで全非表示
+        if ( difficultCondList.size() == 0 ) {
+            difficultCondList.add(AppConst.CONST_NO_HIT_DUMMY_STRING);
+        }
 
         // クリアランプ
         boolean clearLampIsNullFlg = false;
@@ -888,6 +892,107 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             );
             sqlWhereAnd = "and";
         }
+
+        // ORDER SORT KIND
+        String orderSortKind;
+        String searchOrderSortKind = dbmsSharedPreferences.getSearchOrderSortKind();
+        if ( AppConst.SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC.equals(searchOrderSortKind) ) {
+            orderSortKind = " ASC ";
+        } else {
+            orderSortKind = " DESC ";
+        }
+
+        // ORDER BY
+        String searchOrderByTarget = dbmsSharedPreferences.getSearchOrderByTarget();
+        if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                         + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.ExScore.columnName       + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_BP.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.Bp.columnName            + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.ScoreRate.columnName     + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.MissRate.columnName      + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_UPDATED.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.UpdDate.columnName       + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        }
+/*
+        else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by T0." + MusicResultDBHRDao.Properties.ClearLamp.columnName + orderSortKind
+                         + ", case T0." + MusicResultDBHRDao.Properties.ClearLamp.columnName + " "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / 80 "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / 80 "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / 80 "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / 80 "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / 80 "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / "
+                                     + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                    + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR
+                            + "' then T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + " / "
+                                     + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                    + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR
+                            + "' then (" + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                        + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                                 + " - T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + ") / "
+                                     + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                    + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO
+                            + "' then (" + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                        + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                                 + " - T0." + MusicResultDBHRDao.Properties.RemainingGaugeOrDeadNotes.columnName + ") / "
+                                     + "((T." + MusicMstDao.Properties.Notes.columnName + " - T." + MusicMstDao.Properties.ScratchNotes.columnName + ") * 2 "
+                                    + " + T." + MusicMstDao.Properties.ChargeNotes.columnName + " * 2) "
+                            + "when '" + AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT + "' then 1 end "
+                    + orderSortKind
+            );
+
+        }
+*/
+
 
         String whereStatement = whereSb.toString();
         LogUtil.logDebug("■query:[SELECT T.*, T0.* FROM MUSIC_MST T LEFT JOIN MUSIC_RESULT_DBHR T0 ON T.'MUSIC_RESULT_ID_DBHR'=T0.'_id' " + whereStatement + ";]");

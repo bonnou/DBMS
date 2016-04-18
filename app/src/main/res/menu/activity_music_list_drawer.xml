@@ -321,6 +321,76 @@
                 />
         </menu>
     </item>
+    <item android:title="ORDER BY : target">
+        <menu>
+            <item
+                android:id="@+id/nav_orderby_title"
+                android:title="　※SELECT ONE"
+                android:state_selected="false"
+                />
+            <item
+                android:id="@+id/nav_orderby_difficult_name"
+                android:title="　　difficult, name"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_name"
+                android:title="　　name"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_ex_score"
+                android:title="　　ex score"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_bp"
+                android:title="　　bp"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_score_rate"
+                android:title="　　score rate"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_miss_rate"
+                android:title="　　miss rate"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_orderby_updated"
+                android:title="　　updated"
+                android:state_selected="true"
+                />
+<!--
+            <item
+                android:id="@+id/nav_orderby_clear_progress"
+                android:title="　　clear progress"
+                android:state_selected="true"
+                />
+-->
+        </menu>
+    </item>
+    <item android:title="ORDER BY : sort kind">
+        <menu>
+            <item
+                android:id="@+id/nav_order_sort_kind_title"
+                android:title="　※SELECT ONE"
+                android:state_selected="false"
+                />
+            <item
+                android:id="@+id/nav_order_sort_kind_asc"
+                android:title="　　ASC（昇順）"
+                android:state_selected="true"
+                />
+            <item
+                android:id="@+id/nav_order_sort_kind_desc"
+                android:title="　　DESC（降順）"
+                android:state_selected="true"
+                />
+        </menu>
+    </item>
 <!--
 
 

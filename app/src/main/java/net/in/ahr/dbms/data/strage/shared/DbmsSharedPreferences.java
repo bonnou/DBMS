@@ -582,4 +582,26 @@ public class DbmsSharedPreferences {
     }
 
 
+    // ORDER BY（TARGET）
+    public String getSearchOrderByTarget() {
+        return sharedPreferences.getString(AppConst.SHARED_KEY_SEARCH_ORDER_BY_TARGET, AppConst.SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME);
+    }
+
+    public DbmsSharedPreferences putSearchOrderByTarget(String val) {
+        editor.putString(AppConst.SHARED_KEY_SEARCH_ORDER_BY_TARGET, val);
+        return this;
+    }
+
+    // ORDER BY（ASC、DESC）
+    public String getSearchOrderSortKind() {
+        return sharedPreferences.getString(AppConst.SHARED_KEY_SEARCH_ORDER_SORT_KIND, "");
+    }
+
+    public DbmsSharedPreferences putSearchOrderSortKind(String val) {
+        editor.putString(AppConst.SHARED_KEY_SEARCH_ORDER_SORT_KIND, val);
+        return this;
+    }
+
+
+
 }
