@@ -84,6 +84,7 @@ public class ResultExportIntentService extends IntentService {
             }
         }
 
+/*
         // 処理完了をNotification通知
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -91,7 +92,7 @@ public class ResultExportIntentService extends IntentService {
         notification.tickerText = sdf.format(new java.util.Date()) + " 自動CSVエクスポート完了";
         // TODO: 一旦0にした
         notificationManager.notify(0, notification);
-
+*/
         LogUtil.logExiting();
     }
 

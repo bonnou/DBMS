@@ -119,13 +119,13 @@ public class AppConst {
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT
     };
 
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY= "EASY<br>残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED = "EASY<br>残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR = "EASY<br>残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR = "EASY<br>残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR = "NORMAL<br>残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR = "HARD<br>到達ノーツ数";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR = "EXHARD<br>到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY= "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR = "NORMAL残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR = "HARD到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR = "EXHARD到達ノーツ数";
     public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EXHARD_CLEAR = "COMBO BREAK";
     public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FULL_COMBO = "GOOD数";
     public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__PERFECT = "GREAT数";

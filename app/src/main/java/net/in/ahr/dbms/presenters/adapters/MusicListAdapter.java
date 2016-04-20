@@ -845,6 +845,11 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                 );
             }
             sqlWhereAnd = "and";
+        } else {
+            // NO RANKの場合は結合して値NULLの場合も対象（前かっこ結合）
+            if (scoreRankIsNullFlg) {
+                whereSb.append("T0." + MusicResultDBHRDao.Properties.ScoreRank.columnName + " IS NULL) ");
+            }
         }
 
         // 検索条件：BPM範囲

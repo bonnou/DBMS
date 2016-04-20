@@ -841,11 +841,11 @@ public class MusicListActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_where_clear_lamp_assist_clear) {
             item.setChecked(!item.isChecked());
-            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_EASY_CLEAR(item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_CLEAR(item.isChecked());
 
         } else if (id == R.id.nav_where_clear_lamp_assist_easy_clear) {
             item.setChecked(!item.isChecked());
-            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_CLEAR(item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_ASSIST_EASY_CLEAR(item.isChecked());
 
         } else if (id == R.id.nav_where_clear_lamp_easy_clear) {
             item.setChecked(!item.isChecked());
@@ -869,7 +869,7 @@ public class MusicListActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_where_clear_lamp_perfect) {
             item.setChecked(!item.isChecked());
-            dbmsSharedPreferences.putSearchConfClearLamp_EXHARD_CLEAR(item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_PERFECT(item.isChecked());
 
         }
 
@@ -888,7 +888,6 @@ public class MusicListActivity extends AppCompatActivity
                  && dbmsSharedPreferences.getSearchConfScoreRank_F()
                  && dbmsSharedPreferences.getSearchConfScoreRank_NO_RANK()
             ) {
-                // 画面上の選択状態、SharedPreferencesの設定をまとめてに設定
                 item_nav_where_score_rank_aaa.setChecked(false);
                 dbmsSharedPreferences.putSearchConfScoreRank_AAA(false);
                 item_nav_where_score_rank_aa.setChecked(false);

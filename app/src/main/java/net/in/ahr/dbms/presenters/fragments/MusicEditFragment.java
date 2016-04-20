@@ -239,7 +239,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         // 残ゲージor到達ノーツ数ラベル
         remainingGaugeOrDeadNotesTextView = (TextView) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotesLabel);
         remainingGaugeOrDeadNotesTextView.setText(
-                Html.fromHtml(remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE));
+                remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE);
 
         // Formオブジェクト保持、初期値設定（残ゲージor到達ノーツ数）
         remainingGaugeOrDeadNotesEditText = (EditText) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotes);

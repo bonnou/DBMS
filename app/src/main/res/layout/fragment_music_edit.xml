@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="18sp"
-            android:padding="5pt"
+            android:padding="3pt"
             android:textColor="#000000"
             />
 
@@ -40,7 +40,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
-                android:padding="4pt"
+                android:padding="3pt"
+                android:layout_marginRight="15pt"
                 />
 
         </LinearLayout>
@@ -64,20 +65,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
-                android:padding="4pt"
+                android:padding="3pt"
                />
-
+<!--
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-
+-->
             <TextView
                 android:text="bp: "
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="2pt"
@@ -86,9 +87,9 @@
             <EditText
                 android:id="@+id/musicEditFragment_bp"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:padding="4pt"
+                android:padding="3pt"
                 />
 
         </LinearLayout>
@@ -102,7 +103,7 @@
             <TextView
                 android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotesLabel"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="2pt"
@@ -111,9 +112,9 @@
             <EditText
                 android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotes"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:padding="4pt"
+                android:padding="3pt"
                 />
     <!--
                 android:inputType="textMultiLine"
@@ -131,18 +132,22 @@
             <TextView
                 android:text="メモ: "
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:padding="2pt"
+                android:paddingTop="3pt"
+                android:paddingLeft="3pt"
+                android:paddingRight="3pt"
                 />
 
             <EditText
                 android:id="@+id/musicEditFragment_memoOther"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="6"
                 android:layout_height="wrap_content"
-                android:padding="4pt"
+                android:paddingTop="3pt"
+                android:paddingLeft="3pt"
+                android:paddingRight="3pt"
                 />
 
         </LinearLayout>
@@ -153,7 +158,6 @@
             android:layout_width="50pt"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="4pt"
             />
 
         <Button
@@ -170,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="18sp"
-            android:padding="5pt"
+            android:padding="3pt"
             android:textColor="#000000"
             android:background="#CCCCCC"
             android:layout_marginTop="5pt"
