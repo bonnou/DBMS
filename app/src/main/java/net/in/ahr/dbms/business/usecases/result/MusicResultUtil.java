@@ -52,8 +52,10 @@ public class MusicResultUtil {
             scoreRank = AppConst.MUSIC_MST_SCORE_RANK_VAL_D;
         } else if ( exScore > maxScore / 9 * 2 ) {
             scoreRank = AppConst.MUSIC_MST_SCORE_RANK_VAL_E;
-        } else {
+        } else if (exScore != 0) {
             scoreRank = AppConst.MUSIC_MST_SCORE_RANK_VAL_F;
+        } else {
+            scoreRank = null;
         }
 
         // スコアレートを判定
