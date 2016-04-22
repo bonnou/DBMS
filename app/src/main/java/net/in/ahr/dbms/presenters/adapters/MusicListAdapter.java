@@ -3,6 +3,7 @@ package net.in.ahr.dbms.presenters.adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -186,7 +187,17 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
         } else {
 
-            if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp) ) {
+            if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY.equals(clearLamp) ) {
+                // 色設定
+                holder.clearLampView.setBackgroundColor(Color.parseColor("#330000"));
+                holder.clearLampView.setTextColor(Color.parseColor("#ff0000"));
+
+                // ランプ点滅
+                clearLampAnimation.setDuration(50);
+                clearLampAnimation.setRepeatCount(Animation.INFINITE);
+                holder.clearLampView.startAnimation(clearLampAnimation);
+
+            } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp) ) {
                 // 色設定
                 holder.clearLampView.setBackgroundColor(Color.parseColor("#666666"));
                 holder.clearLampView.setTextColor(Color.parseColor("#333333"));
@@ -339,7 +350,8 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
             if (remainingGaugeOrDeadNotes == 0) {
                 clearProgressRate = 0;
             } else if (
-                    AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp)
+                    AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY.equals(clearLamp)
+                 || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED.equals(clearLamp)
                  || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR.equals(clearLamp)
                  || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR.equals(clearLamp)
                  || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp)
@@ -566,6 +578,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         if ( dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY() ) {
             clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY);
             clearLampIsNullFlg = true;
+        }
+        if ( dbmsSharedPreferences.getSearchConfClearLamp_FAR_AWAY() ) {
+            clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY);
         }
         if ( dbmsSharedPreferences.getSearchConfClearLamp_FAILED() ) {
             clearLampCondList.add(AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED);

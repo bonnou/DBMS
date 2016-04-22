@@ -33,6 +33,11 @@
                 android:state_selected="true"
                 />
             <item
+                android:id="@+id/nav_where_clear_lamp_far_away"
+                android:title="　　FAR AWAY"
+                android:state_selected="true"
+                />
+            <item
                 android:id="@+id/nav_where_clear_lamp_failed"
                 android:title="　　FAILED"
                 android:state_selected="true"

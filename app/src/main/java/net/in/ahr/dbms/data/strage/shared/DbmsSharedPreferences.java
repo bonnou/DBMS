@@ -58,6 +58,16 @@ public class DbmsSharedPreferences {
         return this;
     }
 
+    // 検索条件: FAR AWAY
+    public boolean getSearchConfClearLamp_FAR_AWAY() {
+        return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAR_AWAY, true);
+    }
+
+    public DbmsSharedPreferences putSearchConfClearLamp_FAR_AWAY(boolean val) {
+        editor.putBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAR_AWAY, val);
+        return this;
+    }
+
     // 検索条件: FAILED
     public boolean getSearchConfClearLamp_FAILED() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED, true);

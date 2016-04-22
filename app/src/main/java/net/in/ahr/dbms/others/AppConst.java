@@ -96,6 +96,7 @@ public class AppConst {
      * クリアランプ
      *********************************************************************************/
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY           = "NO PLAY";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY          = "FAR AWAY";
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAILED            = "FAILED";
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR      = "ASSIST CLEAR";
     public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR = "ASSIST EASY CLEAR";
@@ -108,6 +109,7 @@ public class AppConst {
 
     public static final String[] CLEAR_LUMP_VAL_ARR = {
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY,
+            AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY,
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FAILED,
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR,
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR,
@@ -119,28 +121,30 @@ public class AppConst {
             AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT
     };
 
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY= "EASY残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED = "EASY残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR = "EASY残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR = "EASY残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR = "NORMAL残ゲージ(%)";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR = "HARD到達ノーツ数";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR = "EXHARD到達ノーツ数";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EXHARD_CLEAR = "COMBO BREAK";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FULL_COMBO = "GOOD数";
-    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__PERFECT = "GREAT数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NO_PLAY= "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FAR_AWAY = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FAILED = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ASSIST_CLEAR = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ASSIST_EASY_CLEAR = "EASY残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_EASY_CLEAR = "NORMAL残ゲージ(%)";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NORMAL_CLEAR = "HARD到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_HARD_CLEAR = "EXHARD到達ノーツ数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_EXHARD_CLEAR = "COMBO BREAK";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FULL_COMBO = "GOOD数";
+    public static final String REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_PERFECT = "GREAT数";
 
     public static final String[] REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR = {
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FAILED,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__ASSIST_EASY_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EASY_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NORMAL_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__HARD_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__EXHARD_CLEAR,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__FULL_COMBO,
-            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__PERFECT
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NO_PLAY,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FAR_AWAY,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FAILED,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ASSIST_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ASSIST_EASY_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_EASY_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NORMAL_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_HARD_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_EXHARD_CLEAR,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_FULL_COMBO,
+            AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_PERFECT
     };
 
     /*********************************************************************************
@@ -261,6 +265,7 @@ public class AppConst {
      * SharedPreferencesキー（WHERE）：クリアランプ
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY           = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_NO_PLAY";
+    public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAR_AWAY          = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAR_AWAY";
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED            = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_FAILED";
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR      = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_CLEAR";
     public static final String SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR = "SHARED_KEY_SEARCH_CONF_CLEAR_LAMP_ASSIST_EASY_CLEAR";
@@ -488,6 +493,7 @@ public class AppConst {
      *********************************************************************************/
 
     public static final String MUSIC_MST_CSV_DATE_FORMAT = "EEE MMM dd HH:mm:ss 'JST' yyyy";
+    public static final String MUSIC_EDIT_UPDATED_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String CONST_YMDHMS_FORMAT = "yyyyMMddHHmmss";
     public static final String CONST_BLANK = "";
     public static final String CONST_HALF_COLON = ":";
@@ -495,6 +501,7 @@ public class AppConst {
     public static final String CONST_HALF_SLASH = "/";
     public static final String CONST_HALF_QUOTE = "'";
     public static final String CONST_HALF_COMMA = ",";
+    public static final String CONST_HALF_HYPHEN = "-";
 
     public static final String CONST_NO_HIT_DUMMY_STRING = "CONST_NO_HIT_DUMMY_STRING";
 

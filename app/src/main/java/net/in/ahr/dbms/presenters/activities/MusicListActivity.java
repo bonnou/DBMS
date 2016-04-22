@@ -78,6 +78,7 @@ public class MusicListActivity extends AppCompatActivity
 
     // クリアランプ
     MenuItem item_nav_where_clear_lamp_no_play;
+    MenuItem item_nav_where_clear_lamp_far_away;
     MenuItem item_nav_where_clear_lamp_failed;
     MenuItem item_nav_where_clear_lamp_assist_clear;
     MenuItem item_nav_where_clear_lamp_assist_easy_clear;
@@ -224,6 +225,10 @@ public class MusicListActivity extends AppCompatActivity
             item_nav_where_clear_lamp_no_play = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_no_play);
             item_nav_where_clear_lamp_no_play.setChecked(
                     dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY()
+            );
+            item_nav_where_clear_lamp_far_away = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_far_away);
+            item_nav_where_clear_lamp_far_away.setChecked(
+                    dbmsSharedPreferences.getSearchConfClearLamp_FAR_AWAY()
             );
             item_nav_where_clear_lamp_failed = navigationView.getMenu().findItem(R.id.nav_where_clear_lamp_failed);
             item_nav_where_clear_lamp_failed.setChecked(
@@ -778,6 +783,7 @@ public class MusicListActivity extends AppCompatActivity
             // そうでなければ全てOFFに設定
             if (
                     dbmsSharedPreferences.getSearchConfClearLamp_NO_PLAY()
+                 && dbmsSharedPreferences.getSearchConfClearLamp_FAR_AWAY()
                  && dbmsSharedPreferences.getSearchConfClearLamp_FAILED()
                  && dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_CLEAR()
                  && dbmsSharedPreferences.getSearchConfClearLamp_ASSIST_EASY_CLEAR()
@@ -790,6 +796,8 @@ public class MusicListActivity extends AppCompatActivity
             ) {
                 item_nav_where_clear_lamp_no_play.setChecked(false);
                 dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(false);
+                item_nav_where_clear_lamp_far_away.setChecked(false);
+                dbmsSharedPreferences.putSearchConfClearLamp_FAR_AWAY(false);
                 item_nav_where_clear_lamp_failed.setChecked(false);
                 dbmsSharedPreferences.putSearchConfClearLamp_FAILED(false);
                 item_nav_where_clear_lamp_assist_clear.setChecked(false);
@@ -811,6 +819,8 @@ public class MusicListActivity extends AppCompatActivity
             } else {
                 item_nav_where_clear_lamp_no_play.setChecked(true);
                 dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(true);
+                item_nav_where_clear_lamp_far_away.setChecked(true);
+                dbmsSharedPreferences.putSearchConfClearLamp_FAR_AWAY(true);
                 item_nav_where_clear_lamp_failed.setChecked(true);
                 dbmsSharedPreferences.putSearchConfClearLamp_FAILED(true);
                 item_nav_where_clear_lamp_assist_clear.setChecked(true);
@@ -834,6 +844,10 @@ public class MusicListActivity extends AppCompatActivity
         } else if (id == R.id.nav_where_clear_lamp_no_play) {
             item.setChecked(!item.isChecked());
             dbmsSharedPreferences.putSearchConfClearLamp_NO_PLAY(item.isChecked());
+
+        } else if (id == R.id.nav_where_clear_lamp_far_away) {
+            item.setChecked(!item.isChecked());
+            dbmsSharedPreferences.putSearchConfClearLamp_FAR_AWAY(item.isChecked());
 
         } else if (id == R.id.nav_where_clear_lamp_failed) {
             item.setChecked(!item.isChecked());

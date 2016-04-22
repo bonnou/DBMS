@@ -36,6 +36,7 @@ import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +66,8 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
     private Button updateButton;
     private Button backButton;
+
+    private TextView updatedTextView;
 
     private TextView genreTextView;
     private TextView artistTextView;
@@ -158,7 +161,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         // 残ゲージor到達ノーツ数ラベル配列
         String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
         // 残ゲージor到達ノーツ数ラベル
-        String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY;
+        String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NO_PLAY;
         for (int i = 0; i < clearLumpValArr.length; i++) {
             adapter.add(clearLumpValArr[i]);
             if (resultExistFlg) {
@@ -192,7 +195,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
                 // 選択肢に対応するラベルを「残ゲージor到達ノーツ数」ラベルに設定
                 String[] clearLumpValArr = AppConst.CLEAR_LUMP_VAL_ARR;
                 String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
-                String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL__NO_PLAY;
+                String remainingGaugeOrDeadNotesLabel = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_NO_PLAY;
                 for (int i = 0; i < clearLumpValArr.length; i++) {
                     if (clearLumpValArr[i].equals(selectedClearLamp)) {
                         selectedPosition = i;
@@ -297,7 +300,20 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         });
 */
 
-        // マスタ情報その1
+        // リザルト情報
+        // ジャンル
+        updatedTextView = (TextView) view.findViewById(R.id.musicEditFragment_resultInfo_updated);
+        String updated = AppConst.CONST_HALF_HYPHEN;
+        if (
+                music.getMusicResultDBHR() != null
+             && music.getMusicResultDBHR().getUpdDate() != null
+        ) {
+            SimpleDateFormat sdf = new SimpleDateFormat(AppConst.MUSIC_EDIT_UPDATED_FORMAT);
+            updated = sdf.format(music.getMusicResultDBHR().getUpdDate());
+        }
+        updatedTextView.setText(updated);
+
+        // マスタ情報その2
         // ジャンル
         genreTextView = (TextView) view.findViewById(R.id.musicEditFragment_genre);
         genreTextView.setText(music.getGenre());
