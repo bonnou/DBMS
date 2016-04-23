@@ -15,7 +15,9 @@ if (
        ( System.getenv("FABRIC_KEY") == null || "".equals(System.getenv("FABRIC_KEY")) )
     || ( System.getenv("FABRIC_SECRET") == null || "".equals(System.getenv("FABRIC_SECRET")) )
 ) {
-    throw new GradleException("Missing System.env for fabric.properties.");
+    throw new GradleException("Missing System.env for fabric.properties. "
+            + "System.getenv(\"FABRIC_KEY\"):[" + System.getenv("FABRIC_KEY") + "], "
+            + "System.getenv(\"FABRIC_SECRET\"):[" + System.getenv("FABRIC_SECRET") + "]");
 }
 propsFile.write(
     "apiKey=" + System.getenv("FABRIC_KEY") + "\n" + "apiSecret=" + System.getenv("FABRIC_SECRET") + "\n"
@@ -51,6 +53,7 @@ android {
         versionCode 1
         versionName "0.0.1"
         multiDexEnabled true
+        resConfigs "en", "ja"
     }
 
     signingConfigs {
@@ -70,6 +73,8 @@ android {
             debuggable true
             // // ※debuggable="true"の場合のみDeployGateのSDKが動作
             minifyEnabled false
+//            minifyEnabled true
+//            shrinkResources true
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
         }

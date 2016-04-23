@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +32,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.others.util.DebugUtils;
+import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
 import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
@@ -58,7 +61,7 @@ import greendao.MusicMstDao;
 import greendao.MusicResultDBHRDao;
 
 /**
- * 曲一覧画面Activity。本アプリのメインActivity。
+ * 曲一覧画面Activity。本アプリのルートActivity。
  */
 public class MusicListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -80,9 +83,6 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
     }
 
 
-
-
-
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
@@ -90,7 +90,6 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
     private static MusicResultDBHRDao getMusicResultDBHRDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
-
 
     /**
      * 曲一覧画面ActivityのonCreateメソッド。本アプリの（ほぼ）mainメソッド。
@@ -100,6 +99,19 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LogUtil.logEntering();
+
+        // debugリリースの場合のみStrictModeを使用
+        if (DebugUtils.isDebuggable(getApplicationContext())) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
 
         super.onCreate(savedInstanceState);
 
@@ -196,7 +208,7 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
             public boolean onQueryTextChange(String queryText) {
                 // フィルター取得
                 // TODO: このstaticの使い方ってありなのか・・・？
-                Filter filter = ((MusicListAdapter)getMusicListView().getAdapter()).getFilter();
+                Filter filter = ((MusicListAdapter) getMusicListView().getAdapter()).getFilter();
                 if (TextUtils.isEmpty(queryText)) {
                     // MusicListFragmentのフィルタクリア
                     LogUtil.logDebug("曲一覧フィルタクリア");
@@ -233,7 +245,15 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_import_gss) {
+        if (id == R.id.action_settings) {
+            // 設定画面を表示
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            DbmsSettingFlagment dbmsSettingFlagment = new DbmsSettingFlagment();
+            transaction.replace(R.id.musicFragment, dbmsSettingFlagment).addToBackStack(null);
+            transaction.commit();
+
+        }else if (id == R.id.action_import_gss) {
             // スプレッドシート取得
             Toast.makeText(this, "BEGIN import from Google Spread Sheet...", Toast.LENGTH_LONG).show();
             GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
@@ -293,6 +313,7 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
             AlertDialog alertDialog = alertDialogBuilder.create();
             // アラートダイアログを表示
             alertDialog.show();
+
         }
 
         return super.onOptionsItemSelected(item);

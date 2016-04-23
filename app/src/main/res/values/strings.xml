@@ -8,8 +8,14 @@
     <string name="action_settings">Settings</string>
 -->
     <string name="action_refine_search">Refine Search</string>
+    <string name="action_settings">Settings</string>
     <string name="action_import_gss">Import From Google Spread Sheet</string>
     <string name="action_export_csv">Export DB to CSV</string>
     <string name="action_import_csv">Import CSV to DB</string>
     <string name="action_debug_crash">truncate &amp; crash (for DEBUG)</string>
+
+    <string name="pref_entry1">prefEntry1</string>
+    <string name="pref_entry2">prefEntry2</string>
+    <string name="pref_key_list_preference">KeyListPreference</string>
+
 </resources>
