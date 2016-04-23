@@ -5,11 +5,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,24 +18,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
-import net.in.ahr.dbms.presenters.activities.MusicListActivity;
-import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Map;
 
 import greendao.MusicMst;
