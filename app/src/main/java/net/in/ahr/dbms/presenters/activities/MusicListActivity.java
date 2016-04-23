@@ -2,8 +2,8 @@ package net.in.ahr.dbms.presenters.activities;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -15,8 +15,12 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,14 +29,18 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
-import net.in.ahr.dbms.others.util.DebugUtils;
 import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
 import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
@@ -53,6 +61,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +72,13 @@ import greendao.MusicResultDBHRDao;
 /**
  * 曲一覧画面Activity。本アプリのルートActivity。
  */
-public class MusicListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MusicListActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+                   ViewPager.OnPageChangeListener {
+
+    public static final int TAB_PAGE_SIZE = 2;
+    public static final int TAB_PAGE_0 = 0;
+    public static final int TAB_PAGE_1 = 1;
 
     /** 曲一覧 */
     public static ListView musicListView;
@@ -101,7 +116,7 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         LogUtil.logEntering();
 
         // debugリリースの場合のみStrictModeを使用
-        if (DebugUtils.isDebuggable(getApplicationContext())) {
+        if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
@@ -123,6 +138,55 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         setSupportActionBar(toolbar);
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
         toolbar.inflateMenu(R.menu.menu_music);
+/*
+        // タブ設定
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+//        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.musicFragment);
+
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                LogUtil.logEntering();
+
+                Fragment fragment = new MusicListFragment();
+                if (position == TAB_PAGE_0) {
+                    // 曲一覧画面を表示
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    MusicListFragment musicListFragment = new MusicListFragment();
+                    Bundle args = new Bundle();
+                    args.putInt("page", position);
+                    fragment.setArguments(args);
+                    transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
+//            transaction.addToBackStack(MusicListFragment.TAG);
+                    transaction.commit();
+                }
+
+                LogUtil.logExiting();
+                return new MusicListFragment();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return "tab " + (position + 1);
+            }
+
+            @Override
+            public int getCount() {
+                return TAB_PAGE_SIZE;
+            }
+        };
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(this);
+
+        //オートマチック方式: これだけで両方syncする
+        tabLayout.setupWithViewPager(viewPager);
+*/
+/*
+        tabLayout.addTab(tabLayout.newTab().setText("DBHR RESULT"));
+        tabLayout.addTab(tabLayout.newTab().setText("TEXTAGE"));
+*/
 
         // SharedPreferencesラッパー取得
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -152,8 +216,9 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
 //        TextView textView = (TextView) findViewById(R.id.musicListTextView);
 //        textView.setText( sb.toString() + "TextView" );
 
+
         // 曲一覧画面を表示
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         MusicListFragment musicListFragment = new MusicListFragment();
         transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
@@ -247,8 +312,8 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             // 設定画面を表示
-            FragmentManager manager = getFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
+            android.app.FragmentManager manager = getFragmentManager();
+            android.app.FragmentTransaction transaction = manager.beginTransaction();
             DbmsSettingFlagment dbmsSettingFlagment = new DbmsSettingFlagment();
             transaction.replace(R.id.musicFragment, dbmsSettingFlagment).addToBackStack(null);
             transaction.commit();
@@ -486,6 +551,8 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * 60, pendingIntent);
     }
 
+
+
     /*
     protected void cancelService(){
         Context context = getBaseContext();
@@ -495,4 +562,25 @@ public class MusicListActivity extends AppCompatActivity implements NavigationVi
         alarmManager.cancel(pendingIntent);
     }
 */
+
+
+    //----------------------------
+    // ViewPager.OnPageChangeListener implementes methods
+    //----------------------------
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        LogUtil.logDebug("onPageSelected() position=" + position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
 }

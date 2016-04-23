@@ -1,6 +1,6 @@
 package net.in.ahr.dbms.presenters.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -499,7 +499,7 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
 
         // 更新内容でリストビューを再描画（選択箇所のみ）
         // ※行わない場合、スクロールで外して再表示しないと更新内容が曲一覧側で見れない
-        ((MusicListFragment)getActivity().getFragmentManager().findFragmentByTag(MusicListFragment.TAG))
+        ((MusicListFragment)getActivity().getSupportFragmentManager().findFragmentByTag(MusicListFragment.TAG))
                 .updateListView(musicPosition);
 
         LogUtil.logExiting();
