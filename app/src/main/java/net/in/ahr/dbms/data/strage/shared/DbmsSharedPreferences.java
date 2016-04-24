@@ -604,7 +604,7 @@ public class DbmsSharedPreferences {
 
     // ORDER BY（ASC、DESC）
     public String getSearchOrderSortKind() {
-        return sharedPreferences.getString(AppConst.SHARED_KEY_SEARCH_ORDER_SORT_KIND, "");
+        return sharedPreferences.getString(AppConst.SHARED_KEY_SEARCH_ORDER_SORT_KIND, AppConst.SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC);
     }
 
     public DbmsSharedPreferences putSearchOrderSortKind(String val) {
