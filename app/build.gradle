@@ -14,10 +14,12 @@ File propsFile = file('fabric.properties')
 if (
        ( System.getenv("FABRIC_KEY") == null || "".equals(System.getenv("FABRIC_KEY")) )
     || ( System.getenv("FABRIC_SECRET") == null || "".equals(System.getenv("FABRIC_SECRET")) )
+    || ( System.getenv("ANDROID_MIN_SDK_VERSION") == null || "".equals(System.getenv("ANDROID_MIN_SDK_VERSION")) )
 ) {
     throw new GradleException("Missing System.env for fabric.properties. "
             + "System.getenv(\"FABRIC_KEY\"):[" + System.getenv("FABRIC_KEY") + "], "
-            + "System.getenv(\"FABRIC_SECRET\"):[" + System.getenv("FABRIC_SECRET") + "]");
+            + "System.getenv(\"FABRIC_KEY\"):[" + System.getenv("FABRIC_KEY") + "], "
+            + "System.getenv(\"ANDROID_MIN_SDK_VERSION\"):[" + System.getenv("ANDROID_MIN_SDK_VERSION") + "]");
 }
 propsFile.write(
     "apiKey=" + System.getenv("FABRIC_KEY") + "\n" + "apiSecret=" + System.getenv("FABRIC_SECRET") + "\n"
@@ -48,7 +50,7 @@ android {
 
     defaultConfig {
         applicationId "net.in.ahr.dbms"
-        minSdkVersion 21
+        minSdkVersion System.getenv("ANDROID_MIN_SDK_VERSION")
         targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
