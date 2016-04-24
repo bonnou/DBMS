@@ -133,7 +133,7 @@ public class MusicListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LogUtil.logEntering();
-
+/*
         // debugリリースの場合のみStrictModeを使用
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -146,7 +146,7 @@ public class MusicListActivity extends AppCompatActivity
                     .penaltyDeath()
                     .build());
         }
-
+*/
         super.onCreate(savedInstanceState);
 
         // レイアウトXML指定
