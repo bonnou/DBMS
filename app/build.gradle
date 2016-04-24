@@ -51,6 +51,8 @@ android {
     defaultConfig {
         applicationId "net.in.ahr.dbms"
         minSdkVersion System.getenv("ANDROID_MIN_SDK_VERSION")
+        // 実機デバッグ時
+        // minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
