@@ -3,6 +3,7 @@ package net.in.ahr.dbms.presenters.activities;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -35,13 +36,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
+
+import net.in.ahr.dbms.presenters.fragments.WebViewFragment;
 import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
@@ -56,6 +61,9 @@ import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
+import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
+import net.in.ahr.dbms.presenters.tabManagers.CustomViewPager;
+import net.in.ahr.dbms.presenters.tabManagers.ViewPagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,6 +90,17 @@ public class MusicListActivity extends AppCompatActivity
 
     /** 曲一覧 */
     public static ListView musicListView;
+
+    /** ViewPager */
+    TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
+    public void replaceChild(BaseFragment oldFrg, int position) {
+        viewPagerAdapter.replaceChildFragment(oldFrg, position);
+    }
+    public static int position;
+    public static MusicMst musicForEdit;
+        public static int dispTopViewPosition = 0;
 
     /** プログレスバー */
     private ProgressDialog progressDialog;
@@ -136,35 +155,58 @@ public class MusicListActivity extends AppCompatActivity
         // ツールバー設定
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
         toolbar.inflateMenu(R.menu.menu_music);
+
+/*
+        FragmentTabHost tabHost = (FragmentTabHost) findViewById(R.id.tab_host);
+        tabHost.setup(this, getSupportFragmentManager(), R.id.musicFragment);
+
+        TabHost.TabSpec tab1Spec = tabHost.newTabSpec("TAB1");
+        Button tab1Button = new Button(this);
+        //タブに表示するビュー
+        tab1Button.setText("Tab1");
+        tab1Spec.setIndicator(tab1Button);
+        tabHost.addTab(tab1Spec, MusicListFragment.class, null);
+
+        TabHost.TabSpec tab2Spec = tabHost.newTabSpec("TAB2");
+        Button tab2Button = new Button(this);
+        tab2Button.setText("Tab2");
+        tab2Spec.setIndicator(tab2Button);
+        tabHost.addTab(tab2Spec, WebViewFragment.class, null);
+*/
 /*
         // タブ設定
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-//        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.musicFragment);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 LogUtil.logEntering();
 
-                Fragment fragment = new MusicListFragment();
+                Fragment fragment = null;
                 if (position == TAB_PAGE_0) {
-                    // 曲一覧画面を表示
-                    FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    MusicListFragment musicListFragment = new MusicListFragment();
-                    Bundle args = new Bundle();
-                    args.putInt("page", position);
-                    fragment.setArguments(args);
-                    transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
+                    if (editflg) {
+                        LogUtil.logDebug("def");
+                        fragment = new WebViewFragment();
+                    } else {
+                        LogUtil.logDebug("ghi");
+                        // 曲一覧画面を表示
+                        FragmentManager manager = getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        MusicListFragment musicListFragment = new MusicListFragment();
+                        fragment = musicListFragment;
+//                    transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
 //            transaction.addToBackStack(MusicListFragment.TAG);
-                    transaction.commit();
+//                    transaction.commit();
+                    }
+                } else if (position == TAB_PAGE_1) {
+                    fragment = new WebViewFragment();
+
                 }
 
                 LogUtil.logExiting();
-                return new MusicListFragment();
+                return fragment;
             }
 
             @Override
@@ -183,11 +225,55 @@ public class MusicListActivity extends AppCompatActivity
         //オートマチック方式: これだけで両方syncする
         tabLayout.setupWithViewPager(viewPager);
 */
+
+        // タブ設定
+        // ※スワイプ遷移不可のCustomViewPagerを使用
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager = (CustomViewPager)findViewById(R.id.pager);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
 /*
         tabLayout.addTab(tabLayout.newTab().setText("DBHR RESULT"));
         tabLayout.addTab(tabLayout.newTab().setText("TEXTAGE"));
 */
+/*
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </WebView>
+
+</FrameLayout>
+
+public class WebViewFragment extends Fragment {
+    WebView webView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_web_view, container, false);
+
+        webView= (WebView)v.findViewById(R.id.webView);
+
+        webView.setWebViewClient(new WebViewClient());
+
+        webView.loadUrl("http://textage.cc/");
+
+        return v;
+    }
+
+
+*/
         // SharedPreferencesラッパー取得
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
@@ -216,7 +302,7 @@ public class MusicListActivity extends AppCompatActivity
 //        TextView textView = (TextView) findViewById(R.id.musicListTextView);
 //        textView.setText( sb.toString() + "TextView" );
 
-
+/*
         // 曲一覧画面を表示
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -224,6 +310,7 @@ public class MusicListActivity extends AppCompatActivity
         transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
 //            transaction.addToBackStack(MusicListFragment.TAG);
         transaction.commit();
+*/
 
         LogUtil.logExiting();
     }
@@ -240,7 +327,24 @@ public class MusicListActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+
+            Fragment fragment = (Fragment) getSupportFragmentManager().
+                    findFragmentByTag("android:switcher:" + R.id.pager + ":" + viewPager.getCurrentItem());
+
+            if (fragment != null && fragment instanceof BaseFragment) // could be null if not instantiated yet
+            {
+                if (fragment.getView() != null) {
+                    BaseFragment bf = (BaseFragment)fragment;
+                    if(bf.isShowingChild()) {
+                        replaceChild(bf, viewPager.getCurrentItem());
+                    }
+                    else {
+                        finish();
+                    }
+                }
+            }
+
         }
 
         LogUtil.logExiting();
@@ -315,8 +419,13 @@ public class MusicListActivity extends AppCompatActivity
             android.app.FragmentManager manager = getFragmentManager();
             android.app.FragmentTransaction transaction = manager.beginTransaction();
             DbmsSettingFlagment dbmsSettingFlagment = new DbmsSettingFlagment();
-            transaction.replace(R.id.musicFragment, dbmsSettingFlagment).addToBackStack(null);
+//            transaction.replace(R.id.musicFragment, dbmsSettingFlagment).addToBackStack(null);
+            transaction.add(R.id.dbmsSettingFragment, dbmsSettingFlagment).addToBackStack(null);
             transaction.commit();
+
+            // タブを一時的に非表示にする
+            tabLayout.setVisibility(View.GONE);
+
 
         }else if (id == R.id.action_import_gss) {
             // スプレッドシート取得
@@ -421,6 +530,10 @@ public class MusicListActivity extends AppCompatActivity
         if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             // ボタンが押されたとき
             if (e.getAction() == KeyEvent.ACTION_DOWN) {
+
+                // タブを表示する
+                // ※設定画面表示時にGONE（詰めて消す）に設定しているため
+                tabLayout.setVisibility(View.VISIBLE);
 
                 // フラグメントのスタックに残があれば1つ前に戻る
                 //   ※getSupportFragmentManagerを呼び出していたから常に0が帰ってきてハマった。

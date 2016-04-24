@@ -26,6 +26,8 @@ import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.presenters.activities.MusicListActivity;
+import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -38,7 +40,7 @@ import greendao.MusicResultDBHRDao;
 /**
  * Created by str2653z on 2016/03/10.
  */
-public class MusicEditFragment extends Fragment implements View.OnClickListener {
+public class MusicEditFragment extends BaseFragment implements View.OnClickListener {
 
     private MusicMst music;
     private int musicPosition;
@@ -95,22 +97,29 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
             // Navigation Drowerを非表示ロック
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
+/*
             // バックスタックのフラグメントをポップ
             getFragmentManager().popBackStack();
+*/
+            ((MusicListActivity)getActivity()).replaceChild(this, 0);
 
         } else if (view == backButton) {
             // Navigation Drowerを非表示ロック
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
+/*
             // バックスタックのフラグメントをポップ
             getFragmentManager().popBackStack();
+*/
+            ((MusicListActivity)getActivity()).replaceChild(this, 0);
+
         }
+/*
+        // TODO: これなんだっけ・・・？アプリ上のソフトキーボード制御？
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
+*/
         LogUtil.logExiting();
     }
 
@@ -496,11 +505,12 @@ public class MusicEditFragment extends Fragment implements View.OnClickListener 
         getMusicMstDao(getActivity().getApplicationContext()).insertOrReplace(music);
         getMusicResultDBHRDao(getActivity().getApplicationContext()).insertOrReplace(music.getMusicResultDBHR());
 
-
+/*
         // 更新内容でリストビューを再描画（選択箇所のみ）
         // ※行わない場合、スクロールで外して再表示しないと更新内容が曲一覧側で見れない
         ((MusicListFragment)getActivity().getSupportFragmentManager().findFragmentByTag(MusicListFragment.TAG))
                 .updateListView(musicPosition);
+*/
 
         LogUtil.logExiting();
     }

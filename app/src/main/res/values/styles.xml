@@ -20,5 +20,10 @@
         <item name="android:textColor">#cc0000</item><!-- menu item height-->
         <item name="android:itemBackground">#ffcccc</item><!-- menu item height-->
     </style>
+    <!-- TabLayout -->
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 
 </resources>

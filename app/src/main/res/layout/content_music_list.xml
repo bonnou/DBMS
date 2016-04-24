@@ -37,11 +37,59 @@
 -->
 
     <!-- フラグメントコンテナ -->
+
     <FrameLayout
         android:id="@+id/musicFragment"
         android:layout_width="wrap_content"
+        android:layout_weight="10000"
+        android:layout_height="match_parent"
+        />
+
+    <FrameLayout
+        android:id="@+id/dbmsSettingFragment"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
+
+    <net.in.ahr.dbms.presenters.tabManagers.CustomViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs"
+        />
+
+    <!--
+        <android.support.v4.app.FragmentTabHost
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tab_host"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0" />
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0" />
+                <FrameLayout
+                    android:id="@+id/musicFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </android.support.v4.app.FragmentTabHost>
+
+musicFragment　→　real_content
+ -->
 
 <!--
     <LinearLayout
