@@ -55,7 +55,7 @@ android {
         versionCode 1
         versionName "0.0.1"
         multiDexEnabled true
-        resConfigs "en", "ja"
+//        resConfigs "en", "ja"
     }
 
     signingConfigs {
