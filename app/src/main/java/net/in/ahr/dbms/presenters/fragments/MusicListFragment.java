@@ -108,6 +108,7 @@ public class MusicListFragment extends BaseFragment {
                 bundle.putSerializable("musicForEdit", music);
                 musicEditFragment.setArguments(bundle);
 */
+
 /*
                 // TODO: addだと時々Fragmentが重なったからreplaceに変更して様子見
                 transaction.replace(R.id.musicFragment, musicEditFragment).addToBackStack(null);
