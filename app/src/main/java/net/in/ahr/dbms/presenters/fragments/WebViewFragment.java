@@ -25,7 +25,7 @@ public class WebViewFragment extends BaseFragment {
 
         webView.setWebViewClient(new WebViewClient());
 
-        webView.loadUrl("http://p.eagate.573.jp/game/2dx/23/p/djdata/status.html");
+        webView.loadUrl("http://zasa.sakura.ne.jp/dp/rank.php");
 
         return v;
     }

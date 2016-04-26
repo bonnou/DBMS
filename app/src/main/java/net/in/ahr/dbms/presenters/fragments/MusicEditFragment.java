@@ -1,5 +1,6 @@
 package net.in.ahr.dbms.presenters.fragments;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -527,6 +528,11 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private void initToolbar() {
         LogUtil.logEntering();
 
+        // タブの表示設定変更
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabLayout.setVisibility(View.GONE);
+
+        // ツールバーの表示設定変更
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_EDIT);
 //        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
@@ -547,6 +553,11 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private void revertToolbar() {
         LogUtil.logEntering();
 
+        // タブの表示設定変更戻し
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabLayout.setVisibility(View.VISIBLE);
+
+        // ツールバーの表示設定変更戻し
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
 //            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
