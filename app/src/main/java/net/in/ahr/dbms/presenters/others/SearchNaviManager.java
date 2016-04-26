@@ -108,6 +108,7 @@ public class SearchNaviManager {
     // メニュー項目（ORDER BY）
     private MenuItem item_nav_orderby_difficult_name;
     private MenuItem item_nav_orderby_name;
+    private MenuItem item_nav_orderby_clear_lamp;
     private MenuItem item_nav_orderby_ex_score;
     private MenuItem item_nav_orderby_bp;
     private MenuItem item_nav_orderby_score_rate;
@@ -373,6 +374,8 @@ public class SearchNaviManager {
         item_nav_orderby_difficult_name.setChecked(false);
         item_nav_orderby_name = navigationView.getMenu().findItem(R.id.nav_orderby_name);
         item_nav_orderby_name.setChecked(false);
+        item_nav_orderby_clear_lamp = navigationView.getMenu().findItem(R.id.nav_orderby_clear_lamp);
+        item_nav_orderby_clear_lamp.setChecked(false);
         item_nav_orderby_ex_score = navigationView.getMenu().findItem(R.id.nav_orderby_ex_score);
         item_nav_orderby_ex_score.setChecked(false);
         item_nav_orderby_bp = navigationView.getMenu().findItem(R.id.nav_orderby_bp);
@@ -393,6 +396,9 @@ public class SearchNaviManager {
 
         } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME.equals(searchOrderByTarget) ) {
             item_nav_orderby_name.setChecked(true);
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEARLAMP.equals(searchOrderByTarget) ) {
+            item_nav_orderby_clear_lamp.setChecked(true);
 
         } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE.equals(searchOrderByTarget) ) {
             item_nav_orderby_ex_score.setChecked(true);
@@ -420,6 +426,7 @@ public class SearchNaviManager {
         allItemNavOrderByArr = new MenuItem[]{
                 item_nav_orderby_difficult_name,
                 item_nav_orderby_name,
+                item_nav_orderby_clear_lamp,
                 item_nav_orderby_ex_score,
                 item_nav_orderby_bp,
                 item_nav_orderby_score_rate,
@@ -952,6 +959,11 @@ public class SearchNaviManager {
             dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME);
             checkOffOther(allItemNavOrderByArr, item_nav_orderby_name);
 
+        } else if (id == R.id.nav_orderby_clear_lamp) {
+            selectedItem.setChecked(true);
+            dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEARLAMP);
+            checkOffOther(allItemNavOrderByArr, item_nav_orderby_clear_lamp);
+
         } else if (id == R.id.nav_orderby_ex_score) {
             selectedItem.setChecked(true);
             dbmsSharedPreferences.putSearchOrderByTarget(AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE);
@@ -1386,6 +1398,13 @@ public class SearchNaviManager {
         } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_NAME.equals(searchOrderByTarget) ) {
             whereSb.append(
                     "order by T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
+            );
+
+        } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_CLEARLAMP.equals(searchOrderByTarget) ) {
+            whereSb.append(
+                    "order by " + AppConst.CONST_SQL_ORDER_BY_CLEAR_LAMP_CASE + orderSortKind
+                            + ", T." + MusicMstDao.Properties.Difficult.columnName          + orderSortKind
+                            + ", T." + MusicMstDao.Properties.SortNumInDifficult.columnName + orderSortKind
             );
 
         } else if ( AppConst.SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE.equals(searchOrderByTarget) ) {

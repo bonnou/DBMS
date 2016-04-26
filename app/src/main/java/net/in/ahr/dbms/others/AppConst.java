@@ -5,6 +5,8 @@ import net.in.ahr.dbms.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import greendao.MusicResultDBHRDao;
+
 /**
  * Created by str2653z on 2016/03/19.
  */
@@ -343,6 +345,7 @@ public class AppConst {
      *********************************************************************************/
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME  = "SHARED_VALUE_SEARCH_ORDER_BY_DIFFICULT_NAME";
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_NAME            = "SHARED_VALUE_SEARCH_ORDER_BY_NAME";
+    public static final String SHARED_VALUE_SEARCH_ORDER_BY_CLEARLAMP       = "SHARED_VALUE_SEARCH_ORDER_BY_CLEARLAMP";
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE         = "SHARED_VALUE_SEARCH_ORDER_BY_EXSCORE";
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_BP              = "SHARED_VALUE_SEARCH_ORDER_BY_BP";
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE      = "SHARED_VALUE_SEARCH_ORDER_BY_SCORE_RATE";
@@ -352,6 +355,25 @@ public class AppConst {
 
     public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC  = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC";
     public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC";
+
+    /*********************************************************************************
+     * SQL
+     *********************************************************************************/
+
+    // ORDER BYでクリアランプをソート
+    public static final String CONST_SQL_ORDER_BY_CLEAR_LAMP_CASE
+            = " case T0." + MusicResultDBHRDao.Properties.ClearLamp.columnName
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY           + "' then 0 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY          + "' then 1 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_FAILED            + "' then 2 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR      + "' then 3 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR + "' then 4 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR        + "' then 5 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR      + "' then 6 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR        + "' then 7 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR      + "' then 8 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO        + "' then 9 "
+            + " when '" + MUSIC_MST_CLEAR_LAMP_VAL_PERFECT           + "' then 10 end ";
 
     /*********************************************************************************
      * Toolbarタイトル

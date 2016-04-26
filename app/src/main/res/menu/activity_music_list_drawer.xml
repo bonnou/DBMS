@@ -344,6 +344,11 @@
                 android:state_selected="true"
                 />
             <item
+                android:id="@+id/nav_orderby_clear_lamp"
+                android:title="　　clear lamp"
+                android:state_selected="true"
+                />
+            <item
                 android:id="@+id/nav_orderby_ex_score"
                 android:title="　　ex score"
                 android:state_selected="true"
