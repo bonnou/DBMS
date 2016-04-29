@@ -1,12 +1,34 @@
 <resources>
-    <array name="entry_sample">
+<!--
+    <array name="setting_selectable_clear_lamp">
         <item>@string/pref_entry1</item>
         <item>@string/pref_entry2</item>
     </array>
+-->
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY           = "NO PLAY";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY          = "FAR AWAY";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAILED            = "FAILED";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR      = "ASSIST CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR = "ASSIST EASY CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR        = "EASY CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR      = "NORMAL CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR        = "HARD CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR      = "EXHARD CLEAR";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO        = "FULL COMBO";
+    public static final String MUSIC_MST_CLEAR_LAMP_VAL_PERFECT           = "PERFECT";
 
-    <string-array name="entry_sample_values">
-        <item>1</item>
-        <item>0</item>
+    <string-array name="setting_selectable_clear_lamp">
+        <item>NO PLAY</item>
+        <item>FAR AWAY</item>
+        <item>FAILED</item>
+        <item>ASSIST CLEAR</item>
+        <item>ASSIST EASY CLEAR</item>
+        <item>EASY CLEAR</item>
+        <item>NORMAL CLEAR</item>
+        <item>HARD CLEAR</item>
+        <item>EXHARD CLEAR</item>
+        <item>FULL COMBO</item>
+        <item>PERFECT</item>
     </string-array>
 
 </resources>

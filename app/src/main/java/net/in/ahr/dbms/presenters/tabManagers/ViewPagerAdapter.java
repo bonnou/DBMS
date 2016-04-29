@@ -41,7 +41,11 @@ package net.in.ahr.dbms.presenters.tabManagers;
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private BaseFragment mFragmentAtPos0; // Fragment at index 0
+    public BaseFragment mFragmentAtPos0; // Fragment at index 0
+    public BaseFragment getmFragmentAtPos0() {
+        return mFragmentAtPos0;
+    }
+
     private BaseFragment mFragmentAtPos1; // Fragment at index 1
 //    private BaseFragment mFragmentAtPos2; // Fragment at index 2
     private final FragmentManager mFragmentManager;
@@ -57,28 +61,28 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            if (mFragmentAtPos1 == null) {
-                mFragmentAtPos1 = new MusicListFragment();
-                mFragmentAtPos1.mListener = new PageFragmentListener() {
+            if (mFragmentAtPos0 == null) {
+                mFragmentAtPos0 = new MusicListFragment();
+                mFragmentAtPos0.mListener = new PageFragmentListener() {
                     public void onSwitchToNextFragment() {
-                        mFragmentManager.beginTransaction().remove(mFragmentAtPos1).commit();
-                        mFragmentAtPos1 = new MusicEditFragment();
+                        mFragmentManager.beginTransaction().remove(mFragmentAtPos0).commit();
+                        mFragmentAtPos0 = new MusicEditFragment();
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("musicPosition", MusicListActivity.position);
                         bundle.putSerializable("musicForEdit", MusicListActivity.musicForEdit);
-                        mFragmentAtPos1.setArguments(bundle);
-                        mFragmentAtPos1.setShowingChild(true);
+                        mFragmentAtPos0.setArguments(bundle);
+                        mFragmentAtPos0.setShowingChild(true);
                         notifyDataSetChanged();
                     }
                 };
             }
-            return mFragmentAtPos1;
+            return mFragmentAtPos0;
 
         } else if (position == 1) {
-            if (mFragmentAtPos0 == null) {
-                mFragmentAtPos0 = new WebViewFragment();
+            if (mFragmentAtPos1 == null) {
+                mFragmentAtPos1 = new WebViewFragment();
             }
-            return mFragmentAtPos0;
+            return mFragmentAtPos1;
 
 /*
         } else if (position == 2) {
@@ -113,7 +117,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(Object object)
     {
-        if (object instanceof MusicListFragment && mFragmentAtPos1 instanceof MusicEditFragment) {
+        if (object instanceof MusicListFragment && mFragmentAtPos0 instanceof MusicEditFragment) {
             return POSITION_NONE;
         }
 /*
@@ -131,16 +135,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 mFragmentManager.beginTransaction().remove(oldFrg).commit();
-                mFragmentAtPos1 = new MusicListFragment();
-                mFragmentAtPos1.mListener = new PageFragmentListener() {
+                mFragmentAtPos0 = new MusicListFragment();
+                mFragmentAtPos0.mListener = new PageFragmentListener() {
                     public void onSwitchToNextFragment() {
-                        mFragmentManager.beginTransaction().remove(mFragmentAtPos1).commit();
-                        mFragmentAtPos1 = new MusicEditFragment();
+                        mFragmentManager.beginTransaction().remove(mFragmentAtPos0).commit();
+                        mFragmentAtPos0 = new MusicEditFragment();
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("musicPosition", MusicListActivity.position);
                         bundle.putSerializable("musicForEdit", MusicListActivity.musicForEdit);
-                        mFragmentAtPos1.setArguments(bundle);
-                        mFragmentAtPos1.setShowingChild(true);
+                        mFragmentAtPos0.setArguments(bundle);
+                        mFragmentAtPos0.setShowingChild(true);
                         notifyDataSetChanged();
                     }
                 };
@@ -149,7 +153,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
             case 1:
                 mFragmentManager.beginTransaction().remove(oldFrg).commit();
-                mFragmentAtPos0 = new WebViewFragment();
+                mFragmentAtPos1 = new WebViewFragment();
                 notifyDataSetChanged();
                 break;
 /*

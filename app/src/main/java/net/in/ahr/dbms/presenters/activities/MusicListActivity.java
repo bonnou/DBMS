@@ -2,9 +2,6 @@ package net.in.ahr.dbms.presenters.activities;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -13,12 +10,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -30,24 +26,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.Toast;
 
-import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
-import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
-
-import net.in.ahr.dbms.presenters.fragments.WebViewFragment;
-import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
@@ -60,7 +46,9 @@ import net.in.ahr.dbms.others.events.musicList.ProgresDialogShowEvent;
 import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
-import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
+import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
+import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
+import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 import net.in.ahr.dbms.presenters.tabManagers.CustomViewPager;
 import net.in.ahr.dbms.presenters.tabManagers.ViewPagerAdapter;
@@ -68,10 +56,7 @@ import net.in.ahr.dbms.presenters.tabManagers.ViewPagerAdapter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
@@ -80,7 +65,7 @@ import greendao.MusicResultDBHRDao;
 /**
  * 曲一覧画面Activity。本アプリのルートActivity。
  */
-public class MusicListActivity extends AppCompatActivity
+public  class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
                    ViewPager.OnPageChangeListener {
 
@@ -105,9 +90,22 @@ public class MusicListActivity extends AppCompatActivity
     /** プログレスバー */
     private ProgressDialog progressDialog;
 
+    /** ツールバー */
+    public Toolbar toolbar;
+    public Toolbar getToolbar() { return toolbar; }
+
+    /** NavigationDrawer用トグル */
+    public ActionBarDrawerToggle toggle;
+    public ActionBarDrawerToggle getToggle() { return toggle; }
+
+    public void setToggle(ActionBarDrawerToggle toggle) { this.toggle = toggle; }
+
+    public DrawerLayout drawer;
+    public DrawerLayout getDrawer() { return drawer; }
+
+
     /** 検索・ソート条件管理オブジェクト */
     SearchNaviManager searchNaviManager;
-
     public SearchNaviManager getSearchNaviManager() {
         return searchNaviManager;
     }
@@ -152,80 +150,6 @@ public class MusicListActivity extends AppCompatActivity
         // レイアウトXML指定
         setContentView(R.layout.activity_music_list);
 
-        // ツールバー設定
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.inflateMenu(R.menu.menu_music);
-
-/*
-        FragmentTabHost tabHost = (FragmentTabHost) findViewById(R.id.tab_host);
-        tabHost.setup(this, getSupportFragmentManager(), R.id.musicFragment);
-
-        TabHost.TabSpec tab1Spec = tabHost.newTabSpec("TAB1");
-        Button tab1Button = new Button(this);
-        //タブに表示するビュー
-        tab1Button.setText("Tab1");
-        tab1Spec.setIndicator(tab1Button);
-        tabHost.addTab(tab1Spec, MusicListFragment.class, null);
-
-        TabHost.TabSpec tab2Spec = tabHost.newTabSpec("TAB2");
-        Button tab2Button = new Button(this);
-        tab2Button.setText("Tab2");
-        tab2Spec.setIndicator(tab2Button);
-        tabHost.addTab(tab2Spec, WebViewFragment.class, null);
-*/
-/*
-        // タブ設定
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                LogUtil.logEntering();
-
-                Fragment fragment = null;
-                if (position == TAB_PAGE_0) {
-                    if (editflg) {
-                        LogUtil.logDebug("def");
-                        fragment = new WebViewFragment();
-                    } else {
-                        LogUtil.logDebug("ghi");
-                        // 曲一覧画面を表示
-                        FragmentManager manager = getSupportFragmentManager();
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        MusicListFragment musicListFragment = new MusicListFragment();
-                        fragment = musicListFragment;
-//                    transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
-//            transaction.addToBackStack(MusicListFragment.TAG);
-//                    transaction.commit();
-                    }
-                } else if (position == TAB_PAGE_1) {
-                    fragment = new WebViewFragment();
-
-                }
-
-                LogUtil.logExiting();
-                return fragment;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return "tab " + (position + 1);
-            }
-
-            @Override
-            public int getCount() {
-                return TAB_PAGE_SIZE;
-            }
-        };
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-
-        //オートマチック方式: これだけで両方syncする
-        tabLayout.setupWithViewPager(viewPager);
-*/
-
         // タブ設定
         // ※スワイプ遷移不可のCustomViewPagerを使用
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -234,68 +158,11 @@ public class MusicListActivity extends AppCompatActivity
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-/*
-        tabLayout.addTab(tabLayout.newTab().setText("DBHR RESULT"));
-        tabLayout.addTab(tabLayout.newTab().setText("TEXTAGE"));
-*/
-/*
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    </WebView>
-
-</FrameLayout>
-
-public class WebViewFragment extends Fragment {
-    WebView webView;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_web_view, container, false);
-
-        webView= (WebView)v.findViewById(R.id.webView);
-
-        webView.setWebViewClient(new WebViewClient());
-
-        webView.loadUrl("http://textage.cc/");
-
-        return v;
-    }
-
-
-*/
-        // SharedPreferencesラッパー取得
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
-
         // 自動CSVエクスポートサービス起動
         scheduleService();
 
-        // 検索・ソートNavigationDrawer設定
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        initToolbar();
 
-        // 検索・ソートNavigationDrawer管理オブジェクト生成・保持
-        SearchNaviManager searchNaviManager = new SearchNaviManager(navigationView, dbmsSharedPreferences);
-        setSearchNaviManager(searchNaviManager);
-
-        // アプリ起動時の検索・ソートNavigationDrawerの条件設定処理
-        searchNaviManager.settingAtOnCreate();
 
         // TODO TextViewがあるとfragmentが表示されないのはなぜ？
         // TextViewへの値設定
@@ -311,6 +178,39 @@ public class WebViewFragment extends Fragment {
 //            transaction.addToBackStack(MusicListFragment.TAG);
         transaction.commit();
 */
+
+        LogUtil.logExiting();
+    }
+
+    private void initToolbar() {
+        LogUtil.logEntering();
+
+        // SharedPreferencesラッパー取得
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
+
+        // ツールバー設定
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_music);
+
+        // 検索・ソートNavigationDrawer設定
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // http://stackoverflow.com/questions/26588917/appcompat-v7-toolbar-onoptionsitemselected-not-called
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        toggle = new ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // 検索・ソートNavigationDrawer管理オブジェクト生成・保持
+        SearchNaviManager searchNaviManager = new SearchNaviManager(navigationView, dbmsSharedPreferences);
+        setSearchNaviManager(searchNaviManager);
+
+        // アプリ起動時の検索・ソートNavigationDrawerの条件設定処理
+        searchNaviManager.settingAtOnCreate();
 
         LogUtil.logExiting();
     }
@@ -402,12 +302,13 @@ public class WebViewFragment extends Fragment {
             }
         });
 
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        LogUtil.logEntering();
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -420,14 +321,17 @@ public class WebViewFragment extends Fragment {
             android.app.FragmentTransaction transaction = manager.beginTransaction();
             DbmsSettingFlagment dbmsSettingFlagment = new DbmsSettingFlagment();
 //            transaction.replace(R.id.musicFragment, dbmsSettingFlagment).addToBackStack(null);
-            transaction.add(R.id.dbmsSettingFragment, dbmsSettingFlagment).addToBackStack(null);
+            transaction.add(R.id.dbmsSettingFragment, dbmsSettingFlagment, DbmsSettingFlagment.TAG).addToBackStack(null);
             transaction.commit();
 
             // タブを一時的に非表示にする
             tabLayout.setVisibility(View.GONE);
 
+            // スライドメニューをCLOSEでロック
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        }else if (id == R.id.action_import_gss) {
+
+        } else if (id == R.id.action_import_gss) {
             // スプレッドシート取得
             Toast.makeText(this, "BEGIN import from Google Spread Sheet...", Toast.LENGTH_LONG).show();
             GSSAsyncTask gSSAsyncTask = new GSSAsyncTask(this);
@@ -490,6 +394,7 @@ public class WebViewFragment extends Fragment {
 
         }
 
+        LogUtil.logExiting();
         return super.onOptionsItemSelected(item);
     }
 
@@ -519,8 +424,6 @@ public class WebViewFragment extends Fragment {
         MusicListAdapter musicListAdapter = (MusicListAdapter) musicListView.getAdapter();
         musicListAdapter.searchApplyToListView(this);
     }
-
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
@@ -694,6 +597,41 @@ public class WebViewFragment extends Fragment {
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp () {
+        LogUtil.logEntering();
+
+        // 各種設定画面フラグメントを取得し
+        android.app.FragmentManager fm = getFragmentManager();
+        DbmsSettingFlagment dbmsSettingFlagment = (DbmsSettingFlagment) fm.findFragmentByTag(DbmsSettingFlagment.TAG);
+
+        BaseFragment baseFragment = ((ViewPagerAdapter)viewPager.getAdapter()).getmFragmentAtPos0();
+        if ( baseFragment instanceof MusicEditFragment ) {
+            MusicEditFragment musicEditFragment = (MusicEditFragment) baseFragment;
+            replaceChild(musicEditFragment, 0);
+
+            // 呼ぶと、編集画面の左上のボタンで戻った後に編集画面に行くと左上のボタンが矢印の絵にならない
+//            initToolbar();
+
+            // Navigation Drowerのスワイプロックを解除
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        } else if (dbmsSettingFlagment != null) {
+            fm.popBackStack();
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        } else {
+            // Navigation Drowerをオープン（オープンだけだとスライドできなくなるのでアンロックも）
+            // TODO:なぜ編集画面を経由すると、自分でオープン処理を書かないといけなくなったのか・・・？
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        }
+
+        LogUtil.logExiting();
+        return false;
     }
 
 }

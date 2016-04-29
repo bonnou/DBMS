@@ -14,8 +14,4 @@
     <string name="action_import_csv">Import CSV to DB</string>
     <string name="action_debug_crash">truncate &amp; crash (for DEBUG)</string>
 
-    <string name="pref_entry1">prefEntry1</string>
-    <string name="pref_entry2">prefEntry2</string>
-    <string name="pref_key_list_preference">KeyListPreference</string>
-
 </resources>

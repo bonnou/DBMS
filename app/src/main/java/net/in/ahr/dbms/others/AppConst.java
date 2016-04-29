@@ -337,7 +337,6 @@ public class AppConst {
      * SharedPreferencesキー（ORDER BY）
      *********************************************************************************/
     public static final String SHARED_KEY_SEARCH_ORDER_BY_TARGET  = "SHARED_KEY_SEARCH_ORDER_BY_TARGET";
-
     public static final String SHARED_KEY_SEARCH_ORDER_SORT_KIND  = "SHARED_KEY_SEARCH_ORDER_SORT_KIND";
 
     /*********************************************************************************
@@ -352,9 +351,13 @@ public class AppConst {
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE       = "SHARED_VALUE_SEARCH_ORDER_BY_MISS_RATE";
     public static final String SHARED_VALUE_SEARCH_ORDER_BY_UPDATED         = "SHARED_VALUE_SEARCH_ORDER_BY_UPDATED";
 //    public static final String SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS  = "SHARED_VALUE_SEARCH_ORDER_BY_CLEAR_PROGRESS";
-
     public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC  = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_ASC";
     public static final String SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC = "SHARED_VALUE_SEARCH_ORDER_SORT_KIND_DESC";
+
+    /*********************************************************************************
+     * SharedPreferencesキー（設定画面）
+     *********************************************************************************/
+    public static final String SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP = "SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP";
 
     /*********************************************************************************
      * SQL
@@ -384,6 +387,9 @@ public class AppConst {
 
     /** MusicEdit */
     public static final String TOOLBAR_TITLE_MUSIC_EDIT  = "Edit Result";
+
+    /** MusicEdit */
+    public static final String TOOLBAR_TITLE_SETTINGS  = "Settings";
 
     /*********************************************************************************
      * 例外情報（errCd）

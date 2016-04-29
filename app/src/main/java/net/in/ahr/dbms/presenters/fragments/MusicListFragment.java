@@ -1,34 +1,26 @@
 package net.in.ahr.dbms.presenters.fragments;
 
-import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
-import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;

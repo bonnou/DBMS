@@ -5,12 +5,12 @@
     android:layout_height="fill_parent"
     >
 
-    <PreferenceCategory android:title="Category Title" >
-        <ListPreference
-            android:title="Title"
-            android:key="@string/pref_key_list_preference"
-            android:entries="@array/entry_sample"
-            android:entryValues="@array/entry_sample_values"/>
-    </PreferenceCategory>
+    <MultiSelectListPreference
+        android:key="SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP"
+        android:title="選択可能クリアランプ"
+        android:summary="リザルト編集画面で選択可能なクリアランプを指定"
+        android:entries="@array/setting_selectable_clear_lamp"
+        android:entryValues="@array/setting_selectable_clear_lamp"
+        android:dialogTitle="選択可能クリアランプ" />
 
 </PreferenceScreen>

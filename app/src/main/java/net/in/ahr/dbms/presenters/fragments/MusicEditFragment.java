@@ -1,20 +1,19 @@
 package net.in.ahr.dbms.presenters.fragments;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,14 +23,19 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
+import net.in.ahr.dbms.presenters.fragments.common.ChildFragmentCommon;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
@@ -42,6 +46,8 @@ import greendao.MusicResultDBHRDao;
  * Created by str2653z on 2016/03/10.
  */
 public class MusicEditFragment extends BaseFragment implements View.OnClickListener {
+
+    public static final String TAG = "MusicEditFragment";
 
     private MusicMst music;
     private int musicPosition;
@@ -70,6 +76,9 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private TextView notesDbTextView;
     private TextView chargeNotesTextView;
 
+    /** サーチビュー */
+    SearchView searchView;
+
     private static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
@@ -85,43 +94,10 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         Bundle bundle = getArguments();
         music = (MusicMst) bundle.getSerializable("musicForEdit");
         musicPosition = bundle.getInt("musicPosition");
-    }
 
-    @Override
-    public void onClick(View view) {
-        LogUtil.logEntering();
-
-        if (view == updateButton) {
-            // 編集処理
-            updateResult(view);
-
-            // Navigation Drowerを非表示ロック
-            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-/*
-            // バックスタックのフラグメントをポップ
-            getFragmentManager().popBackStack();
-*/
-            ((MusicListActivity)getActivity()).replaceChild(this, 0);
-
-        } else if (view == backButton) {
-            // Navigation Drowerを非表示ロック
-            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-/*
-            // バックスタックのフラグメントをポップ
-            getFragmentManager().popBackStack();
-*/
-            ((MusicListActivity)getActivity()).replaceChild(this, 0);
-
-        }
-/*
-        // TODO: これなんだっけ・・・？アプリ上のソフトキーボード制御？
-
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-*/
-        LogUtil.logExiting();
+        // タブ表示なしFragmentのonCreate共通処理
+        ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
+        childFragmentCommon.onCreateCommon((MusicListActivity) getActivity(), this);
     }
 
     @Override
@@ -156,8 +132,32 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         clearLampSpinner = (Spinner) view.findViewById(R.id.musicEditFragment_clearLamp);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // クリアランプコード値配列
-        String[] clearLumpValArr = AppConst.CLEAR_LUMP_VAL_ARR;
+
+        // クリアランプコード値配列（定数）
+        String[] clearLumpAllValArr = AppConst.CLEAR_LUMP_VAL_ARR;
+
+        // 選択可能クリアランプの設定を取得
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences);
+        Set<String> clearLumpValSet = dbmsSharedPreferences.getSettingSelectableClearLamp();
+
+        // クリアランプコード値カスタムリスト生成
+        List<String> clearLumpValCustomList = new ArrayList<String>();
+
+        // 定数配列でループ
+        for (String clearLumpValConst : clearLumpAllValArr) {
+            if ( clearLumpValSet.contains(clearLumpValConst) ) {
+                // 選択可能クリアランプSetに含まれていればput
+                clearLumpValCustomList.add(clearLumpValConst);
+            } else if ( resultExistFlg && clearLumpValConst.equals(music.getMusicResultDBHR().getClearLamp()) ) {
+                // 選択可能クリアランプSetに含まれていなくても、リザルトのクリアランプの場合はadd
+                clearLumpValCustomList.add(clearLumpValConst);
+            }
+        }
+
+        // カスタム設定後のクリアランプ値配列
+        String[] clearLumpValArr = (String[]) clearLumpValCustomList.toArray(new String[0]);
+
         // 残ゲージor到達ノーツ数ラベル配列
         String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
         // 残ゲージor到達ノーツ数ラベル
@@ -271,35 +271,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         backButton = (Button) view.findViewById(R.id.musicEditFragment_backButton);
         backButton.setOnClickListener(this);
 
-/*
-        // バックキー押下時
-        view.setFocusableInTouchMode(true);
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                LogUtil.logDebug("event.getKeyCode():" + event.getKeyCode());
-                LogUtil.logDebug("event.getAction():" + event.getAction());
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-                    if (event.getAction() == KeyEvent.ACTION_UP) {
-                        getFragmentManager().popBackStack();
-                        LogUtil.logDebug("testtest");
-                        return true;
-                    } else {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                return;
-            }
-        });
-*/
-
         // リザルト情報
         // ジャンル
         updatedTextView = (TextView) view.findViewById(R.id.musicEditFragment_resultInfo_updated);
@@ -403,34 +374,38 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         chargeNotesTextView.setText(
                 String.valueOf(music.getChargeNotes() * 2));
 
-        // フラグメント用にメニューを変更
-        // TODO: フラグメント専用のメニューを追加する場合はどうしよう
-        initToolbar();
-//        getActivity().invalidateOptionsMenu();
-
-/*
-        toolbar.inflateMenu(R.menu.menu_music_edit);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.action_debug_crash) {
-                    throw new RuntimeException("action_debug_crash");
-                }
-                return false;
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-*/
-
         return view;
     }
 
+    @Override
+    public void onClick(View view) {
+        LogUtil.logEntering();
+
+        if (view == updateButton) {
+            // 編集処理
+            updateResult(view);
+
+            // Navigation Drowerのスワイプロックを解除
+            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            backToTabFirstFragment();
+
+        } else if (view == backButton) {
+            // Navigation Drowerのスワイプロックを解除
+            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            backToTabFirstFragment();
+
+        }
+
+//        // TODO: これなんだっけ・・・？アプリ上のソフトキーボード制御？
+//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        LogUtil.logExiting();
+    }
 
     private void updateResult(View view) {
         LogUtil.logEntering();
@@ -506,67 +481,52 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         getMusicMstDao(getActivity().getApplicationContext()).insertOrReplace(music);
         getMusicResultDBHRDao(getActivity().getApplicationContext()).insertOrReplace(music.getMusicResultDBHR());
 
-/*
-        // 更新内容でリストビューを再描画（選択箇所のみ）
-        // ※行わない場合、スクロールで外して再表示しないと更新内容が曲一覧側で見れない
-        ((MusicListFragment)getActivity().getSupportFragmentManager().findFragmentByTag(MusicListFragment.TAG))
-                .updateListView(musicPosition);
-*/
-
         LogUtil.logExiting();
     }
 
     @Override
     public void onDestroyView() {
-        revertToolbar();
+        LogUtil.logEntering();
+
+        // タブ表示なしFragmentのonDestroyView共通処理
+        ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
+        childFragmentCommon.onDestroyViewCommon((MusicListActivity) getActivity(), this);
+
         super.onDestroyView();
-    }
-
-    /**
-     * 他画面からの遷移時にツールバーの内容を編集
-     */
-    private void initToolbar() {
-        LogUtil.logEntering();
-
-        // タブの表示設定変更
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-        tabLayout.setVisibility(View.GONE);
-
-        // ツールバーの表示設定変更
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_EDIT);
-//        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        Menu menu = toolbar.getMenu();
-        MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
-        importGssItem.setVisible(false);
-        MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
-        refineSearchItem.setVisible(false);
-
-        // TODO: refineSearch中の場合にSearch部分が残ったまま画面遷移してしまう
 
         LogUtil.logExiting();
     }
 
-    /**
-     * 他画面への遷移時にツールバーの内容を編集
-     */
-    private void revertToolbar() {
+    private void backToTabFirstFragment() {
         LogUtil.logEntering();
 
-        // タブの表示設定変更戻し
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-        tabLayout.setVisibility(View.VISIBLE);
-
-        // ツールバーの表示設定変更戻し
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
-//            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        Menu menu = toolbar.getMenu();
-        MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
-        importGssItem.setVisible(true);
-        MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
-        refineSearchItem.setVisible(true);
+        ((MusicListActivity)getActivity()).replaceChild(this, 0);
 
         LogUtil.logExiting();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        LogUtil.logEntering();
+
+        // タブ表示なしFragmentのonCreateOptionsMenu共通処理
+        ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
+        childFragmentCommon.onCreateOptionsMenuCommon((MusicListActivity) getActivity());
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+        LogUtil.logExiting();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        LogUtil.logEntering();
+
+        // タブ表示なしFragmentのonPrepareOptionsMenu共通処理
+        ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
+        childFragmentCommon.onPrepareOptionsMenuCommon((MusicListActivity) getActivity(), menu, TAG);
+
+        LogUtil.logExiting();
+    }
+
 }

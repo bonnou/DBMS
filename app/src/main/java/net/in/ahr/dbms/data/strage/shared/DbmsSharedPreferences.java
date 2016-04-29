@@ -4,6 +4,10 @@ import android.content.SharedPreferences;
 
 import net.in.ahr.dbms.others.AppConst;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by str2653z on 2016/04/10.
  */
@@ -610,6 +614,11 @@ public class DbmsSharedPreferences {
     public DbmsSharedPreferences putSearchOrderSortKind(String val) {
         editor.putString(AppConst.SHARED_KEY_SEARCH_ORDER_SORT_KIND, val);
         return this;
+    }
+
+    // 設定画面_選択可能クリアランプ
+    public Set<String> getSettingSelectableClearLamp() {
+        return sharedPreferences.getStringSet(AppConst.SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP, new HashSet<String>(Arrays.asList(AppConst.CLEAR_LUMP_VAL_ARR)));
     }
 
 
