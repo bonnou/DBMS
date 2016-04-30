@@ -98,7 +98,7 @@ public class DbmsSettingFlagment extends PreferenceFragment {
 
     @Override
     public void onDestroyView() {
-//        revertDisplaySetting();
+        LogUtil.logEntering();
 
         //----------------------------
         // ChildFragmentCommon#onCreateCommonメソッドのFragment非support用処理：開始
@@ -142,6 +142,8 @@ public class DbmsSettingFlagment extends PreferenceFragment {
         rootActivity.setToggle(newToggle);
 
         super.onDestroyView();
+
+        LogUtil.logExiting();
     }
 
     @Override
