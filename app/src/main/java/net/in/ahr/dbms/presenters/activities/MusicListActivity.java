@@ -434,15 +434,16 @@ public  class MusicListActivity extends AppCompatActivity
             // ボタンが押されたとき
             if (e.getAction() == KeyEvent.ACTION_DOWN) {
 
-                // タブを表示する
-                // ※設定画面表示時にGONE（詰めて消す）に設定しているため
-                tabLayout.setVisibility(View.VISIBLE);
-
                 // フラグメントのスタックに残があれば1つ前に戻る
                 //   ※getSupportFragmentManagerを呼び出していたから常に0が帰ってきてハマった。
                 int backStackCnt = getFragmentManager().getBackStackEntryCount();
                 LogUtil.logDebug("backStackCnt:" + backStackCnt);
                 if ( backStackCnt != 0 ) {
+
+                    // タブを表示する
+                    // ※設定画面表示時にGONE（詰めて消す）に設定しているため
+                    tabLayout.setVisibility(View.VISIBLE);
+
                     // Navigation Drowerを非表示ロック
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
