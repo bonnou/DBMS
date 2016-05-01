@@ -24,22 +24,38 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property ClearLamp = new Property(1, String.class, "clearLamp", false, "CLEAR_LAMP");
-        public final static Property ExScore = new Property(2, Integer.class, "exScore", false, "EX_SCORE");
-        public final static Property Bp = new Property(3, Integer.class, "bp", false, "BP");
-        public final static Property ScoreRank = new Property(4, String.class, "scoreRank", false, "SCORE_RANK");
-        public final static Property ScoreRate = new Property(5, Double.class, "scoreRate", false, "SCORE_RATE");
-        public final static Property MissRate = new Property(6, Double.class, "missRate", false, "MISS_RATE");
-        public final static Property RemainingGaugeOrDeadNotes = new Property(7, Integer.class, "remainingGaugeOrDeadNotes", false, "REMAINING_GAUGE_OR_DEAD_NOTES");
-        public final static Property MemoOther = new Property(8, String.class, "memoOther", false, "MEMO_OTHER");
-        public final static Property PGreat = new Property(9, String.class, "pGreat", false, "P_GREAT");
-        public final static Property Great = new Property(10, String.class, "great", false, "GREAT");
-        public final static Property Good = new Property(11, String.class, "good", false, "GOOD");
-        public final static Property Bad = new Property(12, String.class, "bad", false, "BAD");
-        public final static Property Poor = new Property(13, String.class, "poor", false, "POOR");
-        public final static Property ComboBreak = new Property(14, String.class, "comboBreak", false, "COMBO_BREAK");
-        public final static Property InsDate = new Property(15, java.util.Date.class, "insDate", false, "INS_DATE");
-        public final static Property UpdDate = new Property(16, java.util.Date.class, "updDate", false, "UPD_DATE");
+        public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property Nha = new Property(2, String.class, "nha", false, "NHA");
+        public final static Property ClearLamp = new Property(3, String.class, "clearLamp", false, "CLEAR_LAMP");
+        public final static Property ExScore = new Property(4, Integer.class, "exScore", false, "EX_SCORE");
+        public final static Property Bp = new Property(5, Integer.class, "bp", false, "BP");
+        public final static Property ScoreRank = new Property(6, String.class, "scoreRank", false, "SCORE_RANK");
+        public final static Property ScoreRate = new Property(7, Double.class, "scoreRate", false, "SCORE_RATE");
+        public final static Property MissRate = new Property(8, Double.class, "missRate", false, "MISS_RATE");
+        public final static Property Tag = new Property(9, String.class, "tag", false, "TAG");
+        public final static Property Fav = new Property(10, String.class, "fav", false, "FAV");
+        public final static Property ClearLamp_DBR = new Property(11, String.class, "clearLamp_DBR", false, "CLEAR_LAMP__DBR");
+        public final static Property ClearLamp_DBRR = new Property(12, String.class, "clearLamp_DBRR", false, "CLEAR_LAMP__DBRR");
+        public final static Property ClearLamp_DBM = new Property(13, String.class, "clearLamp_DBM", false, "CLEAR_LAMP__DBM");
+        public final static Property ClearLamp_DBSR = new Property(14, String.class, "clearLamp_DBSR", false, "CLEAR_LAMP__DBSR");
+        public final static Property ClearLamp_DBM_NONAS = new Property(15, String.class, "clearLamp_DBM_NONAS", false, "CLEAR_LAMP__DBM__NONAS");
+        public final static Property ClearLamp_RH = new Property(16, String.class, "clearLamp_RH", false, "CLEAR_LAMP__RH");
+        public final static Property ClearLamp_LH = new Property(17, String.class, "clearLamp_LH", false, "CLEAR_LAMP__LH");
+        public final static Property MyDifficult = new Property(18, String.class, "myDifficult", false, "MY_DIFFICULT");
+        public final static Property DjPoint = new Property(19, Integer.class, "djPoint", false, "DJ_POINT");
+        public final static Property ClearProgressRate = new Property(20, Double.class, "clearProgressRate", false, "CLEAR_PROGRESS_RATE");
+        public final static Property LastPlayDate = new Property(21, java.util.Date.class, "lastPlayDate", false, "LAST_PLAY_DATE");
+        public final static Property LastUpdateDate = new Property(22, java.util.Date.class, "lastUpdateDate", false, "LAST_UPDATE_DATE");
+        public final static Property RemainingGaugeOrDeadNotes = new Property(23, Integer.class, "remainingGaugeOrDeadNotes", false, "REMAINING_GAUGE_OR_DEAD_NOTES");
+        public final static Property MemoOther = new Property(24, String.class, "memoOther", false, "MEMO_OTHER");
+        public final static Property PGreat = new Property(25, String.class, "pGreat", false, "P_GREAT");
+        public final static Property Great = new Property(26, String.class, "great", false, "GREAT");
+        public final static Property Good = new Property(27, String.class, "good", false, "GOOD");
+        public final static Property Bad = new Property(28, String.class, "bad", false, "BAD");
+        public final static Property Poor = new Property(29, String.class, "poor", false, "POOR");
+        public final static Property ComboBreak = new Property(30, String.class, "comboBreak", false, "COMBO_BREAK");
+        public final static Property InsDate = new Property(31, java.util.Date.class, "insDate", false, "INS_DATE");
+        public final static Property UpdDate = new Property(32, java.util.Date.class, "updDate", false, "UPD_DATE");
     };
 
 
@@ -56,22 +72,38 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'MUSIC_RESULT_DBHR' (" + //
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "'CLEAR_LAMP' TEXT," + // 1: clearLamp
-                "'EX_SCORE' INTEGER," + // 2: exScore
-                "'BP' INTEGER," + // 3: bp
-                "'SCORE_RANK' TEXT," + // 4: scoreRank
-                "'SCORE_RATE' REAL," + // 5: scoreRate
-                "'MISS_RATE' REAL," + // 6: missRate
-                "'REMAINING_GAUGE_OR_DEAD_NOTES' INTEGER," + // 7: remainingGaugeOrDeadNotes
-                "'MEMO_OTHER' TEXT," + // 8: memoOther
-                "'P_GREAT' TEXT," + // 9: pGreat
-                "'GREAT' TEXT," + // 10: great
-                "'GOOD' TEXT," + // 11: good
-                "'BAD' TEXT," + // 12: bad
-                "'POOR' TEXT," + // 13: poor
-                "'COMBO_BREAK' TEXT," + // 14: comboBreak
-                "'INS_DATE' INTEGER," + // 15: insDate
-                "'UPD_DATE' INTEGER);"); // 16: updDate
+                "'NAME' TEXT," + // 1: name
+                "'NHA' TEXT," + // 2: nha
+                "'CLEAR_LAMP' TEXT," + // 3: clearLamp
+                "'EX_SCORE' INTEGER," + // 4: exScore
+                "'BP' INTEGER," + // 5: bp
+                "'SCORE_RANK' TEXT," + // 6: scoreRank
+                "'SCORE_RATE' REAL," + // 7: scoreRate
+                "'MISS_RATE' REAL," + // 8: missRate
+                "'TAG' TEXT," + // 9: tag
+                "'FAV' TEXT," + // 10: fav
+                "'CLEAR_LAMP__DBR' TEXT," + // 11: clearLamp_DBR
+                "'CLEAR_LAMP__DBRR' TEXT," + // 12: clearLamp_DBRR
+                "'CLEAR_LAMP__DBM' TEXT," + // 13: clearLamp_DBM
+                "'CLEAR_LAMP__DBSR' TEXT," + // 14: clearLamp_DBSR
+                "'CLEAR_LAMP__DBM__NONAS' TEXT," + // 15: clearLamp_DBM_NONAS
+                "'CLEAR_LAMP__RH' TEXT," + // 16: clearLamp_RH
+                "'CLEAR_LAMP__LH' TEXT," + // 17: clearLamp_LH
+                "'MY_DIFFICULT' TEXT," + // 18: myDifficult
+                "'DJ_POINT' INTEGER," + // 19: djPoint
+                "'CLEAR_PROGRESS_RATE' REAL," + // 20: clearProgressRate
+                "'LAST_PLAY_DATE' INTEGER," + // 21: lastPlayDate
+                "'LAST_UPDATE_DATE' INTEGER," + // 22: lastUpdateDate
+                "'REMAINING_GAUGE_OR_DEAD_NOTES' INTEGER," + // 23: remainingGaugeOrDeadNotes
+                "'MEMO_OTHER' TEXT," + // 24: memoOther
+                "'P_GREAT' TEXT," + // 25: pGreat
+                "'GREAT' TEXT," + // 26: great
+                "'GOOD' TEXT," + // 27: good
+                "'BAD' TEXT," + // 28: bad
+                "'POOR' TEXT," + // 29: poor
+                "'COMBO_BREAK' TEXT," + // 30: comboBreak
+                "'INS_DATE' INTEGER," + // 31: insDate
+                "'UPD_DATE' INTEGER);"); // 32: updDate
     }
 
     /** Drops the underlying database table. */
@@ -90,84 +122,164 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
             stmt.bindLong(1, id);
         }
  
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(2, name);
+        }
+ 
+        String nha = entity.getNha();
+        if (nha != null) {
+            stmt.bindString(3, nha);
+        }
+ 
         String clearLamp = entity.getClearLamp();
         if (clearLamp != null) {
-            stmt.bindString(2, clearLamp);
+            stmt.bindString(4, clearLamp);
         }
  
         Integer exScore = entity.getExScore();
         if (exScore != null) {
-            stmt.bindLong(3, exScore);
+            stmt.bindLong(5, exScore);
         }
  
         Integer bp = entity.getBp();
         if (bp != null) {
-            stmt.bindLong(4, bp);
+            stmt.bindLong(6, bp);
         }
  
         String scoreRank = entity.getScoreRank();
         if (scoreRank != null) {
-            stmt.bindString(5, scoreRank);
+            stmt.bindString(7, scoreRank);
         }
  
         Double scoreRate = entity.getScoreRate();
         if (scoreRate != null) {
-            stmt.bindDouble(6, scoreRate);
+            stmt.bindDouble(8, scoreRate);
         }
  
         Double missRate = entity.getMissRate();
         if (missRate != null) {
-            stmt.bindDouble(7, missRate);
+            stmt.bindDouble(9, missRate);
+        }
+ 
+        String tag = entity.getTag();
+        if (tag != null) {
+            stmt.bindString(10, tag);
+        }
+ 
+        String fav = entity.getFav();
+        if (fav != null) {
+            stmt.bindString(11, fav);
+        }
+ 
+        String clearLamp_DBR = entity.getClearLamp_DBR();
+        if (clearLamp_DBR != null) {
+            stmt.bindString(12, clearLamp_DBR);
+        }
+ 
+        String clearLamp_DBRR = entity.getClearLamp_DBRR();
+        if (clearLamp_DBRR != null) {
+            stmt.bindString(13, clearLamp_DBRR);
+        }
+ 
+        String clearLamp_DBM = entity.getClearLamp_DBM();
+        if (clearLamp_DBM != null) {
+            stmt.bindString(14, clearLamp_DBM);
+        }
+ 
+        String clearLamp_DBSR = entity.getClearLamp_DBSR();
+        if (clearLamp_DBSR != null) {
+            stmt.bindString(15, clearLamp_DBSR);
+        }
+ 
+        String clearLamp_DBM_NONAS = entity.getClearLamp_DBM_NONAS();
+        if (clearLamp_DBM_NONAS != null) {
+            stmt.bindString(16, clearLamp_DBM_NONAS);
+        }
+ 
+        String clearLamp_RH = entity.getClearLamp_RH();
+        if (clearLamp_RH != null) {
+            stmt.bindString(17, clearLamp_RH);
+        }
+ 
+        String clearLamp_LH = entity.getClearLamp_LH();
+        if (clearLamp_LH != null) {
+            stmt.bindString(18, clearLamp_LH);
+        }
+ 
+        String myDifficult = entity.getMyDifficult();
+        if (myDifficult != null) {
+            stmt.bindString(19, myDifficult);
+        }
+ 
+        Integer djPoint = entity.getDjPoint();
+        if (djPoint != null) {
+            stmt.bindLong(20, djPoint);
+        }
+ 
+        Double clearProgressRate = entity.getClearProgressRate();
+        if (clearProgressRate != null) {
+            stmt.bindDouble(21, clearProgressRate);
+        }
+ 
+        java.util.Date lastPlayDate = entity.getLastPlayDate();
+        if (lastPlayDate != null) {
+            stmt.bindLong(22, lastPlayDate.getTime());
+        }
+ 
+        java.util.Date lastUpdateDate = entity.getLastUpdateDate();
+        if (lastUpdateDate != null) {
+            stmt.bindLong(23, lastUpdateDate.getTime());
         }
  
         Integer remainingGaugeOrDeadNotes = entity.getRemainingGaugeOrDeadNotes();
         if (remainingGaugeOrDeadNotes != null) {
-            stmt.bindLong(8, remainingGaugeOrDeadNotes);
+            stmt.bindLong(24, remainingGaugeOrDeadNotes);
         }
  
         String memoOther = entity.getMemoOther();
         if (memoOther != null) {
-            stmt.bindString(9, memoOther);
+            stmt.bindString(25, memoOther);
         }
  
         String pGreat = entity.getPGreat();
         if (pGreat != null) {
-            stmt.bindString(10, pGreat);
+            stmt.bindString(26, pGreat);
         }
  
         String great = entity.getGreat();
         if (great != null) {
-            stmt.bindString(11, great);
+            stmt.bindString(27, great);
         }
  
         String good = entity.getGood();
         if (good != null) {
-            stmt.bindString(12, good);
+            stmt.bindString(28, good);
         }
  
         String bad = entity.getBad();
         if (bad != null) {
-            stmt.bindString(13, bad);
+            stmt.bindString(29, bad);
         }
  
         String poor = entity.getPoor();
         if (poor != null) {
-            stmt.bindString(14, poor);
+            stmt.bindString(30, poor);
         }
  
         String comboBreak = entity.getComboBreak();
         if (comboBreak != null) {
-            stmt.bindString(15, comboBreak);
+            stmt.bindString(31, comboBreak);
         }
  
         java.util.Date insDate = entity.getInsDate();
         if (insDate != null) {
-            stmt.bindLong(16, insDate.getTime());
+            stmt.bindLong(32, insDate.getTime());
         }
  
         java.util.Date updDate = entity.getUpdDate();
         if (updDate != null) {
-            stmt.bindLong(17, updDate.getTime());
+            stmt.bindLong(33, updDate.getTime());
         }
     }
 
@@ -182,22 +294,38 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
     public MusicResultDBHR readEntity(Cursor cursor, int offset) {
         MusicResultDBHR entity = new MusicResultDBHR( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // clearLamp
-            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // exScore
-            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // bp
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // scoreRank
-            cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5), // scoreRate
-            cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6), // missRate
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // remainingGaugeOrDeadNotes
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // memoOther
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // pGreat
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // great
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // good
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // bad
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // poor
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // comboBreak
-            cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)), // insDate
-            cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)) // updDate
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // nha
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // clearLamp
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // exScore
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // bp
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // scoreRank
+            cursor.isNull(offset + 7) ? null : cursor.getDouble(offset + 7), // scoreRate
+            cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8), // missRate
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // tag
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // fav
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // clearLamp_DBR
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // clearLamp_DBRR
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // clearLamp_DBM
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // clearLamp_DBSR
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // clearLamp_DBM_NONAS
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // clearLamp_RH
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // clearLamp_LH
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // myDifficult
+            cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19), // djPoint
+            cursor.isNull(offset + 20) ? null : cursor.getDouble(offset + 20), // clearProgressRate
+            cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)), // lastPlayDate
+            cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)), // lastUpdateDate
+            cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23), // remainingGaugeOrDeadNotes
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // memoOther
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // pGreat
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // great
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // good
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // bad
+            cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // poor
+            cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // comboBreak
+            cursor.isNull(offset + 31) ? null : new java.util.Date(cursor.getLong(offset + 31)), // insDate
+            cursor.isNull(offset + 32) ? null : new java.util.Date(cursor.getLong(offset + 32)) // updDate
         );
         return entity;
     }
@@ -206,22 +334,38 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
     @Override
     public void readEntity(Cursor cursor, MusicResultDBHR entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setClearLamp(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setExScore(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
-        entity.setBp(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
-        entity.setScoreRank(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setScoreRate(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
-        entity.setMissRate(cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6));
-        entity.setRemainingGaugeOrDeadNotes(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setMemoOther(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setPGreat(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setGreat(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setGood(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setBad(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setPoor(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setComboBreak(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setInsDate(cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)));
-        entity.setUpdDate(cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)));
+        entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setNha(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setClearLamp(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setExScore(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setBp(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setScoreRank(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setScoreRate(cursor.isNull(offset + 7) ? null : cursor.getDouble(offset + 7));
+        entity.setMissRate(cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8));
+        entity.setTag(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setFav(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setClearLamp_DBR(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setClearLamp_DBRR(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setClearLamp_DBM(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setClearLamp_DBSR(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setClearLamp_DBM_NONAS(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setClearLamp_RH(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setClearLamp_LH(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setMyDifficult(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setDjPoint(cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19));
+        entity.setClearProgressRate(cursor.isNull(offset + 20) ? null : cursor.getDouble(offset + 20));
+        entity.setLastPlayDate(cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)));
+        entity.setLastUpdateDate(cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)));
+        entity.setRemainingGaugeOrDeadNotes(cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23));
+        entity.setMemoOther(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setPGreat(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setGreat(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setGood(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setBad(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setPoor(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
+        entity.setComboBreak(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
+        entity.setInsDate(cursor.isNull(offset + 31) ? null : new java.util.Date(cursor.getLong(offset + 31)));
+        entity.setUpdDate(cursor.isNull(offset + 32) ? null : new java.util.Date(cursor.getLong(offset + 32)));
      }
     
     /** @inheritdoc */

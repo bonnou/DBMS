@@ -48,6 +48,7 @@ import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.fragments.DbmsSettingFlagment;
 import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
+import net.in.ahr.dbms.presenters.fragments.MusicHistoryListFragment;
 import net.in.ahr.dbms.presenters.others.SearchNaviManager;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 import net.in.ahr.dbms.presenters.tabManagers.CustomViewPager;
@@ -157,6 +158,8 @@ public  class MusicListActivity extends AppCompatActivity
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        // タブ変更リスナを設定
+        viewPager.addOnPageChangeListener(this);
 
         // 自動CSVエクスポートサービス起動
         scheduleService();
@@ -587,17 +590,75 @@ public  class MusicListActivity extends AppCompatActivity
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        LogUtil.logDebug("onPageScrolled() position=" + position);
     }
 
     @Override
     public void onPageSelected(int position) {
+        LogUtil.logEntering();
         LogUtil.logDebug("onPageSelected() position=" + position);
+
+        if (position == AppConst.CONST_VIEW_PAGER_INDEX_0_MUSIC_LIST) {
+            // 曲一覧画面
+
+            // ツールバーのタイトル
+            Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+            toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
+
+            // スライドメニューのトグルボタン表示オン
+            ActionBarDrawerToggle toggle = this.getToggle();
+            toggle.setDrawerIndicatorEnabled(true);
+            this.getDrawer().setDrawerListener(
+                    new ActionBarDrawerToggle(
+                            this,
+                            this.getDrawer(),
+                            toolbar,
+                            R.string.navigation_drawer_open,
+                            R.string.navigation_drawer_close)
+            );
+            this.setSupportActionBar(this.getToolbar());
+
+            // スライドメニューアンロック
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        } else if (position == AppConst.CONST_VIEW_PAGER_INDEX_1_MUSIC_HISTORY) {
+            // リザルト更新履歴画面
+
+            // リザルト履歴画面の内容をリフレッシュ
+            MusicHistoryListFragment musicHistoryListFragment
+                    = (MusicHistoryListFragment) ((ViewPagerAdapter)viewPager.getAdapter()).getmFragmentAtPos1();
+            musicHistoryListFragment.adapter.searchApplyToListView(this);
+
+            // ツールバーのタイトル
+            Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+            toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_HISTORY_LIST);
+
+            // スライドメニューのトグルボタン表示オフ
+            ActionBarDrawerToggle toggle = this.getToggle();
+            toggle.setDrawerIndicatorEnabled(false);
+            this.getDrawer().setDrawerListener(
+                    new ActionBarDrawerToggle(
+                            this,
+                            this.getDrawer(),
+                            R.string.navigation_drawer_open,
+                            R.string.navigation_drawer_close)
+            );
+            this.setSupportActionBar(this.getToolbar());
+
+            // スライドメニューロック
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+            // ツールバーのメニュー内容変更はFragmentのonCreateOptionsMenu参照
+            // ・MusicListFragment#onPrepareOptionsMenu()メソッド
+            // ・MusicHistoryListFragment#onPrepareOptionsMenu()メソッド
+        }
+
+        LogUtil.logExiting();
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        LogUtil.logDebug("onPageScrolled() state=" + state);
     }
 
     @Override

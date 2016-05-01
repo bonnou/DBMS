@@ -1,5 +1,6 @@
 package greendao;
 
+import java.util.List;
 import greendao.DaoSession;
 import de.greenrobot.dao.DaoException;
 
@@ -37,6 +38,7 @@ public class MusicMst extends net.in.ahr.dbms.others.ToStringMusicNameMark  impl
     private MusicResultDBHR musicResultDBHR;
     private Long musicResultDBHR__resolvedKey;
 
+    private List<MusicResultDBHR_History> musicResultDBHR_HistoryList;
 
     public MusicMst() {
     }
@@ -242,6 +244,28 @@ public class MusicMst extends net.in.ahr.dbms.others.ToStringMusicNameMark  impl
             musicResultIdDBHR = musicResultDBHR.getId();
             musicResultDBHR__resolvedKey = musicResultIdDBHR;
         }
+    }
+
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    public List<MusicResultDBHR_History> getMusicResultDBHR_HistoryList() {
+        if (musicResultDBHR_HistoryList == null) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            MusicResultDBHR_HistoryDao targetDao = daoSession.getMusicResultDBHR_HistoryDao();
+            List<MusicResultDBHR_History> musicResultDBHR_HistoryListNew = targetDao._queryMusicMst_MusicResultDBHR_HistoryList(name, nha);
+            synchronized (this) {
+                if(musicResultDBHR_HistoryList == null) {
+                    musicResultDBHR_HistoryList = musicResultDBHR_HistoryListNew;
+                }
+            }
+        }
+        return musicResultDBHR_HistoryList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    public synchronized void resetMusicResultDBHR_HistoryList() {
+        musicResultDBHR_HistoryList = null;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

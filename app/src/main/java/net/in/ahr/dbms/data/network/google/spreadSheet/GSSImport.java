@@ -144,6 +144,8 @@ public class GSSImport {
                             if (resultDBHR == null) {
                                 resultDBHR = new MusicResultDBHR();
                                 resultDBHR.setId(music.getId());
+                                resultDBHR.setName(music.getName());
+                                resultDBHR.setNha(music.getNha());
                                 music.setMusicResultIdDBHR(music.getId());
                             }
 
@@ -168,6 +170,8 @@ public class GSSImport {
 
                             resultDBHR.setInsDate(nowDate);
                             resultDBHR.setUpdDate(nowDate);
+                            resultDBHR.setLastPlayDate(nowDate);
+                            resultDBHR.setLastUpdateDate(nowDate);
 
                             music.setMusicResultDBHR(resultDBHR);
 

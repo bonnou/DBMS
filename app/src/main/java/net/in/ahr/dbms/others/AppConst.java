@@ -360,6 +360,12 @@ public class AppConst {
     public static final String SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP = "SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP";
 
     /*********************************************************************************
+     * ViewPagerのindex
+     *********************************************************************************/
+    public static int CONST_VIEW_PAGER_INDEX_0_MUSIC_LIST = 0;
+    public static int CONST_VIEW_PAGER_INDEX_1_MUSIC_HISTORY = 1;
+
+    /*********************************************************************************
      * SQL
      *********************************************************************************/
 
@@ -388,7 +394,10 @@ public class AppConst {
     /** MusicEdit */
     public static final String TOOLBAR_TITLE_MUSIC_EDIT  = "Edit Result";
 
-    /** MusicEdit */
+    /** MusicHistoryList */
+    public static final String TOOLBAR_TITLE_MUSIC_HISTORY_LIST  = "Update History";
+
+    /** DbmsSetting */
     public static final String TOOLBAR_TITLE_SETTINGS  = "Settings";
 
     /*********************************************************************************
@@ -428,6 +437,9 @@ public class AppConst {
     /** 曲マスタのPK取得結果0件エラー（想定外） */
     public static final String ERR_CD_90010 = "DBMS-90010";
 
+    /** リザルト履歴INSERT時リフレクションエラー */
+    public static final String ERR_CD_90011 = "DBMS-90011";
+
     /*********************************************************************************
      * 例外情報（errStepCd、errMsg）
      *********************************************************************************/
@@ -466,6 +478,15 @@ public class AppConst {
 
     public static final String ERR_STEP_CD_MUMM_00010 = "MUMM-00010";
     public static final String ERR_MESSAGE_MUMM_00010 = "CSVインポート処理にて予期せぬエラー発生";
+
+    public static final String ERR_STEP_CD_MUMM_00011 = "MUMM-00011";
+    public static final String ERR_MESSAGE_MUMM_00011 = "CSVインポート処理にて予期せぬエラー発生";
+
+    public static final String ERR_STEP_CD_MUMM_00012 = "MUMM-00012";
+    public static final String ERR_MESSAGE_MUMM_00012 = "リザルト履歴INSERT時リフレクションエラー（InvocationTargetException）";
+
+    public static final String ERR_STEP_CD_MUMM_00013 = "MUMM-00012";
+    public static final String ERR_MESSAGE_MUMM_00013 = "リザルト履歴INSERT時リフレクションエラー（IllegalAccessException）";
 
     public static final String ERR_STEP_CD_GSSI_00001 = "GSSI-00001";
     public static final String ERR_MESSAGE_GSSI_00001 = "Googleスプレッドシートインポート処理にてIOException発生";
@@ -522,6 +543,7 @@ public class AppConst {
 
     public static final String MUSIC_MST_CSV_DATE_FORMAT = "EEE MMM dd HH:mm:ss 'JST' yyyy";
     public static final String MUSIC_EDIT_UPDATED_FORMAT = "yyyy/MM/dd HH:mm:ss";
+    public static final String MUSIC_HISTORY_LISTVIEW_UPDATED_FORMAT = "yy/MM/dd HH:mm";
     public static final String CONST_YMDHMS_FORMAT = "yyyyMMddHHmmss";
     public static final String CONST_BLANK = "";
     public static final String CONST_HALF_COLON = ":";

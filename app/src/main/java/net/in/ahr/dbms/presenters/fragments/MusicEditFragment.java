@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
@@ -37,10 +38,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.greenrobot.dao.query.Query;
 import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
+import greendao.MusicResultDBHR_History;
+import greendao.MusicResultDBHR_HistoryDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -63,8 +67,9 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private EditText remainingGaugeOrDeadNotesEditText;
     private EditText memoOtherEditText;
 
-    private Button updateButton;
     private Button backButton;
+    private Button playedButton;
+    private Button updateButton;
 
     private TextView updatedTextView;
 
@@ -263,13 +268,17 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             memoOtherEditText.setText(music.getMusicResultDBHR().getMemoOther());
         }
 
-        // 編集ボタンのクリックリスナーを設定
-        updateButton = (Button) view.findViewById(R.id.musicEditFragment_updateButton);
-        updateButton.setOnClickListener(this);
-
         // 戻るボタンのクリックリスナーを設定
         backButton = (Button) view.findViewById(R.id.musicEditFragment_backButton);
         backButton.setOnClickListener(this);
+
+        // playedボタンのクリックリスナーを設定
+        playedButton = (Button) view.findViewById(R.id.musicEditFragment_playedButton);
+        playedButton.setOnClickListener(this);
+
+        // 編集ボタンのクリックリスナーを設定
+        updateButton = (Button) view.findViewById(R.id.musicEditFragment_updateButton);
+        updateButton.setOnClickListener(this);
 
         // リザルト情報
         // ジャンル
@@ -381,9 +390,17 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         LogUtil.logEntering();
 
-        if (view == updateButton) {
+        if (view == backButton) {
+            // Navigation Drowerのスワイプロックを解除
+            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            backToTabFirstFragment();
+
+        } else if (view == playedButton) {
             // 編集処理
-            updateResult(view);
+            boolean playedFlg = true;
+            updateResult(view, playedFlg);
 
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -391,7 +408,11 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
             backToTabFirstFragment();
 
-        } else if (view == backButton) {
+        } else if (view == updateButton) {
+            // 編集処理
+            boolean playedFlg = false;
+            updateResult(view, playedFlg);
+
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -407,7 +428,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         LogUtil.logExiting();
     }
 
-    private void updateResult(View view) {
+    private void updateResult(View view, boolean playedFlg) {
         LogUtil.logEntering();
 
         java.util.Date nowDate = new java.util.Date();
@@ -416,6 +437,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         if (music.getMusicResultDBHR() == null) {
             MusicResultDBHR dbhrResult = new MusicResultDBHR();
             dbhrResult.setId(music.getId());
+            dbhrResult.setName(music.getName());
+            dbhrResult.setNha(music.getNha());
             dbhrResult.setInsDate(nowDate);
             music.setMusicResultDBHR(dbhrResult);
         }
@@ -431,7 +454,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // 編集内容を取得（EXスコア）
         int editedExScore;
-        if ( "".equals(exScoreEditText.getText().toString()) ) {
+        if ("".equals(exScoreEditText.getText().toString())) {
             editedExScore = 0;
         } else {
             editedExScore = Integer.parseInt(exScoreEditText.getText().toString());
@@ -440,7 +463,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // 編集内容を取得（BP）
         int editedBp;
-        if ( "".equals(bpEditText.getText().toString()) ) {
+        if ("".equals(bpEditText.getText().toString())) {
             editedBp = 0;
         } else {
             editedBp = Integer.parseInt(bpEditText.getText().toString());
@@ -449,7 +472,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // 編集内容を取得（残ゲージor到達ノーツ数）
         int remainingGaugeOrDeadNotes;
-        if ( "".equals(remainingGaugeOrDeadNotesEditText.getText().toString()) ) {
+        if ("".equals(remainingGaugeOrDeadNotesEditText.getText().toString())) {
             remainingGaugeOrDeadNotes = 0;
         } else {
             remainingGaugeOrDeadNotes = Integer.parseInt(remainingGaugeOrDeadNotesEditText.getText().toString());
@@ -473,13 +496,50 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         music.getMusicResultDBHR().setMissRate(
                 (Double) resultMap.get(MusicResultUtil.MAP_KEY_MISS_RATE));
 
+        // updateボタンの場合のみ更新
+        if (!playedFlg) {
+            // 最終リザルト更新日時
+            music.getMusicResultDBHR().setLastUpdateDate(nowDate);
+        }
+
+        // 最終プレイ日時
+        music.getMusicResultDBHR().setUpdDate(nowDate);
+
+        // レコードの最終更新日時
         music.getMusicResultDBHR().setUpdDate(nowDate);
 
         // TODO: https://blog.keiji.io/2014/02/about_fragment.html
         // TODO: 横展開
-        // DB更新
-        getMusicMstDao(getActivity().getApplicationContext()).insertOrReplace(music);
-        getMusicResultDBHRDao(getActivity().getApplicationContext()).insertOrReplace(music.getMusicResultDBHR());
+        // 曲マスタ更新
+        MusicMstDao musicMstDao = getMusicMstDao(getActivity().getApplicationContext());
+        musicMstDao.insertOrReplace(music);
+
+        // リザルトテーブル更新
+        MusicResultDBHRDao musicResultDBHRDao = getMusicResultDBHRDao(getActivity().getApplicationContext());
+        musicResultDBHRDao.insertOrReplace(music.getMusicResultDBHR());
+
+        // リザルト履歴テーブルINSERT
+        MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
+        musicMstMaintenance.insertMusicResultDbhrHistory(music, getActivity().getApplicationContext(), playedFlg);
+
+
+        // 曲マスタとリザルト履歴テーブルを結合して取得
+/*
+        Query<MusicMst> qc = musicMstDao.queryRawCreate(
+                " LEFT JOIN " + MusicResultDBHR_HistoryDao.TABLENAME + " history"
+                     + " ON T." + MusicMstDao.Properties.Name.columnName
+                      + " = history." + MusicResultDBHR_HistoryDao.Properties.Name.columnName
+                    + " AND T." + MusicMstDao.Properties.Nha.columnName
+                      + " = history." + MusicResultDBHR_HistoryDao.Properties.Nha.columnName
+              + " WHERE T." + MusicMstDao.Properties.Name.columnName + " = '" + music.getName() + "'"
+                + " AND T." + MusicMstDao.Properties.Nha.columnName + " = '" + music.getNha() + "'");
+        List<MusicMst> list = qc.list();
+*/
+
+        List<MusicMst> list = musicMstDao.queryDeep(" WHERE T." + MusicMstDao.Properties.Name.columnName + " = '" + music.getName() + "'"
+                + " AND T." + MusicMstDao.Properties.Nha.columnName + " = '" + music.getNha() + "'");
+
+        List<MusicResultDBHR_History> historyList = list.get(0).getMusicResultDBHR_HistoryList();
 
         LogUtil.logExiting();
     }

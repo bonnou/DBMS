@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,8 +42,13 @@ public class MusicListFragment extends BaseFragment {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
 
+    protected MusicListAdapter getMusicListAdapter() {
+        return new MusicListAdapter( getActivity() );
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -56,16 +63,13 @@ public class MusicListFragment extends BaseFragment {
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
 
         // リストビューにGreenDaoから取得した値を設定
-        adapter = new MusicListAdapter( getActivity() );
+        adapter = getMusicListAdapter();
         adapter.searchApplyToListView( (MusicListActivity) getActivity() );
         musicListView = (ListView) view.findViewById(R.id.musicListView);
         musicListView.setAdapter(adapter);
 
         // 絞り込み検索を可能にする
         musicListView.setTextFilterEnabled(true);
-
-        // 曲編集画面に遷移した時に一番上に表示されていたビューまで移動
-        musicListView.setSelection(MusicListActivity.dispTopViewPosition);
 
         // リストビューのクリックイベント
         musicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,8 +122,15 @@ public class MusicListFragment extends BaseFragment {
             }
         });
 
-        // 絞り込み検索用に、曲一覧のListViewを取得し保持
-        MusicListActivity.setMusicListView(musicListView);
+        // 曲一覧画面の場合
+        if ( !(this instanceof MusicHistoryListFragment) ) {
+
+            // 曲編集画面に遷移した時に一番上に表示されていたビューまで移動
+            musicListView.setSelection(MusicListActivity.dispTopViewPosition);
+
+            // 絞り込み検索用に、曲一覧のListViewを取得し保持
+            MusicListActivity.setMusicListView(musicListView);
+        }
 
         return view;
     }
@@ -152,5 +163,15 @@ public class MusicListFragment extends BaseFragment {
         super.onDestroyView();
     }
 */
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        LogUtil.logEntering();
+
+        MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
+        refineSearchItem.setVisible(true);
+
+        LogUtil.logExiting();
+    }
 
 }

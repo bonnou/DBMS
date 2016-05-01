@@ -35,6 +35,8 @@ import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
+import greendao.MusicResultDBHR_History;
+import greendao.MusicResultDBHR_HistoryDao;
 
 /**
  * Created by str2653z on 2016/03/16.
@@ -49,6 +51,10 @@ public class MusicMstMaintenance {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHRDao();
     }
 
+    private static MusicResultDBHR_HistoryDao getMusicResultDBHR_HistoryDao(Context c) {
+        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicResultDBHR_HistoryDao();
+    }
+
     public void execute(Context c) {
         LogUtil.logEntering();
 
@@ -60,11 +66,11 @@ public class MusicMstMaintenance {
         long cnt = musicMstDao.count();
         LogUtil.logDebug("musicMst cnt:" + cnt);
 
-        if ( BuildConfig.VERSION_CODE == AppConst.MUSIC_MST_MIG_VER_CD_1) {
+        if (BuildConfig.VERSION_CODE == AppConst.MUSIC_MST_MIG_VER_CD_1) {
             LogUtil.logDebug("要マスタ全件インポート");
 
             // バージョンに対応するマスタ件数でない場合はマスタを初期化
-            if ( cnt != AppConst.MUSIC_MST_MIG_VER_CD_AFT_CNT_1 ) {
+            if (cnt != AppConst.MUSIC_MST_MIG_VER_CD_AFT_CNT_1) {
                 // 全消し
                 musicMstDao.deleteAll();
 
@@ -114,8 +120,8 @@ public class MusicMstMaintenance {
                 csvArr[4]);
 
         String[] bpmArr = csvArr[5].split("～");
-        if ( bpmArr.length == 1 ) {
-            bpmArr =  new String[] {bpmArr[0], bpmArr[0]};
+        if (bpmArr.length == 1) {
+            bpmArr = new String[]{bpmArr[0], bpmArr[0]};
         }
         musicMst.setBpmFrom(
                 Integer.parseInt(bpmArr[0]));
@@ -140,7 +146,7 @@ public class MusicMstMaintenance {
             SimpleDateFormat sdf = new SimpleDateFormat(AppConst.MUSIC_MST_CSV_DATE_FORMAT, Locale.ENGLISH);
             java.util.Date insDate = sdf.parse(csvArr[13]);
 
-            if ( !sdf.format(insDate).equals(csvArr[13]) ) {
+            if (!sdf.format(insDate).equals(csvArr[13])) {
                 LogUtil.logError("sdf.format(insDate):" + sdf.format(insDate));
                 LogUtil.logError("csvArr[13]:" + csvArr[13]);
                 throw new DbmsSystemException(
@@ -229,7 +235,7 @@ public class MusicMstMaintenance {
 
             // データ部を書き込み
             for (MusicMst musicMst : musicMstList) {
-                if ( musicMst.getMusicResultDBHR() == null ) {
+                if (musicMst.getMusicResultDBHR() == null) {
                     csvRecord = new String[]{
                             // MusicMst
                             String.valueOf(musicMst.getId()),
@@ -271,11 +277,11 @@ public class MusicMstMaintenance {
                     };
                 } else {
                     String insDateStr = "";
-                    if ( musicMst.getMusicResultDBHR().getInsDate() != null ) {
+                    if (musicMst.getMusicResultDBHR().getInsDate() != null) {
                         insDateStr = sdf.format(musicMst.getMusicResultDBHR().getInsDate());
                     }
                     String updDateStr = "";
-                    if ( musicMst.getMusicResultDBHR().getUpdDate() != null ) {
+                    if (musicMst.getMusicResultDBHR().getUpdDate() != null) {
                         updDateStr = sdf.format(musicMst.getMusicResultDBHR().getUpdDate());
                     }
                     csvRecord = new String[]{
@@ -524,7 +530,7 @@ public class MusicMstMaintenance {
                             // MusicResultDBHR
                             else if ((AppConst.CSV_HEAD_PREFIX_MUSIC_RESULT_DBHR + AppConst.MUSICRESULTDBHR_KEY_NAME_ID).equals(head)) {
                                 // 空の場合はリザルトオブジェクト未設定
-                                if ( AppConst.CONST_BLANK.equals(value) ) {
+                                if (AppConst.CONST_BLANK.equals(value)) {
                                     noResultFlg = true;
                                     musicResultDBHR = new MusicResultDBHR();
                                     musicResultDBHR.setId(music.getId());
@@ -671,7 +677,9 @@ public class MusicMstMaintenance {
 
                 Toast.makeText(context, "END import CSV to DB...", Toast.LENGTH_LONG).show();
                 LogUtil.logExiting();
-            };
+            }
+
+            ;
         };
 
         // ダイアログ表示
@@ -683,6 +691,7 @@ public class MusicMstMaintenance {
 
     /**
      * 曲名・難易度により曲マスタレコード取得
+     *
      * @param musicMstDao
      * @param name
      * @param nha
@@ -711,6 +720,7 @@ public class MusicMstMaintenance {
 
     /**
      * 曲名・難易度によりリザルトレコード削除（存在する場合のみ）
+     *
      * @param musicMstDao
      * @param musicResultDBHRDao
      * @param name
@@ -734,6 +744,128 @@ public class MusicMstMaintenance {
                 LogUtil.logDebug("musicResultDBHR recordなし");
             }
         }
+
+        LogUtil.logExiting();
+    }
+
+    public void insertMusicResultDbhrHistory(MusicMst music, Context c, boolean playedFlg) {
+        LogUtil.logEntering();
+
+        MusicResultDBHR_HistoryDao historyDao = getMusicResultDBHR_HistoryDao(c);
+
+        // src
+        MusicResultDBHR result = music.getMusicResultDBHR();
+
+        // dest
+        MusicResultDBHR_History history = new MusicResultDBHR_History();
+
+        // original column
+        history.setPlayedFlg(playedFlg);
+
+        // common column
+        history.setName(result.getName());
+        history.setNha(result.getNha());
+        history.setInsDate(result.getInsDate());
+        history.setClearLamp(result.getClearLamp());
+        history.setExScore(result.getExScore());
+        history.setBp(result.getBp());
+        history.setScoreRank(result.getScoreRank());
+        history.setScoreRate(result.getScoreRate());
+        history.setMissRate(result.getMissRate());
+        history.setTag(result.getTag());
+        history.setFav(result.getFav());
+        history.setClearLamp_DBR(result.getClearLamp_DBR());
+        history.setClearLamp_DBRR(result.getClearLamp_DBRR());
+        history.setClearLamp_DBM(result.getClearLamp_DBM());
+        history.setClearLamp_DBSR(result.getClearLamp_DBSR());
+        history.setClearLamp_DBM_NONAS(result.getClearLamp_DBM_NONAS());
+        history.setClearLamp_RH(result.getClearLamp_RH());
+        history.setClearLamp_LH(result.getClearLamp_LH());
+        history.setMyDifficult(result.getMyDifficult());
+        history.setDjPoint(result.getDjPoint());
+        history.setClearProgressRate(result.getClearProgressRate());
+        history.setLastPlayDate(result.getLastPlayDate());
+        history.setLastUpdateDate(result.getLastUpdateDate());
+        history.setRemainingGaugeOrDeadNotes(result.getRemainingGaugeOrDeadNotes());
+        history.setMemoOther(result.getMemoOther());
+        history.setPGreat(result.getPGreat());
+        history.setGreat(result.getGreat());
+        history.setGood(result.getGood());
+        history.setBad(result.getBad());
+        history.setPoor(result.getPoor());
+        history.setComboBreak(result.getComboBreak());
+
+        // insert
+        historyDao.insertOrReplace(history);
+
+        LogUtil.logExiting();
+    }
+
+    public MusicMst copyMusicMst(MusicMst musicMst) {
+        LogUtil.logEntering();
+
+        MusicMst copyMusicMst = new MusicMst();
+        copyMusicMst.setId(musicMst.getId());
+        copyMusicMst.setName(musicMst.getName());
+        copyMusicMst.setNha(musicMst.getNha());
+        copyMusicMst.setVersion(musicMst.getVersion());
+        copyMusicMst.setGenre(musicMst.getGenre());
+        copyMusicMst.setArtist(musicMst.getArtist());
+        copyMusicMst.setBpmFrom(musicMst.getBpmFrom());
+        copyMusicMst.setBpmTo(musicMst.getBpmTo());
+        copyMusicMst.setDifficult(musicMst.getDifficult());
+        copyMusicMst.setNotes(musicMst.getNotes());
+        copyMusicMst.setScratchNotes(musicMst.getScratchNotes());
+        copyMusicMst.setChargeNotes(musicMst.getChargeNotes());
+        copyMusicMst.setBackSpinScratchNotes(musicMst.getBackSpinScratchNotes());
+        copyMusicMst.setSortNumInDifficult(musicMst.getSortNumInDifficult());
+        copyMusicMst.setMstVersion(musicMst.getMstVersion());
+        copyMusicMst.setInsDate(musicMst.getInsDate());
+        copyMusicMst.setUpdDate(musicMst.getUpdDate());
+
+        LogUtil.logExiting();
+        return copyMusicMst;
+    }
+
+    public void copyFromHistoryToResult(MusicMst musicMst, MusicResultDBHR_History history) {
+        LogUtil.logEntering();
+
+        MusicResultDBHR result = new MusicResultDBHR();
+        result.setId(history.getId());
+        result.setName(history.getName());
+        result.setNha(history.getNha());
+        result.setClearLamp(history.getClearLamp());
+        result.setExScore(history.getExScore());
+        result.setBp(history.getBp());
+        result.setScoreRank(history.getScoreRank());
+        result.setScoreRate(history.getScoreRate());
+        result.setMissRate(history.getMissRate());
+        result.setTag(history.getTag());
+        result.setFav(history.getFav());
+        result.setClearLamp_DBR(history.getClearLamp_DBR());
+        result.setClearLamp_DBRR(history.getClearLamp_DBRR());
+        result.setClearLamp_DBM(history.getClearLamp_DBM());
+        result.setClearLamp_DBSR(history.getClearLamp_DBSR());
+        result.setClearLamp_DBM_NONAS(history.getClearLamp_DBM_NONAS());
+        result.setClearLamp_RH(history.getClearLamp_RH());
+        result.setClearLamp_LH(history.getClearLamp_LH());
+        result.setMyDifficult(history.getMyDifficult());
+        result.setDjPoint(history.getDjPoint());
+        result.setClearProgressRate(history.getClearProgressRate());
+        result.setLastPlayDate(history.getLastPlayDate());
+        result.setLastUpdateDate(history.getLastUpdateDate());
+        result.setRemainingGaugeOrDeadNotes(history.getRemainingGaugeOrDeadNotes());
+        result.setMemoOther(history.getMemoOther());
+        result.setPGreat(history.getPGreat());
+        result.setGreat(history.getGreat());
+        result.setGood(history.getGood());
+        result.setBad(history.getBad());
+        result.setPoor(history.getPoor());
+        result.setComboBreak(history.getComboBreak());
+        result.setInsDate(history.getInsDate());
+        // 履歴の登録日時を更新日時に設定
+        result.setUpdDate(history.getInsDate());
+        musicMst.setMusicResultDBHR(result);
 
         LogUtil.logExiting();
     }

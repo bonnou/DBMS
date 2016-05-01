@@ -29,8 +29,10 @@ package net.in.ahr.dbms.presenters.tabManagers;
 
 
         import net.in.ahr.dbms.R;
+        import net.in.ahr.dbms.others.AppConst;
         import net.in.ahr.dbms.presenters.activities.MusicListActivity;
         import net.in.ahr.dbms.presenters.fragments.MusicEditFragment;
+        import net.in.ahr.dbms.presenters.fragments.MusicHistoryListFragment;
         import net.in.ahr.dbms.presenters.fragments.MusicListFragment;
         import net.in.ahr.dbms.presenters.fragments.WebViewFragment;
 
@@ -47,6 +49,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private BaseFragment mFragmentAtPos1; // Fragment at index 1
+    public BaseFragment getmFragmentAtPos1() {
+        return mFragmentAtPos1;
+    }
 //    private BaseFragment mFragmentAtPos2; // Fragment at index 2
     private final FragmentManager mFragmentManager;
 
@@ -60,7 +65,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0) {
+        if (position == AppConst.CONST_VIEW_PAGER_INDEX_0_MUSIC_LIST) {
             if (mFragmentAtPos0 == null) {
                 mFragmentAtPos0 = new MusicListFragment();
                 mFragmentAtPos0.mListener = new PageFragmentListener() {
@@ -78,9 +83,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             }
             return mFragmentAtPos0;
 
-        } else if (position == 1) {
+        } else if (position == AppConst.CONST_VIEW_PAGER_INDEX_1_MUSIC_HISTORY) {
             if (mFragmentAtPos1 == null) {
-                mFragmentAtPos1 = new WebViewFragment();
+                mFragmentAtPos1 = new MusicHistoryListFragment();
             }
             return mFragmentAtPos1;
 
@@ -106,9 +111,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         String tabTitle = "";
         if (position == 0) {
-            tabTitle = "MUSIC LIST";
+            tabTitle = "RESULT";
         } else if (position == 1) {
-            tabTitle = "WEB VIEW";
+            tabTitle = "HISTORY";
         }
         return tabTitle;
     }

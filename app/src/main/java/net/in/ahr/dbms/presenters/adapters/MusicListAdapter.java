@@ -49,19 +49,19 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     static final AlphaAnimation clearLampAnimation = new AlphaAnimation(0.7f, 1f);
 
-    private static MusicMstDao getMusicMstDao(Context c) {
+    protected static MusicMstDao getMusicMstDao(Context c) {
         return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
     }
 
     // TODO: マスタではなくスコアを含める必要あり
-    public static List<MusicMst> musicList;
+    public List<MusicMst> musicList;
 
-    public static List<MusicMst> getMusicList() {
-        return musicList;
+    public List<MusicMst> getMusicList() {
+        return this.musicList;
     }
 
-    public static void setMusicList(List<MusicMst> musicList) {
-        MusicListAdapter.musicList = musicList;
+    public void setMusicList(List<MusicMst> musicList) {
+        this.musicList = musicList;
     }
 
     // フィルタ初期化用
@@ -424,18 +424,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         holder.missInfoView.setText(Html.fromHtml(missInfo));
 
         // メモ
-        final String MEMO_OTHER_FORMAT = "メモ: {0}";
-        String[] memoOtherReplaceArr;
-        if (resultExistFlg) {
-            memoOtherReplaceArr = new String[]{
-                    String.valueOf(music.getMusicResultDBHR().getMemoOther())
-            };
-        } else {
-            memoOtherReplaceArr = new String[]{
-                    "ー"
-            };
-        }
-        String memoOther = MessageFormat.format(MEMO_OTHER_FORMAT, (Object[]) memoOtherReplaceArr);
+        String memoOther = getMemoOther(music, resultExistFlg);
         holder.memoOtherView.setText(memoOther);
 
         return view;
@@ -569,6 +558,26 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         this.notifyDataSetChanged();
 
         LogUtil.logExiting();
+    }
+
+    protected String getMemoOther(MusicMst music, boolean resultExistFlg) {
+        LogUtil.logEntering();
+
+        final String MEMO_OTHER_FORMAT = "メモ: {0}";
+        String[] memoOtherReplaceArr;
+        if (resultExistFlg) {
+            memoOtherReplaceArr = new String[]{
+                    String.valueOf(music.getMusicResultDBHR().getMemoOther())
+            };
+        } else {
+            memoOtherReplaceArr = new String[]{
+                    "ー"
+            };
+        }
+        String memoOther = MessageFormat.format(MEMO_OTHER_FORMAT, (Object[]) memoOtherReplaceArr);
+
+        LogUtil.logExiting();
+        return memoOther;
     }
 
 }
