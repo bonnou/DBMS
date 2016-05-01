@@ -14,7 +14,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -35,6 +34,8 @@ import android.widget.Toast;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
+import net.in.ahr.dbms.data.network.request.PostJSONAsyncTask;
+import net.in.ahr.dbms.data.network.request.dto.MusicMstDto;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
@@ -86,7 +87,7 @@ public  class MusicListActivity extends AppCompatActivity
     }
     public static int position;
     public static MusicMst musicForEdit;
-        public static int dispTopViewPosition = 0;
+    public static int dispTopViewPosition = 0;
 
     /** プログレスバー */
     private ProgressDialog progressDialog;
@@ -395,6 +396,17 @@ public  class MusicListActivity extends AppCompatActivity
             // アラートダイアログを表示
             alertDialog.show();
 
+        } else if (id == R.id.action_debug_post_request) {
+//            String url = "http://localhost:8080/api/recvInsert";
+//            String url = "http://10.0.2.2:8080/api/recvInsert";
+            String url = "http://192.168.1.5:8080/api/recvInsert";
+
+            MusicMst music = (MusicMst) musicListView.getAdapter().getItem(musicListView.getFirstVisiblePosition());
+            MusicMstDto musicMstDto = new MusicMstDto();
+            musicMstDto.convertFromEntity(music);
+
+            // JSONをポスト
+            new PostJSONAsyncTask(url, musicMstDto).execute();
         }
 
         LogUtil.logExiting();

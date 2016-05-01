@@ -468,8 +468,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
                         final MusicMst value = values.get(i);
                         final String valueText = value.toString().toLowerCase();
 
-                        // First match against the whole, non-splitted value
-                        if (valueText.startsWith(prefixString)) {
+                        if (valueText.contains(prefixString)) {
                             newValues.add(value);
                         } else {
                             final String[] words = valueText.split(" ");

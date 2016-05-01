@@ -37,6 +37,11 @@
         android:title="@string/action_debug_crash"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_debug_post_request"
+        android:title="@string/action_debug_post_request"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
     <!-- for MUSIC EDIT -->
     <item
         android:id="@+id/action_music_edit_update"

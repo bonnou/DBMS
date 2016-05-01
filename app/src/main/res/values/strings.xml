@@ -13,6 +13,7 @@
     <string name="action_export_csv">Export DB to CSV</string>
     <string name="action_import_csv">Import CSV to DB</string>
     <string name="action_debug_crash">truncate &amp; crash (for DEBUG)</string>
+    <string name="action_debug_post_request">Post Request (for DEBUG)</string>
     <string name="action_music_edit_update">update</string>
 
 

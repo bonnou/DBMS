@@ -437,7 +437,7 @@ public class AppConst {
     /** 曲マスタのPK取得結果0件エラー（想定外） */
     public static final String ERR_CD_90010 = "DBMS-90010";
 
-    /** リザルト履歴INSERT時リフレクションエラー */
+    /** JSONリクエスト送信時JSON生成IOエラー */
     public static final String ERR_CD_90011 = "DBMS-90011";
 
     /*********************************************************************************
@@ -517,6 +517,9 @@ public class AppConst {
 
     public static final String ERR_STEP_CD_UTIL_00004 = "UTIL-00004";
     public static final String ERR_MESSAGE_UTIL_00004 = "画像読み込み処理にてファイルクローズエラー";
+
+    public static final String ERR_STEP_CD_NETR_00001 = "NETR-00001";
+    public static final String ERR_MESSAGE_NETR_00001 = "JSONリクエスト送信時JSON生成IOエラー";
 
 
     /*********************************************************************************
