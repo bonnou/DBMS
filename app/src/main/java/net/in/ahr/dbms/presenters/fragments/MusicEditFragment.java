@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -400,7 +401,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         } else if (view == playedButton) {
             // 編集処理
             boolean playedFlg = true;
-            updateResult(view, playedFlg);
+            updateResult(playedFlg);
 
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -409,15 +410,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             backToTabFirstFragment();
 
         } else if (view == updateButton) {
-            // 編集処理
-            boolean playedFlg = false;
-            updateResult(view, playedFlg);
-
-            // Navigation Drowerのスワイプロックを解除
-            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
-            backToTabFirstFragment();
+            // 更新共通処理
+            doUpdate();
 
         }
 
@@ -428,7 +422,23 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         LogUtil.logExiting();
     }
 
-    private void updateResult(View view, boolean playedFlg) {
+    private void doUpdate() {
+        LogUtil.logEntering();
+
+        // 編集処理
+        boolean playedFlg = false;
+        updateResult(playedFlg);
+
+        // Navigation Drowerのスワイプロックを解除
+        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        backToTabFirstFragment();
+
+        LogUtil.logExiting();
+    }
+
+    private void updateResult(boolean playedFlg) {
         LogUtil.logEntering();
 
         java.util.Date nowDate = new java.util.Date();
@@ -586,7 +596,25 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
         childFragmentCommon.onPrepareOptionsMenuCommon((MusicListActivity) getActivity(), menu, TAG);
 
+        MenuItem musicEditUpdateItem = menu.findItem(R.id.action_music_edit_update);
+        musicEditUpdateItem.setVisible(true);
+
         LogUtil.logExiting();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        LogUtil.logEntering();
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_music_edit_update) {
+            // 更新共通処理
+            doUpdate();
+        }
+
+        LogUtil.logExiting();
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -25,8 +25,12 @@ public class MusicHistoryListFragment extends MusicListFragment {
     public void onPrepareOptionsMenu(Menu menu) {
         LogUtil.logEntering();
 
+        MenuItem settingItem = menu.findItem(R.id.action_settings);
+        settingItem.setVisible(false);
         MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
         refineSearchItem.setVisible(false);
+        MenuItem musicEditUpdateItem = menu.findItem(R.id.action_music_edit_update);
+        musicEditUpdateItem.setVisible(false);
 
         LogUtil.logExiting();
     }

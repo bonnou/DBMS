@@ -37,4 +37,11 @@
         android:title="@string/action_debug_crash"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <!-- for MUSIC EDIT -->
+    <item
+        android:id="@+id/action_music_edit_update"
+        android:title="@string/action_music_edit_update"
+        android:icon="@android:drawable/ic_menu_save"
+        android:orderInCategory="100"
+        app:showAsAction="always|collapseActionView" />
 </menu>

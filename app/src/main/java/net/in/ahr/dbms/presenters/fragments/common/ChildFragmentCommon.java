@@ -78,8 +78,18 @@ public class ChildFragmentCommon {
         Toolbar toolbar = (Toolbar) rootActivity.findViewById(R.id.toolbar);
         toolbar.setTitle(AppConst.TOOLBAR_TITLE_MUSIC_LIST);
         Menu menu = toolbar.getMenu();
+        MenuItem settingItem = menu.findItem(R.id.action_settings);
+        settingItem.setVisible(true);
         MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
         importGssItem.setVisible(true);
+        MenuItem exportCsvItem = menu.findItem(R.id.action_export_csv);
+        exportCsvItem.setVisible(true);
+        MenuItem importCsvItem = menu.findItem(R.id.action_import_csv);
+        importCsvItem.setVisible(true);
+        MenuItem crashItem = menu.findItem(R.id.action_debug_crash);
+        crashItem.setVisible(true);
+        MenuItem syncItem = menu.findItem(R.id.action_sync_cloud);
+        syncItem.setVisible(true);
         MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
         refineSearchItem.setVisible(true);
 
@@ -125,8 +135,18 @@ public class ChildFragmentCommon {
         }
 
         // ツールバーの表示内容変更
+        MenuItem settingItem = menu.findItem(R.id.action_settings);
+        settingItem.setVisible(false);
         MenuItem importGssItem = menu.findItem(R.id.action_import_gss);
         importGssItem.setVisible(false);
+        MenuItem exportCsvItem = menu.findItem(R.id.action_export_csv);
+        exportCsvItem.setVisible(false);
+        MenuItem importCsvItem = menu.findItem(R.id.action_import_csv);
+        importCsvItem.setVisible(false);
+        MenuItem crashItem = menu.findItem(R.id.action_debug_crash);
+        crashItem.setVisible(false);
+        MenuItem syncItem = menu.findItem(R.id.action_sync_cloud);
+        syncItem.setVisible(false);
         MenuItem refineSearchItem = menu.findItem(R.id.action_refine_search);
         refineSearchItem.setVisible(false);
 
