@@ -65,14 +65,14 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     }
 
     // フィルタ初期化用
-    public static List<MusicMst> musicListOrg;
+    public List<MusicMst> musicListOrg;
 
-    public static List<MusicMst> getMusicListOrg() {
+    public List<MusicMst> getMusicListOrg() {
         return musicListOrg;
     }
 
-    public static void setMusicListOrg(List<MusicMst> musicListOrg) {
-        MusicListAdapter.musicListOrg = musicListOrg;
+    public void setMusicListOrg(List<MusicMst> musicListOrg) {
+        this.musicListOrg = musicListOrg;
     }
 
     public MusicListAdapter(Context context) {
