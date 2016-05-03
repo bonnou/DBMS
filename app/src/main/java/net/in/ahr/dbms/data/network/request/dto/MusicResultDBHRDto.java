@@ -2,8 +2,6 @@ package net.in.ahr.dbms.data.network.request.dto;
 
 import java.util.Date;
 
-import greendao.MusicResultDBHR;
-
 /**
  * Created by str2653z on 16/05/01.
  */
@@ -42,50 +40,6 @@ public class MusicResultDBHRDto {
     private String comboBreak;
     private java.util.Date insDate;
     private java.util.Date updDate;
-
-    public void convertFromEntity(MusicResultDBHR result) {
-
-        if (result == null) {
-            // do nothing
-
-        } else {
-            this.setId(result.getId());
-            this.setName(result.getName());
-            this.setNha(result.getNha());
-            this.setClearLamp(result.getClearLamp());
-            this.setExScore(result.getExScore());
-            this.setBp(result.getBp());
-            this.setScoreRank(result.getScoreRank());
-            this.setScoreRate(result.getScoreRate());
-            this.setMissRate(result.getMissRate());
-            this.setTag(result.getTag());
-            this.setFav(result.getFav());
-            this.setClearLamp_DBR(result.getClearLamp_DBR());
-            this.setClearLamp_DBRR(result.getClearLamp_DBRR());
-            this.setClearLamp_DBM(result.getClearLamp_DBM());
-            this.setClearLamp_DBSR(result.getClearLamp_DBSR());
-            this.setClearLamp_DBM_NONAS(result.getClearLamp_DBM_NONAS());
-            this.setClearLamp_RH(result.getClearLamp_RH());
-            this.setClearLamp_LH(result.getClearLamp_LH());
-            this.setMyDifficult(result.getMyDifficult());
-            this.setDjPoint(result.getDjPoint());
-            this.setClearProgressRate(result.getClearProgressRate());
-            this.setLastPlayDate(result.getLastPlayDate());
-            this.setLastUpdateDate(result.getLastUpdateDate());
-            this.setRemainingGaugeOrDeadNotes(result.getRemainingGaugeOrDeadNotes());
-            this.setMemoOther(result.getMemoOther());
-            this.setPGreat(result.getPGreat());
-            this.setGreat(result.getGreat());
-            this.setGood(result.getGood());
-            this.setBad(result.getBad());
-            this.setPoor(result.getPoor());
-            this.setComboBreak(result.getComboBreak());
-            this.setInsDate(result.getInsDate());
-            this.setUpdDate(result.getUpdDate());
-
-        }
-
-    }
 
     public Long getId() {
         return id;

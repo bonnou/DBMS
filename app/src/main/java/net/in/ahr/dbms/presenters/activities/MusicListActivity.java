@@ -35,6 +35,7 @@ import android.widget.Toast;
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.network.request.PostJSONAsyncTask;
+import net.in.ahr.dbms.data.network.request.dto.DtoUtils;
 import net.in.ahr.dbms.data.network.request.dto.MusicMstDto;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
@@ -403,7 +404,8 @@ public  class MusicListActivity extends AppCompatActivity
 
             MusicMst music = (MusicMst) musicListView.getAdapter().getItem(musicListView.getFirstVisiblePosition());
             MusicMstDto musicMstDto = new MusicMstDto();
-            musicMstDto.convertFromEntity(music);
+            DtoUtils dtoUtils = new DtoUtils();
+            dtoUtils.convertMusicMstFromEntity(music, musicMstDto);
 
             // JSONをポスト
             new PostJSONAsyncTask(url, musicMstDto).execute();

@@ -2,9 +2,6 @@ package net.in.ahr.dbms.data.network.request.dto;
 
 import java.util.Date;
 
-import greendao.MusicMst;
-import greendao.MusicResultDBHR;
-
 /**
  * Created by str2653z on 16/05/01.
  */
@@ -29,39 +26,6 @@ public class MusicMstDto {
     private java.util.Date updDate;
     private long musicResultIdDBHR;
     private MusicResultDBHRDto musicResultDBHR;
-
-    public void convertFromEntity(MusicMst musicMst) {
-
-        if (musicMst == null) {
-            // do nothing
-
-        } else {
-            this.setId(musicMst.getId());
-            this.setName(musicMst.getName());
-            this.setNha(musicMst.getNha());
-            this.setVersion(musicMst.getVersion());
-            this.setGenre(musicMst.getGenre());
-            this.setArtist(musicMst.getArtist());
-            this.setBpmFrom(musicMst.getBpmFrom());
-            this.setBpmTo(musicMst.getBpmTo());
-            this.setDifficult(musicMst.getDifficult());
-            this.setNotes(musicMst.getNotes());
-            this.setScratchNotes(musicMst.getScratchNotes());
-            this.setChargeNotes(musicMst.getChargeNotes());
-            this.setBackSpinScratchNotes(musicMst.getBackSpinScratchNotes());
-            this.setSortNumInDifficult(musicMst.getSortNumInDifficult());
-            this.setMstVersion(musicMst.getMstVersion());
-            this.setInsDate(musicMst.getInsDate());
-            this.setUpdDate(musicMst.getUpdDate());
-            this.setMusicResultIdDBHR(musicMst.getMusicResultIdDBHR());
-
-            MusicResultDBHRDto result = new MusicResultDBHRDto();
-            result.convertFromEntity(musicMst.getMusicResultDBHR());
-            this.setMusicResultDBHR(result);
-
-        }
-
-    }
 
     public Long getId() {
         return id;
