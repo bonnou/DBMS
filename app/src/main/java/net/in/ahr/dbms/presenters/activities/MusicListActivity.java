@@ -407,8 +407,11 @@ public  class MusicListActivity extends AppCompatActivity
             DtoUtils dtoUtils = new DtoUtils();
             dtoUtils.convertMusicMstFromEntity(music, musicMstDto);
 
+            // TODO: ユーザ設定・認証
+            musicMstDto.getMusicResultDBHR().setUserName("testUserName");
+
             // JSONをポスト
-            new PostJSONAsyncTask(url, musicMstDto).execute();
+            new PostJSONAsyncTask(url, musicMstDto.getMusicResultDBHR()).execute();
         }
 
         LogUtil.logExiting();
@@ -528,20 +531,6 @@ public  class MusicListActivity extends AppCompatActivity
 
         LogUtil.logExiting();
     }
-
-/*
-    @Subscribe
-    public void onEvent(ProgresDialogIncrementEvent event) {
-        LogUtil.logEntering();
-        LogUtil.logDebug("★★★ProgresDialogIncrementEvent★★★");
-
-        progressDialog.setProgress(progressDialog.getProgress() + 1);
-
-        LogUtil.logExiting();
-    }
-
-                progressDialog.show();
-*/
 
     @Subscribe
     public void onEvent(ProgresDialogShowEvent event) {

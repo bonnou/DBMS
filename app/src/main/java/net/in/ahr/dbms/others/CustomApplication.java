@@ -1,7 +1,7 @@
 package net.in.ahr.dbms.others;
 
-import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.deploygate.sdk.DeployGate;
@@ -13,12 +13,11 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import greendao.DaoMaster;
 import greendao.DaoSession;
 import io.fabric.sdk.android.Fabric;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * GreenDao設定を追加したAndroidApplicationクラス
  */
-public class CustomApplication extends Application {
+public class CustomApplication extends MultiDexApplication {
     public DaoSession daoSession;
 
     @Override

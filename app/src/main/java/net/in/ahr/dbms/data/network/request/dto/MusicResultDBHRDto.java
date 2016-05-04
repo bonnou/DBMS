@@ -8,6 +8,10 @@ import java.util.Date;
 public class MusicResultDBHRDto {
 
     private Long id;
+
+    // online専用
+    private String userName;
+
     private String name;
     private String nha;
     private String clearLamp;
@@ -47,6 +51,14 @@ public class MusicResultDBHRDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getName() {

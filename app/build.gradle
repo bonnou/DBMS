@@ -52,8 +52,8 @@ android {
         applicationId "net.in.ahr.dbms"
         minSdkVersion System.getenv("ANDROID_MIN_SDK_VERSION")
         // 実機デバッグ時
-        // minSdkVersion 14
-        targetSdkVersion 23
+         minSdkVersion 14
+        //targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
         multiDexEnabled true
@@ -137,7 +137,11 @@ dependencies {
         transitive = true;
     }
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // Android開発してたらNoClassDefFoundErrorでハマった
+    // http://qiita.com/ichizin/items/ae5d7b993b2629d9637d
+    compile 'com.android.support:multidex:1.0.0'
 }

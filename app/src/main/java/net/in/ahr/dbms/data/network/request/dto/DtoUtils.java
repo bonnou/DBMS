@@ -34,17 +34,20 @@ public class DtoUtils {
             musicMstDto.setMusicResultIdDBHR(musicMst.getMusicResultIdDBHR());
 
             MusicResultDBHRDto result = new MusicResultDBHRDto();
-            convertMusicResultFromEntity(musicMst.getMusicResultDBHR(), result);
+            convertMusicResultFromEntity(musicMst, musicMst.getMusicResultDBHR(), result);
             musicMstDto.setMusicResultDBHR(result);
 
         }
 
     }
 
-    public void convertMusicResultFromEntity(MusicResultDBHR result, MusicResultDBHRDto resultDto) {
+    public void convertMusicResultFromEntity(MusicMst music, MusicResultDBHR result, MusicResultDBHRDto resultDto) {
 
         if (result == null) {
             // do nothing
+            resultDto.setId(music.getId());
+            resultDto.setName(music.getName());
+            resultDto.setNha(music.getNha());
 
         } else {
             resultDto.setId(result.getId());
