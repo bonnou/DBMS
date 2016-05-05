@@ -38,10 +38,26 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_debug_post_request"
-        android:title="@string/action_debug_post_request"
+        android:id="@+id/action_debug_api_getAllResult"
+        android:title="@string/action_debug_api_getAllResult"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_debug_api_insertResult"
+        android:title="@string/action_debug_api_insertResult"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_debug_api_insertAllResults"
+        android:title="@string/action_debug_api_insertAllResults"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_debug_reset_session_id"
+        android:title="@string/action_debug_reset_session_id"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
     <!-- for MUSIC EDIT -->
     <item
         android:id="@+id/action_music_edit_update"

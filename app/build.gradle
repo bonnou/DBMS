@@ -11,15 +11,19 @@ buildscript {
 
 Properties props = new Properties()
 File propsFile = file('fabric.properties')
+// 環境変数存在チェック
 if (
        ( System.getenv("FABRIC_KEY") == null || "".equals(System.getenv("FABRIC_KEY")) )
     || ( System.getenv("FABRIC_SECRET") == null || "".equals(System.getenv("FABRIC_SECRET")) )
     || ( System.getenv("ANDROID_MIN_SDK_VERSION") == null || "".equals(System.getenv("ANDROID_MIN_SDK_VERSION")) )
+    || ( System.getenv("DBMS_ONLINE_PATH") == null || "".equals(System.getenv("DBMS_ONLINE_PATH")) )
 ) {
     throw new GradleException("Missing System.env for fabric.properties. "
             + "System.getenv(\"FABRIC_KEY\"):[" + System.getenv("FABRIC_KEY") + "], "
             + "System.getenv(\"FABRIC_KEY\"):[" + System.getenv("FABRIC_KEY") + "], "
-            + "System.getenv(\"ANDROID_MIN_SDK_VERSION\"):[" + System.getenv("ANDROID_MIN_SDK_VERSION") + "]");
+            + "System.getenv(\"ANDROID_MIN_SDK_VERSION\"):[" + System.getenv("ANDROID_MIN_SDK_VERSION") + "]"
+            + "System.getenv(\"DBMS_ONLINE_PATH\"):[" + System.getenv("DBMS_ONLINE_PATH") + "]"
+    );
 }
 propsFile.write(
     "apiKey=" + System.getenv("FABRIC_KEY") + "\n" + "apiSecret=" + System.getenv("FABRIC_SECRET") + "\n"
@@ -52,8 +56,8 @@ android {
         applicationId "net.in.ahr.dbms"
         minSdkVersion System.getenv("ANDROID_MIN_SDK_VERSION")
         // 実機デバッグ時
-         minSdkVersion 14
-        //targetSdkVersion 23
+//         minSdkVersion 14
+        targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
         multiDexEnabled true
@@ -74,6 +78,7 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField "String", "DBMS_ONLINE_PATH", "\"" + System.getenv("DBMS_ONLINE_PATH") + "\""
             debuggable true
             // // ※debuggable="true"の場合のみDeployGateのSDKが動作
             minifyEnabled false
@@ -83,6 +88,7 @@ android {
             applicationIdSuffix ".debug"
         }
         release {
+            buildConfigField "String", "DBMS_ONLINE_PATH", "\"" + System.getenv("DBMS_ONLINE_PATH") + "\""
             debuggable true
             minifyEnabled false
 // TODO: 以下の設定があるとgradleビルド時にエラーが発生する。
@@ -90,6 +96,8 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+
+        // ここには「buildConfigField」は書けないので注意
     }
 
     sourceSets {

@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
@@ -532,6 +533,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         MusicMstMaintenance musicMstMaintenance = new MusicMstMaintenance();
         musicMstMaintenance.insertMusicResultDbhrHistory(music, getActivity().getApplicationContext(), playedFlg);
 
+        // リザルトをサーバに連携
+        DbmsApiUtils.postToInsertResultApi(music, getActivity());
 
         // 曲マスタとリザルト履歴テーブルを結合して取得
 /*
@@ -546,6 +549,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         List<MusicMst> list = qc.list();
 */
 
+        // TODO: テストソースなので未使用・・・
         List<MusicMst> list = musicMstDao.queryDeep(" WHERE T." + MusicMstDao.Properties.Name.columnName + " = '" + music.getName() + "'"
                 + " AND T." + MusicMstDao.Properties.Nha.columnName + " = '" + music.getNha() + "'");
 

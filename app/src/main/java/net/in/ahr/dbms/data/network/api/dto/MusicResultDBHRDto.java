@@ -1,4 +1,4 @@
-package net.in.ahr.dbms.data.network.request.dto;
+package net.in.ahr.dbms.data.network.api.dto;
 
 import java.util.Date;
 

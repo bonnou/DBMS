@@ -31,6 +31,27 @@ public class DbmsSharedPreferences {
     }
 
 
+    // DBMSオンラインのセッションIDクッキー名
+    public String getDbmsOnlineSessionIdCookieName() {
+        return sharedPreferences.getString(AppConst.SHARED_KEY_PROC_SESSION_ID_COOKIE_NAME, "");
+    }
+
+    public DbmsSharedPreferences putDbmsOnlineSessionIdCookieName(String value) {
+        editor.putString(AppConst.SHARED_KEY_PROC_SESSION_ID_COOKIE_NAME, value);
+        return this;
+    }
+
+    // DBMSオンラインのセッションIDクッキー値
+    public String getDbmsOnlineSessionIdCookieValue() {
+        return sharedPreferences.getString(AppConst.SHARED_KEY_PROC_SESSION_ID_COOKIE_VALUE, "");
+    }
+
+    public DbmsSharedPreferences putDbmsOnlineSessionIdCookieValue(String value) {
+        editor.putString(AppConst.SHARED_KEY_PROC_SESSION_ID_COOKIE_VALUE, value);
+        return this;
+    }
+
+
     // 検索条件: 難易度10
     public boolean getSearchConfDiff_10() {
         return sharedPreferences.getBoolean(AppConst.SHARED_KEY_SEARCH_CONF_DIFFICULT_10, true);

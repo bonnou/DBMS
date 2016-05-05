@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -32,17 +33,20 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
+import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
-import net.in.ahr.dbms.data.network.request.PostJSONAsyncTask;
-import net.in.ahr.dbms.data.network.request.dto.DtoUtils;
-import net.in.ahr.dbms.data.network.request.dto.MusicMstDto;
+import net.in.ahr.dbms.data.network.api.asyncTask.PostJSONAsyncTask;
+import net.in.ahr.dbms.data.network.api.dto.DtoUtils;
+import net.in.ahr.dbms.data.network.api.dto.MusicMstDto;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.DoOauthEvent;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogShowEvent;
 import net.in.ahr.dbms.others.events.musicList.SearchApplyEvent;
@@ -59,10 +63,13 @@ import net.in.ahr.dbms.presenters.tabManagers.ViewPagerAdapter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
+import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
 
 /**
@@ -75,6 +82,9 @@ public  class MusicListActivity extends AppCompatActivity
     public static final int TAB_PAGE_SIZE = 2;
     public static final int TAB_PAGE_0 = 0;
     public static final int TAB_PAGE_1 = 1;
+
+    /** OAuth認証処理中フラグ */
+    public static boolean nowOAuthingFlg = false;
 
     /** 曲一覧 */
     public static ListView musicListView;
@@ -397,21 +407,33 @@ public  class MusicListActivity extends AppCompatActivity
             // アラートダイアログを表示
             alertDialog.show();
 
-        } else if (id == R.id.action_debug_post_request) {
-//            String url = "http://localhost:8080/api/recvInsert";
-//            String url = "http://10.0.2.2:8080/api/recvInsert";
-            String url = "http://192.168.1.5:8080/api/recvInsert";
+        } else if (id == R.id.action_debug_api_getAllResult) {
+            String url = BuildConfig.DBMS_ONLINE_PATH + AppConst.DBMS_ONLINE_API_PATH_GET_ALL_RESULT;
 
+            // 全件取得API
+            new PostJSONAsyncTask(url, null).execute(this);
+
+        } else if (id == R.id.action_debug_api_insertResult) {
+
+            // 1件登録API
             MusicMst music = (MusicMst) musicListView.getAdapter().getItem(musicListView.getFirstVisiblePosition());
-            MusicMstDto musicMstDto = new MusicMstDto();
-            DtoUtils dtoUtils = new DtoUtils();
-            dtoUtils.convertMusicMstFromEntity(music, musicMstDto);
+            DbmsApiUtils.postToInsertResultApi(music, this);
 
-            // TODO: ユーザ設定・認証
-            musicMstDto.getMusicResultDBHR().setUserName("testUserName");
+        } else if (id == R.id.action_debug_api_insertAllResults) {
 
-            // JSONをポスト
-            new PostJSONAsyncTask(url, musicMstDto.getMusicResultDBHR()).execute();
+            // 1件登録API
+            List<MusicMst> musicList = getMusicMstDao(this).loadAll();
+            DbmsApiUtils.postToInsertAllResultsApi(musicList, this);
+
+        } else if (id == R.id.action_debug_reset_session_id) {
+
+            // SharedPreferencesに設定しているセッションID情報をクリア
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
+            dbmsSharedPreferences.putDbmsOnlineSessionIdCookieName(AppConst.CONST_BLANK);
+            dbmsSharedPreferences.putDbmsOnlineSessionIdCookieValue(AppConst.CONST_BLANK);
+            dbmsSharedPreferences.apply();
+
         }
 
         LogUtil.logExiting();
@@ -507,7 +529,49 @@ public  class MusicListActivity extends AppCompatActivity
         // EventBus の登録
         EventBus.getDefault().register(this);
 
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+
+/*
+                String code = sharedPreferences.getString("CODE","ERROR");
+                // TODO: 乱数持ち回りチェック処理
+                //さっき送り出したcodeと合っていれば任意の処理を入れます
+                if(param1.equals(code)){
+*/
+
+                // ブラウザからセッションID情報を取得
+                String sessionIdCookieName = uri.getQueryParameter("sessionIdCookieName");
+                LogUtil.logDebug("callbackParam[sessionIdCookieName]:" + sessionIdCookieName);
+                String sessionIdCookieValue = uri.getQueryParameter("sessionIdCookieValue");
+                LogUtil.logDebug("callbackParam[sessionIdCookieValue]:" + sessionIdCookieValue);
+                Toast.makeText(this, "END OAuth...", Toast.LENGTH_LONG).show();
+
+                // SharedPreferencesにセッションID情報を設定
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                DbmsSharedPreferences dbmsSharedPreferences = new DbmsSharedPreferences(sharedPreferences).edit();
+                dbmsSharedPreferences.putDbmsOnlineSessionIdCookieName(sessionIdCookieName);
+                dbmsSharedPreferences.putDbmsOnlineSessionIdCookieValue(sessionIdCookieValue);
+                dbmsSharedPreferences.apply();
+
+            }
+        }
+
+        // 認証処理終了
+        this.nowOAuthingFlg = false;
+
         LogUtil.logExiting();
+    }
+
+    //AndroidManifestのactivityのlaunchModeをsingleTaskにした場合は、onNewIntentを入れてgetIntent()できるようにします
+    @Override
+    public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override
@@ -521,13 +585,71 @@ public  class MusicListActivity extends AppCompatActivity
         LogUtil.logExiting();
     }
 
-    // EventBusイベントハンドラの宣言
-    @Subscribe
-    public void onEvent(SearchApplyEvent event) {
-        LogUtil.logEntering();
-        LogUtil.logDebug("★★★SearchApplyEvent★★★");
+    //----------------------------
+    // EventBusイベントハンドラ
+    //----------------------------
 
-        searchApplyToListView();
+    @Subscribe
+    public void onEvent(DoOauthEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★DoOauthEvent★★★");
+
+        // http://d.hatena.ne.jp/Kazzz/20101125/p1
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                // ダイアログで確認してから実施
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MusicListActivity.this);
+                alertDialogBuilder.setTitle("OAuth");
+                alertDialogBuilder.setMessage("ブラウザによるOAuth認証を行います。よろしいですか？");
+                // OKボタン
+                alertDialogBuilder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // ブラウザ起動（必ず新規タブを開きたいので「#日付」のフラグメントをURLに結合）
+                                // TODO: ランダム文字をワンタイムパスワードとして持ちまわったほうがいいかも・・・
+                                // http://qiita.com/f-aoyama/items/07ecbefa54eefd62406d
+                                String ymd = new SimpleDateFormat(AppConst.CONST_YMDHMS_FORMAT).format(new Date());
+                                Uri uri = Uri.parse(
+                                        BuildConfig.DBMS_ONLINE_PATH
+                                      + AppConst.DBMS_ONLINE_PAGE_PATH_LOGIN
+                                      + AppConst.CONST_HALF_SHARP
+                                      + ymd);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                            }
+                        });
+                // Cancelボタン
+                alertDialogBuilder.setCancelable(true);
+                alertDialogBuilder.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 認証処理終了
+                                MusicListActivity.nowOAuthingFlg = false;
+                                Toast.makeText(MusicListActivity.this, "Cancel OAuth... WARNING! dont sync local and cloud!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // アラートダイアログを表示
+                alertDialog.show();
+
+            }
+        });
+
+
+
+        LogUtil.logExiting();
+    }
+
+    @Subscribe
+    public void onEvent(ProgresDialogDismissEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★ProgresDialogDismissEvent★★★");
+
+        progressDialog.dismiss();
 
         LogUtil.logExiting();
     }
@@ -543,11 +665,11 @@ public  class MusicListActivity extends AppCompatActivity
     }
 
     @Subscribe
-    public void onEvent(ProgresDialogDismissEvent event) {
+    public void onEvent(SearchApplyEvent event) {
         LogUtil.logEntering();
-        LogUtil.logDebug("★★★ProgresDialogDismissEvent★★★");
+        LogUtil.logDebug("★★★SearchApplyEvent★★★");
 
-        progressDialog.dismiss();
+        searchApplyToListView();
 
         LogUtil.logExiting();
     }

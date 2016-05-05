@@ -181,6 +181,8 @@ public class GSSImport {
                             musicResultDBHRDao.insertOrReplace(resultDBHR);
                             LogUtil.logDebug("MusicMst:" + music.getName() + "[" + music.getNha() + "] update finish!");
 
+                            // TODO: ここでAsyncTaskをexecuteすると、現AsyncTaskの全曲インポート完了後、各曲ポストのAsyncTaskが実施される。
+
                         } else {
                             LogUtil.logDebug(sheetMusicName.replace("'", "\\'").replace(",", "\\,") + "[" + sheetMusicNha + "] is null");
                         }

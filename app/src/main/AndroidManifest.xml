@@ -18,11 +18,16 @@
             android:name=".presenters.activities.MusicListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
             >
             <!-- android:exported="false"：ContentProviderを自分だけ使用して、他のアプリケーションから使用禁止にする -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dbmsapp" android:host="MusicListActivity" android:path="/oauthCallback" />
             </intent-filter>
         </activity>
         <service android:name=".data.strage.background.ResultExportIntentService"></service>

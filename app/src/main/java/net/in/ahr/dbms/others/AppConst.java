@@ -25,6 +25,15 @@ public class AppConst {
     public static final int MUSIC_MST_MIG_VER_CD_AFT_CNT_1 = 744;
 
     /*********************************************************************************
+     * APIパス(BuildConfig.DBMS_ONLINE_PATHの最後の"/"の後から)
+     *********************************************************************************/
+    /** CSVエクスポートファイル名サフィックス：MUSIC_MST */
+    public static final String DBMS_ONLINE_API_PATH_INSERT_RESULT = "api/insertResult";
+    public static final String DBMS_ONLINE_API_PATH_INSERT_ALL_RESULTS = "api/insertAllResults";
+    public static final String DBMS_ONLINE_API_PATH_GET_ALL_RESULT = "api/getAllResult";
+    public static final String DBMS_ONLINE_PAGE_PATH_LOGIN = "login";
+
+    /*********************************************************************************
      * キー名（MUSIC_MST）
      *********************************************************************************/
     public static final String MUSICMST_KEY_NAME_ID = "id";
@@ -360,6 +369,12 @@ public class AppConst {
     public static final String SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP = "SHARED_KEY_SETTING_SELECTABLE_CLEAR_LAMP";
 
     /*********************************************************************************
+     * SharedPreferencesキー（処理中）
+     *********************************************************************************/
+    public static final String SHARED_KEY_PROC_SESSION_ID_COOKIE_NAME = "SHARED_KEY_PROC_SESSION_ID_COOKIE_NAME";
+    public static final String SHARED_KEY_PROC_SESSION_ID_COOKIE_VALUE = "SHARED_KEY_PROC_SESSION_ID_COOKIE_VALUE";
+
+    /*********************************************************************************
      * ViewPagerのindex
      *********************************************************************************/
     public static int CONST_VIEW_PAGER_INDEX_0_MUSIC_LIST = 0;
@@ -521,6 +536,9 @@ public class AppConst {
     public static final String ERR_STEP_CD_NETR_00001 = "NETR-00001";
     public static final String ERR_MESSAGE_NETR_00001 = "JSONリクエスト送信時JSON生成IOエラー";
 
+    public static final String ERR_STEP_CD_NETR_00002 = "NETR-00002";
+    public static final String ERR_MESSAGE_NETR_00002 = "JSONリクエスト送信時タイムアウトエラー";
+
 
     /*********************************************************************************
      * CSVデータ部プレフィックス
@@ -555,6 +573,7 @@ public class AppConst {
     public static final String CONST_HALF_QUOTE = "'";
     public static final String CONST_HALF_COMMA = ",";
     public static final String CONST_HALF_HYPHEN = "-";
+    public static final String CONST_HALF_SHARP = "#";
 
     public static final String CONST_NO_HIT_DUMMY_STRING = "CONST_NO_HIT_DUMMY_STRING";
 
