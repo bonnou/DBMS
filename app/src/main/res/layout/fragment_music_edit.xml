@@ -188,6 +188,61 @@
         </LinearLayout>
 
         <TextView
+            android:text="INTERNET RANKING"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:padding="3pt"
+            android:textColor="#000000"
+            android:background="#CCCCCC"
+            android:layout_marginTop="5pt"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            >
+
+            <ProgressBar android:id="@+id/musicRankingProgressbar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                style="?android:attr/progressBarStyle"
+                />
+
+            <TextView
+                android:id ="@+id/musicRankingEmptyView"
+                android:text="Nobody regist result..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id ="@+id/musicRankingListViewWrapper"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            >
+
+            <ListView
+                android:id="@+id/musicRankingListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#999999"
+                android:dividerHeight="0.5sp"
+                android:scrollbars="none"
+                />
+
+        </LinearLayout>
+
+        <TextView
             android:text="RESULT INFO"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

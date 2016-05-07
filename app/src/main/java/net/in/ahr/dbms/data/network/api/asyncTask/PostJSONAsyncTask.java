@@ -73,6 +73,7 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
                 ignoreSocketTimeoutFlg = true;
             }
 
+            LogUtil.logDebug("■request url:" + url);
             LogUtil.logDebug("■request json:");
             LogUtil.logDebug(json);
 

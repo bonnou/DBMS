@@ -1,6 +1,5 @@
 package net.in.ahr.dbms.presenters.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,18 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
-import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 
 import greendao.MusicMst;
-import greendao.MusicMstDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -36,11 +32,6 @@ public class MusicListFragment extends BaseFragment {
 
     ListView musicListView;
     public MusicListAdapter adapter;
-    TextView textView;
-
-    private static MusicMstDao getMusicMstDao(Context c) {
-        return ((CustomApplication) c.getApplicationContext()).getDaoSession().getMusicMstDao();
-    }
 
     protected MusicListAdapter getMusicListAdapter() {
         return new MusicListAdapter( getActivity() );

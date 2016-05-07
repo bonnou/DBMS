@@ -31,6 +31,7 @@ public class AppConst {
     public static final String DBMS_ONLINE_API_PATH_INSERT_RESULT = "api/insertResult";
     public static final String DBMS_ONLINE_API_PATH_INSERT_ALL_RESULTS = "api/insertAllResults";
     public static final String DBMS_ONLINE_API_PATH_GET_ALL_RESULT = "api/getAllResult";
+    public static final String DBMS_ONLINE_API_PATH_GET_RANKING_BY_NAME_NHA = "api/getRankingByNameNha";
     public static final String DBMS_ONLINE_PAGE_PATH_LOGIN = "login";
 
     /*********************************************************************************

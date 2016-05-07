@@ -19,11 +19,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.network.api.asyncTask.GetMusicRankingAsyncTask;
+import net.in.ahr.dbms.data.network.api.dto.MusicResultDBHRDto;
 import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
@@ -31,6 +37,7 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
+import net.in.ahr.dbms.presenters.adapters.MusicRankingListAdapter;
 import net.in.ahr.dbms.presenters.fragments.common.ChildFragmentCommon;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 
@@ -40,13 +47,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.greenrobot.dao.query.Query;
 import greendao.MusicMst;
 import greendao.MusicMstDao;
 import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
 import greendao.MusicResultDBHR_History;
-import greendao.MusicResultDBHR_HistoryDao;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -82,6 +87,28 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private TextView difficultTextView;
     private TextView notesDbTextView;
     private TextView chargeNotesTextView;
+
+
+    public ProgressBar musicRankingProgressbar;
+    public TextView emptyView;
+
+    public View headerView;
+    public ListView musicRankingListView;
+    public LinearLayout musicRankingListViewWrapper;
+
+    public ListView getMusicRankingListView() {
+        return musicRankingListView;
+    }
+
+    public MusicRankingListAdapter musicRankingListAdapter;
+
+    public void setMusicRankingListAdapter(MusicRankingListAdapter musicRankingListAdapter) {
+        this.musicRankingListAdapter = musicRankingListAdapter;
+    }
+
+    public MusicRankingListAdapter getMusicRakingListAdapter() {
+        return musicRankingListAdapter;
+    }
 
     /** サーチビュー */
     SearchView searchView;
@@ -384,6 +411,47 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         chargeNotesTextView = (TextView) view.findViewById(R.id.musicEditFragment_chargeNotes_db);
         chargeNotesTextView.setText(
                 String.valueOf(music.getChargeNotes() * 2));
+
+        // インターネットランキングのロード中に表示するプログレスバー
+        musicRankingProgressbar = (ProgressBar) view.findViewById(R.id.musicRankingProgressbar);
+
+        // インターネットランキングListView
+        musicRankingListAdapter = new MusicRankingListAdapter(getActivity());
+        setMusicRankingListAdapter(musicRankingListAdapter);
+
+        // リストビューの内容を一旦空で設定（GetMusicRankingAsyncTaskで設定する）
+        List<MusicResultDBHRDto> musicResultDtoList = new ArrayList<MusicResultDBHRDto>();
+
+        // アダプターにリストビュー、空データを設定
+        musicRankingListAdapter.setMusicResultDtoList(musicResultDtoList);
+        musicRankingListView = (ListView) view.findViewById(R.id.musicRankingListView);
+        musicRankingListView.setAdapter(musicRankingListAdapter);
+
+        // ListVIewラッパービュー
+        musicRankingListViewWrapper = (LinearLayout) view.findViewById(R.id.musicRankingListViewWrapper);
+
+        // リストビューのヘッダーを設定
+        headerView = (View) inflater.inflate(R.layout.list_music_ranking, null);
+        ((TextView) headerView.findViewById(R.id.musicRanking_ranking)).setText("順位");
+        ((TextView) headerView.findViewById(R.id.musicRanking_userName)).setText("プレイヤー名");
+        ((TextView) headerView.findViewById(R.id.musicRanking_scoreRank)).setText("ランク");
+        ((TextView) headerView.findViewById(R.id.musicRanking_exScore)).setText("スコア");
+        ((TextView) headerView.findViewById(R.id.musicRanking_bp)).setText("BP");
+
+        // リストビューのヘッダーを設定（ランキング取得が終わるまでは非表示）
+        emptyView = (TextView) view.findViewById(R.id.musicRankingEmptyView);
+        emptyView.setVisibility(View.GONE);
+
+        // ランキング検索処理を実施
+        MusicResultDBHRDto cond = new MusicResultDBHRDto();
+        cond.setName(music.getName());
+        cond.setNha(music.getNha());
+
+        new GetMusicRankingAsyncTask(
+                BuildConfig.DBMS_ONLINE_PATH + AppConst.DBMS_ONLINE_API_PATH_GET_RANKING_BY_NAME_NHA,
+                cond,
+                this
+        ).execute(getActivity());
 
         return view;
     }
