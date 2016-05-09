@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -470,6 +471,10 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         LogUtil.logEntering();
 
+        // ソフトキーボードの表示をOFF
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
         if (view == backButton) {
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -493,10 +498,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             doUpdate();
 
         }
-
-//        // TODO: これなんだっけ・・・？アプリ上のソフトキーボード制御？
-//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         LogUtil.logExiting();
     }
@@ -693,6 +694,9 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.action_music_edit_update) {
+
+            // ※MusicListActivity#onOptionsItemSelectedメソッドの後に実施される
+
             // 更新共通処理
             doUpdate();
         }

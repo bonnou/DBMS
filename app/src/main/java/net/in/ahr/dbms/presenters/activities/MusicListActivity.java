@@ -29,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -434,6 +435,13 @@ public  class MusicListActivity extends AppCompatActivity
 
         }
 
+        // MusicEditFragment#onOptionsItemSelectedメソッドの前に実施される
+        if (id == R.id.action_music_edit_update) {
+            // ソフトキーボードの表示をOFF
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
         LogUtil.logExiting();
         return super.onOptionsItemSelected(item);
     }
@@ -805,12 +813,18 @@ public  class MusicListActivity extends AppCompatActivity
     public boolean onSupportNavigateUp () {
         LogUtil.logEntering();
 
-        // 各種設定画面フラグメントを取得し
+        // 各種設定画面フラグメントを取得
         android.app.FragmentManager fm = getFragmentManager();
         DbmsSettingFlagment dbmsSettingFlagment = (DbmsSettingFlagment) fm.findFragmentByTag(DbmsSettingFlagment.TAG);
 
         BaseFragment baseFragment = ((ViewPagerAdapter)viewPager.getAdapter()).getmFragmentAtPos0();
         if ( baseFragment instanceof MusicEditFragment ) {
+
+            // ソフトキーボードの表示をOFF
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+            // 曲一覧画面を表示
             MusicEditFragment musicEditFragment = (MusicEditFragment) baseFragment;
             replaceChild(musicEditFragment, 0);
 
