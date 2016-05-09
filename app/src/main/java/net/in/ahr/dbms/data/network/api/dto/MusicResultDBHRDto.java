@@ -30,7 +30,7 @@ public class MusicResultDBHRDto {
     private String clearLamp_RH;
     private String clearLamp_LH;
     private String myDifficult;
-    private Integer djPoint;
+    private Double djPoint;
     private Double clearProgressRate;
     private java.util.Date lastPlayDate;
     private java.util.Date lastUpdateDate;
@@ -205,11 +205,11 @@ public class MusicResultDBHRDto {
         this.myDifficult = myDifficult;
     }
 
-    public Integer getDjPoint() {
+    public Double getDjPoint() {
         return djPoint;
     }
 
-    public void setDjPoint(Integer djPoint) {
+    public void setDjPoint(Double djPoint) {
         this.djPoint = djPoint;
     }
 

@@ -79,6 +79,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private Button updateButton;
 
     private TextView updatedTextView;
+    private TextView djPointTextView;
+
 
     private TextView genreTextView;
     private TextView artistTextView;
@@ -310,7 +312,15 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         updateButton.setOnClickListener(this);
 
         // リザルト情報
-        // ジャンル
+        // djPoint
+        djPointTextView = (TextView) view.findViewById(R.id.musicEditFragment_resultInfo_djPoint);
+        String djPointStr = "-";
+        if (resultExistFlg && music.getMusicResultDBHR().getDjPoint() != null) {
+            djPointStr = String.format("%.2f", music.getMusicResultDBHR().getDjPoint());
+        }
+        djPointTextView.setText(djPointStr);
+
+        // 更新日時
         updatedTextView = (TextView) view.findViewById(R.id.musicEditFragment_resultInfo_updated);
         String updated = AppConst.CONST_HALF_HYPHEN;
         if (
@@ -561,7 +571,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         // 編集内容を取得（メモ）
         music.getMusicResultDBHR().setMemoOther(memoOtherEditText.getText().toString());
 
-        // スコアランク、スコア率、BP率を算出し設定
+        // 各種値を算出し設定
         MusicResultUtil musicResultUtil = new MusicResultUtil();
         Map resultMap = musicResultUtil.calcRankRate(
                 editedExScore,
@@ -574,6 +584,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                 (Double) resultMap.get(MusicResultUtil.MAP_KEY_SCORE_RATE));
         music.getMusicResultDBHR().setMissRate(
                 (Double) resultMap.get(MusicResultUtil.MAP_KEY_MISS_RATE));
+        music.getMusicResultDBHR().setDjPoint(
+                (Double) resultMap.get(MusicResultUtil.MAP_KEY_DJPOINT));
 
         // updateボタンの場合のみ更新
         if (!playedFlg) {

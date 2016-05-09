@@ -4,22 +4,24 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.in.ahr.dbms.data.network.api.dto.MusicResultDBHRDto;
 import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
+import net.in.ahr.dbms.others.events.musicList.DisplayLongToastEvent;
 import net.in.ahr.dbms.others.events.musicList.DoOauthEvent;
 import net.in.ahr.dbms.others.exceptions.DbmsSystemException;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -32,7 +34,7 @@ import okhttp3.Response;
  */
 public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
 
-    OkHttpClient mOkHttpClient = new OkHttpClient.Builder().build();
+    OkHttpClient mOkHttpClient;
 
     private String url;
     public String getUrl() { return url; }
@@ -41,6 +43,11 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
     private Object obj;
     public Object getObj() { return obj; }
     public void setObj(Object obj) { this.obj = obj; }
+
+    private int retryCount = 0;
+    public static final int MAX_RETRY_COUNT = 5;
+
+    protected boolean networkErrFlg = false;
 
     public PostJSONAsyncTask(String url, Object obj) {
         super();
@@ -61,18 +68,18 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
         String sessionIdCookieName = dbmsSharedPreferences.getDbmsOnlineSessionIdCookieName();
         String sessionIdCookieValue = dbmsSharedPreferences.getDbmsOnlineSessionIdCookieValue();
 
-        // タイムアウト無視フラグ
-        boolean ignoreSocketTimeoutFlg = false;
+//        // タイムアウト無視フラグ
+//        boolean ignoreSocketTimeoutFlg = false;
 
         String res = null;
         try {
             Gson gson = new GsonBuilder().serializeNulls().create();
             String json = gson.toJson(obj);
-
+/*
             if ( obj instanceof List && ((List)obj).get(0) instanceof MusicResultDBHRDto ) {
                 ignoreSocketTimeoutFlg = true;
             }
-
+*/
             LogUtil.logDebug("■request url:" + url);
             LogUtil.logDebug("■request json:");
             LogUtil.logDebug(json);
@@ -84,11 +91,29 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
             LogUtil.logDebug("■response json:");
             LogUtil.logDebug(result);
 
-        } catch(SocketTimeoutException ste) {
+        } catch (SocketTimeoutException ste) {
 
+            retryCount++;
+            if (retryCount < MAX_RETRY_COUNT) {
+                new DisplayLongToastEvent().start("通信処理をリトライします（" + retryCount + "回目）。");
+                // 再帰実行
+                res = doInBackground(params);
+
+            } else {
+                // リトライを諦める
+                new DisplayLongToastEvent().start("通信処理のリトライが最大回数に達しました（" + retryCount + "回目）。" +
+                        "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
+                networkErrFlg = true;
+
+            }
+
+        } catch (ConnectException ce) {
+            // TODO: メッセージ軽い
+            new DisplayLongToastEvent().start("サーバに接続できませんでした（アプリ開発者にご一報ください・・・）。" +
+                    "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
+            networkErrFlg = true;
+/*
             if (ignoreSocketTimeoutFlg) {
-                // TODO:
-
 
             } else {
                 ste.printStackTrace();
@@ -97,6 +122,7 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
                         AppConst.ERR_STEP_CD_NETR_00002,
                         AppConst.ERR_MESSAGE_NETR_00002);
             }
+*/
 
         } catch(IOException e) {
             e.printStackTrace();
@@ -107,17 +133,29 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
         }
 
         // 未認証の場合
-        if ( res.contains("Unauthorized") ) {
+        if ( res != null && res.contains("Unauthorized") ) {
 
-            // 認証処理イベントを発行
-            new DoOauthEvent().start();
+            retryCount++;
+            if (retryCount < MAX_RETRY_COUNT) {
 
-            // 認証処理中にし、認証処理が完了するまでスリープ
-            MusicListActivity.nowOAuthingFlg = true;
-            DbmsApiUtils.sleepWhileOAuthing();
+                // 認証処理イベントを発行
+                new DoOauthEvent().start();
 
-            // 再帰実行
-            res = doInBackground(params);
+                // 認証処理中にし、認証処理が完了するまでスリープ
+                MusicListActivity.nowOAuthingFlg = true;
+                DbmsApiUtils.sleepWhileOAuthing();
+
+                // 再帰実行
+                res = doInBackground(params);
+
+            } else {
+                // リトライを諦める
+                new DisplayLongToastEvent().start("通信処理のリトライが最大回数に達しました（" + retryCount + "回目）。" +
+                        "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
+                networkErrFlg = true;
+
+
+            }
         }
 
         LogUtil.logExiting();
@@ -135,6 +173,13 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
                 .url(url)
                 .post(body)
                 .build();
+
+        // OkHttpClientのインスタンスを生成
+        // ※タイムアウト時間を設定
+        if (mOkHttpClient == null) {
+            mOkHttpClient = new OkHttpClient.Builder().readTimeout(
+                    AppConst.DBMS_ONLINE_API_TIMEOUT_MSEC, TimeUnit.MILLISECONDS).build();
+        }
 
         Response response = mOkHttpClient.newCall(request).execute();
 

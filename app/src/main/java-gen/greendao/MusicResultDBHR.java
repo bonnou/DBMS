@@ -25,7 +25,7 @@ public class MusicResultDBHR implements java.io.Serializable {
     private String clearLamp_RH;
     private String clearLamp_LH;
     private String myDifficult;
-    private Integer djPoint;
+    private Double djPoint;
     private Double clearProgressRate;
     private java.util.Date lastPlayDate;
     private java.util.Date lastUpdateDate;
@@ -47,7 +47,7 @@ public class MusicResultDBHR implements java.io.Serializable {
         this.id = id;
     }
 
-    public MusicResultDBHR(Long id, String name, String nha, String clearLamp, Integer exScore, Integer bp, String scoreRank, Double scoreRate, Double missRate, String tag, String fav, String clearLamp_DBR, String clearLamp_DBRR, String clearLamp_DBM, String clearLamp_DBSR, String clearLamp_DBM_NONAS, String clearLamp_RH, String clearLamp_LH, String myDifficult, Integer djPoint, Double clearProgressRate, java.util.Date lastPlayDate, java.util.Date lastUpdateDate, Integer remainingGaugeOrDeadNotes, String memoOther, String pGreat, String great, String good, String bad, String poor, String comboBreak, java.util.Date insDate, java.util.Date updDate) {
+    public MusicResultDBHR(Long id, String name, String nha, String clearLamp, Integer exScore, Integer bp, String scoreRank, Double scoreRate, Double missRate, String tag, String fav, String clearLamp_DBR, String clearLamp_DBRR, String clearLamp_DBM, String clearLamp_DBSR, String clearLamp_DBM_NONAS, String clearLamp_RH, String clearLamp_LH, String myDifficult, Double djPoint, Double clearProgressRate, java.util.Date lastPlayDate, java.util.Date lastUpdateDate, Integer remainingGaugeOrDeadNotes, String memoOther, String pGreat, String great, String good, String bad, String poor, String comboBreak, java.util.Date insDate, java.util.Date updDate) {
         this.id = id;
         this.name = name;
         this.nha = nha;
@@ -235,11 +235,11 @@ public class MusicResultDBHR implements java.io.Serializable {
         this.myDifficult = myDifficult;
     }
 
-    public Integer getDjPoint() {
+    public Double getDjPoint() {
         return djPoint;
     }
 
-    public void setDjPoint(Integer djPoint) {
+    public void setDjPoint(Double djPoint) {
         this.djPoint = djPoint;
     }
 

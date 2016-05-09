@@ -154,7 +154,7 @@ public class GSSImport {
                             resultDBHR.setBp(Integer.parseInt(sheetMusicBp));
                             resultDBHR.setMemoOther(sheetMusicProgress + AppConst.CONST_HALF_SPACE + sheetMusicMemo);
 
-                            // スコアランク、スコア率、BP率を算出し設定
+                            // 各種値を算出し設定
                             MusicResultUtil musicResultUtil = new MusicResultUtil();
                             Map resultMap = musicResultUtil.calcRankRate(
                                     resultDBHR.getExScore(),
@@ -167,6 +167,8 @@ public class GSSImport {
                                     (Double) resultMap.get(MusicResultUtil.MAP_KEY_SCORE_RATE));
                             resultDBHR.setMissRate(
                                     (Double) resultMap.get(MusicResultUtil.MAP_KEY_MISS_RATE));
+                            resultDBHR.setDjPoint(
+                                    (Double) resultMap.get(MusicResultUtil.MAP_KEY_DJPOINT));
 
                             resultDBHR.setInsDate(nowDate);
                             resultDBHR.setUpdDate(nowDate);

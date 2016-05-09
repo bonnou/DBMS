@@ -38,14 +38,13 @@ import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.network.google.spreadSheet.GSSAsyncTask;
 import net.in.ahr.dbms.data.network.api.asyncTask.PostJSONAsyncTask;
-import net.in.ahr.dbms.data.network.api.dto.DtoUtils;
-import net.in.ahr.dbms.data.network.api.dto.MusicMstDto;
 import net.in.ahr.dbms.data.strage.background.ResultExportIntentService;
 import net.in.ahr.dbms.data.strage.mstMainte.MusicMstMaintenance;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.DisplayLongToastEvent;
 import net.in.ahr.dbms.others.events.musicList.DoOauthEvent;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogDismissEvent;
 import net.in.ahr.dbms.others.events.musicList.ProgresDialogShowEvent;
@@ -69,7 +68,6 @@ import java.util.List;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
-import greendao.MusicResultDBHR;
 import greendao.MusicResultDBHRDao;
 
 /**
@@ -588,6 +586,22 @@ public  class MusicListActivity extends AppCompatActivity
     //----------------------------
     // EventBusイベントハンドラ
     //----------------------------
+
+    @Subscribe
+    public void onEvent(final DisplayLongToastEvent event) {
+        LogUtil.logEntering();
+        LogUtil.logDebug("★★★DisplayLongToastEvent★★★");
+
+        // 「java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()」対策
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MusicListActivity.this, event.getText(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        LogUtil.logExiting();
+    }
 
     @Subscribe
     public void onEvent(DoOauthEvent event) {

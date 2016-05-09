@@ -43,7 +43,13 @@ public class MusicRankingListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return musicResultDtoList.size();
+        int count;
+        if (musicResultDtoList == null) {
+             count = 0;
+        } else {
+             count = musicResultDtoList.size();
+        }
+        return count;
     }
 
     @Override

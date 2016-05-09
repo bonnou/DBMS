@@ -66,7 +66,7 @@ public class GreenDaoGenerator {
         musicResult_DBHR.addStringProperty("clearLamp_LH");                 // #84 にて追加
         musicResult_DBHR.addStringProperty("myDifficult");                  // #75 にて追加
 
-        musicResult_DBHR.addIntProperty("djPoint");                         // #108にて追加
+        musicResult_DBHR.addDoubleProperty("djPoint");                      // #108にて追加
         musicResult_DBHR.addDoubleProperty("clearProgressRate");            // #91 にて追加
         musicResult_DBHR.addDateProperty("lastPlayDate");                   // #98 にて追加
         musicResult_DBHR.addDateProperty("lastUpdateDate");                 // #98 にて追加
@@ -122,7 +122,7 @@ public class GreenDaoGenerator {
         musicResult_DBHR_History.addStringProperty("clearLamp_LH");                 // #84 にて追加
         musicResult_DBHR_History.addStringProperty("myDifficult");                  // #75 にて追加
 
-        musicResult_DBHR_History.addIntProperty("djPoint");                         // #108にて追加
+        musicResult_DBHR_History.addDoubleProperty("djPoint");                         // #108にて追加
         musicResult_DBHR_History.addDoubleProperty("clearProgressRate");            // #91 にて追加
         musicResult_DBHR_History.addDateProperty("lastPlayDate");                   // #98 にて追加
         musicResult_DBHR_History.addDateProperty("lastUpdateDate");                 // #98 にて追加

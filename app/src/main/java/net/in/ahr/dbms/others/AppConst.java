@@ -34,6 +34,9 @@ public class AppConst {
     public static final String DBMS_ONLINE_API_PATH_GET_RANKING_BY_NAME_NHA = "api/getRankingByNameNha";
     public static final String DBMS_ONLINE_PAGE_PATH_LOGIN = "login";
 
+
+    public static final int DBMS_ONLINE_API_TIMEOUT_MSEC = 10000;
+
     /*********************************************************************************
      * キー名（MUSIC_MST）
      *********************************************************************************/

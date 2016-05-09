@@ -15,7 +15,7 @@ import java.io.InputStream;
  */
 public class AssetsImgUtil {
     public Bitmap getAssetsImg(Context context, String assetsImgPath) {
-        LogUtil.logEntering();
+//        LogUtil.logEntering();
 
         Bitmap result = null;
 
@@ -40,7 +40,7 @@ public class AssetsImgUtil {
             }
         }
 
-        LogUtil.logExiting();
+//        LogUtil.logExiting();
         return result;
     }
 }

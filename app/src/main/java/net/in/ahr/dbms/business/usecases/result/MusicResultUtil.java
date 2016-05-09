@@ -16,6 +16,7 @@ public class MusicResultUtil {
     public static final String MAP_KEY_SCORE_RANK = "scoreRank";
     public static final String MAP_KEY_SCORE_RATE = "scoreRate";
     public static final String MAP_KEY_MISS_RATE = "missRate";
+    public static final String MAP_KEY_DJPOINT = "djPoint";
 
     public int retMaxScore(MusicMst musicMst) {
         LogUtil.logEntering();
@@ -27,7 +28,15 @@ public class MusicResultUtil {
         return notes;
     }
 
-    public Map calcRankRate (int exScore, int bp, MusicMst musicMst) {
+    /**
+     * scoreRank、scoreRate、missRate、djPointを算出
+     * ※musicMst.musicResultIdDBHR.clearLampに値が設定済であること。
+     * @param exScore
+     * @param bp
+     * @param musicMst
+     * @return
+     */
+    public Map calcRankRate(int exScore, int bp, MusicMst musicMst) {
         LogUtil.logEntering();
 
         // 満点を算出
@@ -64,10 +73,66 @@ public class MusicResultUtil {
         // ミスレートを判定
         double missRate =  (double) bp / (double) notes * 100;
 
+        // djPointを算出
+        // ※http://bemaniwiki.com/index.php?beatmania%20IIDX%2022%20PENDUAL%2F%B1%A3%A4%B7%CD%D7%C1%C7#i96ac82e
+/*
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY           = "NO PLAY";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAR_AWAY          = "FAR AWAY";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_FAILED            = "FAILED";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_CLEAR      = "ASSIST CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_ASSIST_EASY_CLEAR = "ASSIST EASY CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR        = "EASY CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR      = "NORMAL CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR        = "HARD CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR      = "EXHARD CLEAR";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO        = "FULL COMBO";
+        public static final String MUSIC_MST_CLEAR_LAMP_VAL_PERFECT           = "PERFECT";
+*/
+
+        // djPointのクリアマークボーナス
+        String clearLamp = musicMst.getMusicResultDBHR().getClearLamp();
+        int clearLampBonus;
+        if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
+            clearLampBonus = 5;
+        } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NORMAL_CLEAR.equals(clearLamp) ) {
+            clearLampBonus = 10;
+        } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_HARD_CLEAR.equals(clearLamp) ) {
+            clearLampBonus = 20;
+        } else if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EXHARD_CLEAR.equals(clearLamp) ) {
+            clearLampBonus = 25;
+        } else if (
+                AppConst.MUSIC_MST_CLEAR_LAMP_VAL_FULL_COMBO.equals(clearLamp)
+             || AppConst.MUSIC_MST_CLEAR_LAMP_VAL_PERFECT.equals(clearLamp)
+        ) {
+            clearLampBonus = 30;
+        } else {
+            clearLampBonus = 0;
+        }
+
+        // djPointのDJ LEVELボーナス
+        int djLevelBonus;
+        if ( AppConst.MUSIC_MST_SCORE_RANK_VAL_A.equals(scoreRank) ) {
+            djLevelBonus = 10;
+        } else if ( AppConst.MUSIC_MST_SCORE_RANK_VAL_AA.equals(scoreRank) ) {
+            djLevelBonus = 15;
+        } else if ( AppConst.MUSIC_MST_SCORE_RANK_VAL_AAA.equals(scoreRank) ) {
+            djLevelBonus = 20;
+        } else {
+            djLevelBonus = 0;
+        }
+
+        double djPoint = (double) exScore * (double) (100 + clearLampBonus + djLevelBonus) / (double) 10000;
+
+        LogUtil.logDebug("■exScore:" + exScore);
+        LogUtil.logDebug("■clearLampBonus:" + clearLampBonus);
+        LogUtil.logDebug("■djLevelBonus:" + djLevelBonus);
+        LogUtil.logDebug("■djPoint:" + djPoint);
+
         Map resultMap = new HashMap();
         resultMap.put(MAP_KEY_SCORE_RANK, scoreRank);
         resultMap.put(MAP_KEY_SCORE_RATE, new Double(scoreRate));
         resultMap.put(MAP_KEY_MISS_RATE, new Double(missRate));
+        resultMap.put(MAP_KEY_DJPOINT, new Double(djPoint));
 
         LogUtil.logExiting();
         return resultMap;

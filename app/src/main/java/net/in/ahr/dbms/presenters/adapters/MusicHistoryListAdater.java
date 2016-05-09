@@ -98,7 +98,7 @@ public class MusicHistoryListAdater extends MusicListAdapter {
 
     @Override
     protected String getMemoOther(MusicMst music, boolean resultExistFlg) {
-        LogUtil.logEntering();
+//        LogUtil.logEntering();
 
         SimpleDateFormat sdf = new SimpleDateFormat(AppConst.MUSIC_HISTORY_LISTVIEW_UPDATED_FORMAT);
         String updDate = "ー";
@@ -106,7 +106,7 @@ public class MusicHistoryListAdater extends MusicListAdapter {
             updDate = sdf.format(music.getMusicResultDBHR().getUpdDate());
         }
 
-        LogUtil.logExiting();
+//        LogUtil.logExiting();
         return "update: " + updDate;
     }
 

@@ -42,7 +42,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
         public final static Property ClearLamp_RH = new Property(16, String.class, "clearLamp_RH", false, "CLEAR_LAMP__RH");
         public final static Property ClearLamp_LH = new Property(17, String.class, "clearLamp_LH", false, "CLEAR_LAMP__LH");
         public final static Property MyDifficult = new Property(18, String.class, "myDifficult", false, "MY_DIFFICULT");
-        public final static Property DjPoint = new Property(19, Integer.class, "djPoint", false, "DJ_POINT");
+        public final static Property DjPoint = new Property(19, Double.class, "djPoint", false, "DJ_POINT");
         public final static Property ClearProgressRate = new Property(20, Double.class, "clearProgressRate", false, "CLEAR_PROGRESS_RATE");
         public final static Property LastPlayDate = new Property(21, java.util.Date.class, "lastPlayDate", false, "LAST_PLAY_DATE");
         public final static Property LastUpdateDate = new Property(22, java.util.Date.class, "lastUpdateDate", false, "LAST_UPDATE_DATE");
@@ -90,7 +90,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
                 "'CLEAR_LAMP__RH' TEXT," + // 16: clearLamp_RH
                 "'CLEAR_LAMP__LH' TEXT," + // 17: clearLamp_LH
                 "'MY_DIFFICULT' TEXT," + // 18: myDifficult
-                "'DJ_POINT' INTEGER," + // 19: djPoint
+                "'DJ_POINT' REAL," + // 19: djPoint
                 "'CLEAR_PROGRESS_RATE' REAL," + // 20: clearProgressRate
                 "'LAST_PLAY_DATE' INTEGER," + // 21: lastPlayDate
                 "'LAST_UPDATE_DATE' INTEGER," + // 22: lastUpdateDate
@@ -212,9 +212,9 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
             stmt.bindString(19, myDifficult);
         }
  
-        Integer djPoint = entity.getDjPoint();
+        Double djPoint = entity.getDjPoint();
         if (djPoint != null) {
-            stmt.bindLong(20, djPoint);
+            stmt.bindDouble(20, djPoint);
         }
  
         Double clearProgressRate = entity.getClearProgressRate();
@@ -312,7 +312,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // clearLamp_RH
             cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // clearLamp_LH
             cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // myDifficult
-            cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19), // djPoint
+            cursor.isNull(offset + 19) ? null : cursor.getDouble(offset + 19), // djPoint
             cursor.isNull(offset + 20) ? null : cursor.getDouble(offset + 20), // clearProgressRate
             cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)), // lastPlayDate
             cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)), // lastUpdateDate
@@ -352,7 +352,7 @@ public class MusicResultDBHRDao extends AbstractDao<MusicResultDBHR, Long> {
         entity.setClearLamp_RH(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setClearLamp_LH(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
         entity.setMyDifficult(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setDjPoint(cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19));
+        entity.setDjPoint(cursor.isNull(offset + 19) ? null : cursor.getDouble(offset + 19));
         entity.setClearProgressRate(cursor.isNull(offset + 20) ? null : cursor.getDouble(offset + 20));
         entity.setLastPlayDate(cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)));
         entity.setLastUpdateDate(cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)));
