@@ -765,7 +765,7 @@ public class MusicMstMaintenance {
         // common column
         history.setName(result.getName());
         history.setNha(result.getNha());
-        history.setInsDate(result.getInsDate());
+        history.setInsDate(new Date());                 // 登録日時は履歴レコード挿入日
         history.setClearLamp(result.getClearLamp());
         history.setExScore(result.getExScore());
         history.setBp(result.getBp());

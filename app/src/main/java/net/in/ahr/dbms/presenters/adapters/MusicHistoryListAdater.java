@@ -56,6 +56,7 @@ public class MusicHistoryListAdater extends MusicListAdapter {
         // 曲ごとにループ
         for (MusicMst musicMst : musicMstList) {
             // 履歴を取得
+            musicMst.resetMusicResultDBHR_HistoryList();
             List<MusicResultDBHR_History> historyList = musicMst.getMusicResultDBHR_HistoryList();
             // 履歴分ループ
             for (MusicResultDBHR_History history : historyList) {
