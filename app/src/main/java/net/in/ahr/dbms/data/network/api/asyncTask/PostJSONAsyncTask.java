@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.in.ahr.dbms.data.network.api.dto.MusicResultDBHRDto;
 import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
 import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
@@ -21,6 +22,7 @@ import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -68,18 +70,18 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
         String sessionIdCookieName = dbmsSharedPreferences.getDbmsOnlineSessionIdCookieName();
         String sessionIdCookieValue = dbmsSharedPreferences.getDbmsOnlineSessionIdCookieValue();
 
-//        // タイムアウト無視フラグ
-//        boolean ignoreSocketTimeoutFlg = false;
+        // タイムアウト無視フラグ
+        boolean ignoreSocketTimeoutFlg = false;
 
         String res = null;
         try {
             Gson gson = new GsonBuilder().serializeNulls().create();
             String json = gson.toJson(obj);
-/*
-            if ( obj instanceof List && ((List)obj).get(0) instanceof MusicResultDBHRDto ) {
+
+            if ( obj instanceof List && ((List)obj).get(0) instanceof MusicResultDBHRDto) {
                 ignoreSocketTimeoutFlg = true;
             }
-*/
+
             LogUtil.logDebug("■request url:" + url);
             LogUtil.logDebug("■request json:");
             LogUtil.logDebug(json);
@@ -93,17 +95,24 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
 
         } catch (SocketTimeoutException ste) {
 
-            retryCount++;
-            if (retryCount < MAX_RETRY_COUNT) {
-                new DisplayLongToastEvent().start("通信処理をリトライします（" + retryCount + "回目）。");
-                // 再帰実行
-                res = doInBackground(params);
-
+            if (ignoreSocketTimeoutFlg) {
+                // タイムアウトエラーを無視する
+                // TODO: 処理が終わったらプッシュ通知が欲しい
+                new DisplayLongToastEvent().start("全件インサート中・・・");
             } else {
-                // リトライを諦める
-                new DisplayLongToastEvent().start("通信処理のリトライが最大回数に達しました（" + retryCount + "回目）。" +
-                        "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
-                networkErrFlg = true;
+                retryCount++;
+                if (retryCount < MAX_RETRY_COUNT) {
+                    new DisplayLongToastEvent().start("通信処理をリトライします（" + retryCount + "回目）。");
+                    // 再帰実行
+                    res = doInBackground(params);
+
+                } else {
+                    // リトライを諦める
+                    new DisplayLongToastEvent().start("通信処理のリトライが最大回数に達しました（" + retryCount + "回目）。" +
+                            "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
+                    networkErrFlg = true;
+
+                }
 
             }
 
@@ -112,17 +121,6 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
             new DisplayLongToastEvent().start("サーバに接続できませんでした（アプリ開発者にご一報ください・・・）。" +
                     "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
             networkErrFlg = true;
-/*
-            if (ignoreSocketTimeoutFlg) {
-
-            } else {
-                ste.printStackTrace();
-                throw new DbmsSystemException(
-                        AppConst.ERR_CD_90011,
-                        AppConst.ERR_STEP_CD_NETR_00002,
-                        AppConst.ERR_MESSAGE_NETR_00002);
-            }
-*/
 
         } catch(IOException e) {
             e.printStackTrace();

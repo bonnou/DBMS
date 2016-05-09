@@ -90,7 +90,12 @@ public class MusicResultUtil {
 */
 
         // djPointのクリアマークボーナス
-        String clearLamp = musicMst.getMusicResultDBHR().getClearLamp();
+        String clearLamp;
+        if ( musicMst.getMusicResultDBHR() == null ) {
+            clearLamp = "";
+        } else {
+            clearLamp = musicMst.getMusicResultDBHR().getClearLamp();
+        }
         int clearLampBonus;
         if ( AppConst.MUSIC_MST_CLEAR_LAMP_VAL_EASY_CLEAR.equals(clearLamp) ) {
             clearLampBonus = 5;
