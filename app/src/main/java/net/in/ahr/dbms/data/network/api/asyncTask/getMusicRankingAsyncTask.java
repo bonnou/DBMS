@@ -25,11 +25,11 @@ import java.util.List;
 /**
  * Created by str2653z on 16/05/01.
  */
-public class getMusicRankingAsyncTask extends PostJSONAsyncTask {
+public class GetMusicRankingAsyncTask extends PostJSONAsyncTask {
 
     MusicEditFragment fragment;
 
-    public getMusicRankingAsyncTask(String url, Object obj, MusicEditFragment fragment) {
+    public GetMusicRankingAsyncTask(String url, Object obj, MusicEditFragment fragment) {
         super(url, obj);
         this.fragment = fragment;
     }
