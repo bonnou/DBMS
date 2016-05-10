@@ -19,6 +19,10 @@
     <string name="action_debug_reset_session_id">reset_session_id (for DEBUG)</string>
     <string name="action_music_edit_update">update</string>
 
-
+    <string name="musicEditFragment_clearLamp_hint">CLEAR LAMP</string>
+    <string name="musicEditFragment_exScore_hint">EX SCORE</string>
+    <string name="musicEditFragment_bp_hint">BP</string>
+    <string name="musicEditFragment_remainingGaugeOrDeadNotes_hint">DUMMY</string>
+    <string name="musicEditFragment_memoOther_hint">MEMO</string>
 
 </resources>

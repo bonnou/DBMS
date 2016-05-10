@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
-import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +64,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private MusicMst music;
     private int musicPosition;
 
+    public TextView clearLampTextView;
     private Spinner clearLampSpinner;
     private static int selectedPosition = -1;
 
@@ -71,7 +72,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
     private EditText exScoreEditText;
     private EditText bpEditText;
-    private TextView remainingGaugeOrDeadNotesTextView;
+    private TextInputLayout remainingGaugeOrDeadNotesTextInputLayout;
     private EditText remainingGaugeOrDeadNotesEditText;
     private EditText memoOtherEditText;
 
@@ -170,6 +171,25 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        // クリアランプテキストをフォーカスで切り替える
+        clearLampTextView = (TextView) view.findViewById(R.id.musicEditFragment_clearLamp_text);
+        clearLampSpinner.setFocusable(true);
+        clearLampSpinner.setFocusableInTouchMode(true);
+        clearLampSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    LogUtil.logDebug("clearLampSpinnerフォーカス中");
+                    clearLampTextView.setTextColor(Color.parseColor("#FF4081"));
+                    // 以下を実行しないと、フォーカスしてからもう一回クリックしないとSpinnerが開かない
+                    v.performClick();
+                } else {
+                    LogUtil.logDebug("clearLampSpinnerフォーカス中でなくなった");
+                    clearLampTextView.setTextColor(Color.parseColor("#666666"));
+                }
+            }
+        });
+
         // クリアランプコード値配列（定数）
         String[] clearLumpAllValArr = AppConst.CLEAR_LUMP_VAL_ARR;
 
@@ -240,8 +260,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                         break;
                     }
                 }
-                remainingGaugeOrDeadNotesTextView.setText(
-                        Html.fromHtml(remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE));
+                remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
             }
 
             // 何も選択されなかった時の動作
@@ -252,7 +271,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             }
 
         });
-
 
         // Formオブジェクト保持、初期値設定（EXスコア）
         exScoreEditText = (EditText) view.findViewById(R.id.musicEditFragment_exScore);
@@ -276,11 +294,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                     String.valueOf(music.getMusicResultDBHR().getBp()));
         }
 
-        // 残ゲージor到達ノーツ数ラベル
-        remainingGaugeOrDeadNotesTextView = (TextView) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotesLabel);
-        remainingGaugeOrDeadNotesTextView.setText(
-                remainingGaugeOrDeadNotesLabel + AppConst.CONST_HALF_COLON + AppConst.CONST_HALF_SPACE);
-
         // Formオブジェクト保持、初期値設定（残ゲージor到達ノーツ数）
         remainingGaugeOrDeadNotesEditText = (EditText) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotes);
         remainingGaugeOrDeadNotesEditText.setInputType(
@@ -292,6 +305,10 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             remainingGaugeOrDeadNotes = String.valueOf(music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes());
         }
         remainingGaugeOrDeadNotesEditText.setText(remainingGaugeOrDeadNotes);
+        // クリアランプにより残ゲージor到達ノーツ数のヒントを切り替え
+
+        remainingGaugeOrDeadNotesTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
+        remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
 
         // Formオブジェクト保持、初期値設定（メモ）
         memoOtherEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoOther);
