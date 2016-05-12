@@ -29,6 +29,7 @@ import android.widget.TextView;
 import net.in.ahr.dbms.BuildConfig;
 import net.in.ahr.dbms.R;
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.business.usecases.result.check.ResultNumberTextWatcher;
 import net.in.ahr.dbms.data.network.api.asyncTask.GetMusicRankingAsyncTask;
 import net.in.ahr.dbms.data.network.api.dto.MusicResultDBHRDto;
 import net.in.ahr.dbms.data.network.api.util.DbmsApiUtils;
@@ -283,6 +284,14 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                     String.valueOf(music.getMusicResultDBHR().getExScore()));
         }
 
+        // EXスコアチェック処理を設定
+        TextInputLayout exScoreTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_exScore);
+        ResultNumberTextWatcher exScoreTextWatcher = new ResultNumberTextWatcher(
+                exScoreTextInputLayout,
+                music,
+                ResultNumberTextWatcher.CHECK_MODE_EX_SCORE);
+        exScoreEditText.addTextChangedListener(exScoreTextWatcher);
+
         // Formオブジェクト保持、初期値設定（BP）
         bpEditText = (EditText) view.findViewById(R.id.musicEditFragment_bp);
         bpEditText.setInputType(
@@ -293,6 +302,14 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             bpEditText.setText(
                     String.valueOf(music.getMusicResultDBHR().getBp()));
         }
+
+        // BPチェック処理
+        TextInputLayout bpTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_bp);
+        ResultNumberTextWatcher bpTextWatcher = new ResultNumberTextWatcher(
+                bpTextInputLayout,
+                music,
+                ResultNumberTextWatcher.CHECK_MODE_BP);
+        bpEditText.addTextChangedListener(bpTextWatcher);
 
         // Formオブジェクト保持、初期値設定（残ゲージor到達ノーツ数）
         remainingGaugeOrDeadNotesEditText = (EditText) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotes);

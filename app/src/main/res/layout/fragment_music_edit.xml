@@ -24,12 +24,14 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            >
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 >
 
@@ -41,7 +43,7 @@
 
                     <TextView
                         android:id="@+id/musicEditFragment_clearLamp_text"
-                        android:text="   CLEAR LAMP "
+                        android:text="  DBHR CLEAR LAMP "
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
@@ -60,10 +62,24 @@
 
             </LinearLayout>
 
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2sp"
                 >
@@ -80,7 +96,8 @@
                         android:layout_height="wrap_content"
                         android:padding="3pt"
                         android:hint="@string/musicEditFragment_exScore_hint"
-                       />
+                        android:maxLength="5"
+                        />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -89,7 +106,7 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2sp"
                 >
@@ -106,39 +123,38 @@
                         android:layout_height="wrap_content"
                         android:padding="3pt"
                         android:hint="@string/musicEditFragment_bp_hint"
+                        android:maxLength="5"
                         />
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/TextInputLayout_remainingGaugeOrDeadNotes"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2sp"
                 >
 
-                <EditText
-                    android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotes"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/TextInputLayout_remainingGaugeOrDeadNotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="3pt"
-                    android:hint="@string/musicEditFragment_remainingGaugeOrDeadNotes_hint"
-                    />
+                    >
 
-            </android.support.design.widget.TextInputLayout>
-    <!--
-                android:inputType="textMultiLine"
-                android:lines="2"
-    -->
+                    <EditText
+                        android:id="@+id/musicEditFragment_remainingGaugeOrDeadNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="3pt"
+                        android:hint="@string/musicEditFragment_remainingGaugeOrDeadNotes_hint"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
