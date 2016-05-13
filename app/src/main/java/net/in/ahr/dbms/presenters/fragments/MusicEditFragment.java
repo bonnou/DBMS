@@ -38,6 +38,7 @@ import net.in.ahr.dbms.data.strage.shared.DbmsSharedPreferences;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
+import net.in.ahr.dbms.others.events.musicList.DisplayLongToastEvent;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicRankingListAdapter;
 import net.in.ahr.dbms.presenters.fragments.common.ChildFragmentCommon;
@@ -93,6 +94,10 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     private TextView notesDbTextView;
     private TextView chargeNotesTextView;
 
+    // TextInputLayout
+    TextInputLayout exScoreTextInputLayout;
+    TextInputLayout bpTextInputLayout;
+    TextInputLayout clearProgressTextInputLayout;
 
     public ProgressBar musicRankingProgressbar;
     public TextView emptyView;
@@ -285,7 +290,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         }
 
         // EXスコアチェック処理を設定
-        TextInputLayout exScoreTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_exScore);
+        exScoreTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_exScore);
         ResultNumberTextWatcher exScoreTextWatcher = new ResultNumberTextWatcher(
                 exScoreTextInputLayout,
                 music,
@@ -309,7 +314,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         }
 
         // BPチェック処理
-        TextInputLayout bpTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_bp);
+        bpTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_bp);
         ResultNumberTextWatcher bpTextWatcher = new ResultNumberTextWatcher(
                 bpTextInputLayout,
                 music,
@@ -338,7 +343,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
 
         // 残ゲージor到達ノーツ数チェック処理を設定
-        TextInputLayout clearProgressTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
+        clearProgressTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
         ResultNumberTextWatcher clearProgressTextWatcher = new ResultNumberTextWatcher(
                 clearProgressTextInputLayout,
                 music,
@@ -540,6 +545,13 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             backToTabFirstFragment();
 
         } else if (view == playedButton) {
+
+            // 入力エラー発生中はリジェクトしトースト表示
+            if( existInputErr() ) {
+                new DisplayLongToastEvent().start("入力エラーのため「PLAYED」ボタンによる更新ができません。");
+                return;
+            }
+
             // 編集処理
             boolean playedFlg = true;
             updateResult(playedFlg);
@@ -551,12 +563,49 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             backToTabFirstFragment();
 
         } else if (view == updateButton) {
+
+            // 入力エラー発生中はリジェクトしトースト表示
+            if( existInputErr() ) {
+                new DisplayLongToastEvent().start("入力エラーのため「UPDATE」ボタンによる更新ができません。");
+                return;
+            }
+
             // 更新共通処理
             doUpdate();
 
         }
 
         LogUtil.logExiting();
+    }
+
+    private boolean existInputErr() {
+
+        boolean result;
+
+        String exScoreInputErrMsg = (String) exScoreTextInputLayout.getError();
+        if (exScoreInputErrMsg == null) {
+            exScoreInputErrMsg = AppConst.CONST_BLANK;
+        }
+        String bpInputErrMsg = (String) bpTextInputLayout.getError();
+        if (bpInputErrMsg == null) {
+            bpInputErrMsg = AppConst.CONST_BLANK;
+        }
+        String clearProgressInputErrMsg = (String) clearProgressTextInputLayout.getError();
+        if (clearProgressInputErrMsg == null) {
+            clearProgressInputErrMsg = AppConst.CONST_BLANK;
+        }
+
+        if (
+                AppConst.CONST_BLANK.equals(exScoreInputErrMsg)
+             && AppConst.CONST_BLANK.equals(bpInputErrMsg)
+             && AppConst.CONST_BLANK.equals(clearProgressInputErrMsg)
+        ) {
+            result = false;
+        } else {
+            result = true;
+        }
+
+        return result;
     }
 
     private void doUpdate() {
@@ -754,8 +803,14 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
             // ※MusicListActivity#onOptionsItemSelectedメソッドの後に実施される
 
-            // 更新共通処理
-            doUpdate();
+            // 入力エラー発生中はリジェクトしトースト表示
+
+            if(existInputErr()) {
+                new DisplayLongToastEvent().start("入力エラーのため「UPDATE」ボタンによる更新ができません。");
+            } else {
+                // 更新共通処理
+                doUpdate();
+            }
         }
 
         LogUtil.logExiting();

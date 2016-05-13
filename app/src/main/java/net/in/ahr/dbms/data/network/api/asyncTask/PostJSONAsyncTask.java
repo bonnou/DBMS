@@ -118,7 +118,7 @@ public class PostJSONAsyncTask extends AsyncTask<Context, Void, String> {
 
         } catch (ConnectException ce) {
             // TODO: メッセージ軽い
-            new DisplayLongToastEvent().start("サーバに接続できませんでした（アプリ開発者にご一報ください・・・）。" +
+            new DisplayLongToastEvent().start("サーバに接続できませんでした（アプリ開発者にご一報ください）。" +
                     "そのため、現在ローカルとサーバのリザルト記録の同期が取れていない可能性があります。");
             networkErrFlg = true;
 
