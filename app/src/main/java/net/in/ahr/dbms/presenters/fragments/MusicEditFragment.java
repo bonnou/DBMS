@@ -289,8 +289,13 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         ResultNumberTextWatcher exScoreTextWatcher = new ResultNumberTextWatcher(
                 exScoreTextInputLayout,
                 music,
-                ResultNumberTextWatcher.CHECK_MODE_EX_SCORE);
+                ResultNumberTextWatcher.CHECK_MODE_EX_SCORE,
+                null,
+                null);
         exScoreEditText.addTextChangedListener(exScoreTextWatcher);
+
+        // EXスコア入力欄フォーカス時に全選択
+        exScoreEditText.setSelectAllOnFocus(true);
 
         // Formオブジェクト保持、初期値設定（BP）
         bpEditText = (EditText) view.findViewById(R.id.musicEditFragment_bp);
@@ -308,8 +313,13 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         ResultNumberTextWatcher bpTextWatcher = new ResultNumberTextWatcher(
                 bpTextInputLayout,
                 music,
-                ResultNumberTextWatcher.CHECK_MODE_BP);
+                ResultNumberTextWatcher.CHECK_MODE_BP,
+                null,
+                null);
         bpEditText.addTextChangedListener(bpTextWatcher);
+
+        // BP入力欄フォーカス時に全選択
+        bpEditText.setSelectAllOnFocus(true);
 
         // Formオブジェクト保持、初期値設定（残ゲージor到達ノーツ数）
         remainingGaugeOrDeadNotesEditText = (EditText) view.findViewById(R.id.musicEditFragment_remainingGaugeOrDeadNotes);
@@ -322,10 +332,23 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             remainingGaugeOrDeadNotes = String.valueOf(music.getMusicResultDBHR().getRemainingGaugeOrDeadNotes());
         }
         remainingGaugeOrDeadNotesEditText.setText(remainingGaugeOrDeadNotes);
-        // クリアランプにより残ゲージor到達ノーツ数のヒントを切り替え
 
+        // クリアランプにより残ゲージor到達ノーツ数のヒントを切り替え
         remainingGaugeOrDeadNotesTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
         remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
+
+        // 残ゲージor到達ノーツ数チェック処理を設定
+        TextInputLayout clearProgressTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
+        ResultNumberTextWatcher clearProgressTextWatcher = new ResultNumberTextWatcher(
+                clearProgressTextInputLayout,
+                music,
+                ResultNumberTextWatcher.CHECK_MODE_CLEAR_PROGRESS,
+                clearLampSpinner,
+                this.getActivity());
+        remainingGaugeOrDeadNotesEditText.addTextChangedListener(clearProgressTextWatcher);
+
+        // 残ゲージor到達ノーツ数入力欄フォーカス時に全選択
+        remainingGaugeOrDeadNotesEditText.setSelectAllOnFocus(true);
 
         // Formオブジェクト保持、初期値設定（メモ）
         memoOtherEditText = (EditText) view.findViewById(R.id.musicEditFragment_memoOther);
