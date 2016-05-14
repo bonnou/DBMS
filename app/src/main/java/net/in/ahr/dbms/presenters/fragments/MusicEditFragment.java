@@ -70,7 +70,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     public static final String TAG = "MusicEditFragment";
 
     private MusicMst music;
-    private MusicMst musicBeforeMod;
     private int musicPosition;
 
     public TextView clearLampTextView;
@@ -159,7 +158,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // 編集前の内容を別インスタンスで保持
         DbmsGreenDaoUtils dbmsGreenDaoUtils = new DbmsGreenDaoUtils();
-        musicBeforeMod = dbmsGreenDaoUtils.deepCopyMusicMst(music);
 
         // タブ表示なしFragmentのonCreate共通処理
         ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
@@ -291,16 +289,20 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                 remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
 
                 // 過去リザルトから変更しているか判定
-                if (musicBeforeMod.getMusicResultDBHR() == null || music.getMusicResultDBHR().getClearLamp() == null) {
-                    clearLampSpinnerModFlg = true;
+                String resultClearLamp;
+                if (music.getMusicResultDBHR() == null || music.getMusicResultDBHR().getClearLamp() == null) {
+                    resultClearLamp = AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY;
+                } else if ( AppConst.CONST_BLANK.equals(music.getMusicResultDBHR().getClearLamp().trim()) ) {
+                    resultClearLamp = AppConst.MUSIC_MST_CLEAR_LAMP_VAL_NO_PLAY;
                 } else {
-                    LogUtil.logDebug("■selectedClearLamp:[" + selectedClearLamp + "]");
-                    LogUtil.logDebug("■music.getMusicResultDBHR().getClearLamp():[" + music.getMusicResultDBHR().getClearLamp() + "]");
-                    if ( selectedClearLamp.equals(music.getMusicResultDBHR().getClearLamp()) ) {
-                        clearLampSpinnerModFlg = false;
-                    } else {
-                        clearLampSpinnerModFlg = true;
-                    }
+                    resultClearLamp = music.getMusicResultDBHR().getClearLamp();
+                }
+                LogUtil.logDebug("■selectedClearLamp:[" + selectedClearLamp + "]");
+                LogUtil.logDebug("■resultClearLamp:[" + resultClearLamp + "]");
+                if ( selectedClearLamp.equals(resultClearLamp) ) {
+                    clearLampSpinnerModFlg = false;
+                } else {
+                    clearLampSpinnerModFlg = true;
                 }
                 LogUtil.logDebug("■clearLampSpinnerModFlg[" + clearLampSpinnerModFlg + "]");
 
@@ -345,7 +347,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         exScoreTextWatcher = new ResultNumberTextWatcher(
                 exScoreTextInputLayout,
                 music,
-                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_EX_SCORE,
                 null);
         exScoreEditText.addTextChangedListener(exScoreTextWatcher);
@@ -369,7 +370,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         bpTextWatcher = new ResultNumberTextWatcher(
                 bpTextInputLayout,
                 music,
-                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_BP,
                 null);
         bpEditText.addTextChangedListener(bpTextWatcher);
@@ -398,7 +398,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         clearProgressTextWatcher = new ResultNumberTextWatcher(
                 clearProgressTextInputLayout,
                 music,
-                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_CLEAR_PROGRESS,
                 clearLampSpinner);
         remainingGaugeOrDeadNotesEditText.addTextChangedListener(clearProgressTextWatcher);
@@ -418,7 +417,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         memoOtherTextWatcher = new ResultNumberTextWatcher(
                 memoOtherTextInputLayout,
                 music,
-                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_MEMO_OTHER,
                 null);
         memoOtherEditText.addTextChangedListener(memoOtherTextWatcher);

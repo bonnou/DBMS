@@ -475,7 +475,6 @@ public  class MusicListActivity extends AppCompatActivity
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
-        LogUtil.logEntering();
 
         // 戻るボタンが押されたとき
         if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
@@ -506,7 +505,6 @@ public  class MusicListActivity extends AppCompatActivity
             }
         }
 
-        LogUtil.logExiting();
         return super.dispatchKeyEvent(e);
     }
 

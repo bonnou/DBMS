@@ -27,7 +27,6 @@ public class ResultNumberTextWatcher implements TextWatcher {
 
     TextInputLayout textInputLayout;
     MusicMst music;
-    MusicMst musicBeforeMod;
     int mode;
     Spinner clearLampSpinner;
 //    FragmentActivity activity;
@@ -57,13 +56,12 @@ public class ResultNumberTextWatcher implements TextWatcher {
 
     public ResultNumberTextWatcher(TextInputLayout textInputLayout,
                                    MusicMst music,
-                                   MusicMst musicBeforeMod,
                                    int mode,
                                    Spinner clearLampSpinner) {
 //                                   FragmentActivity activity) {
         this.textInputLayout = textInputLayout;
         this.music = music;
-        this.musicBeforeMod = musicBeforeMod;
+//        this.musicBeforeMod = musicBeforeMod;
         this.mode = mode;
         if (mode == CHECK_MODE_CLEAR_PROGRESS) {
             if (clearLampSpinner == null) {
@@ -231,7 +229,7 @@ public class ResultNumberTextWatcher implements TextWatcher {
     private boolean judgeMod(String inputStr) {
 
         if (mode == CHECK_MODE_MEMO_OTHER) {
-            if (musicBeforeMod.getMusicResultDBHR() == null || musicBeforeMod.getMusicResultDBHR().getMemoOther() == null) {
+            if (music.getMusicResultDBHR() == null || music.getMusicResultDBHR().getMemoOther() == null) {
                 if ( AppConst.CONST_BLANK.equals(inputStr) ) {
                     return false;
                 } else {
@@ -248,21 +246,33 @@ public class ResultNumberTextWatcher implements TextWatcher {
 
         if ( textInputLayout.getError() == null ) {
             // 正常の場合、値がリザルトから変わっているかをチェック
-//            if ( AppConst.CONST_BLANK.equals(inputStr.trim()) ) {
-//                // 入力値をtrimして空の場合、do nothing
-//            } else {
+            if ( AppConst.CONST_BLANK.equals(inputStr.trim()) ) {
+                // 入力値をtrimして空の場合、do nothing
+            } else {
                 // 比較対象を取得
                 int compareTarget = Integer.MIN_VALUE;
-                MusicResultDBHR resultBeforeMod = musicBeforeMod.getMusicResultDBHR();
+                MusicResultDBHR resultBeforeMod = music.getMusicResultDBHR();
                 if (resultBeforeMod == null) {
                     // リザルトなしの場合はダミー値のまま
                 } else {
                     if (mode == CHECK_MODE_EX_SCORE) {
-                        compareTarget = resultBeforeMod.getExScore().intValue();
+                        if (resultBeforeMod.getExScore() == null) {
+                            compareTarget = 0;
+                        } else {
+                            compareTarget = resultBeforeMod.getExScore().intValue();
+                        }
                     } else if (mode == CHECK_MODE_BP) {
-                        compareTarget = resultBeforeMod.getBp().intValue();
+                        if (resultBeforeMod.getBp() == null) {
+                            compareTarget = 0;
+                        } else {
+                            compareTarget = resultBeforeMod.getBp().intValue();
+                        }
                     } else if (mode == CHECK_MODE_CLEAR_PROGRESS) {
-                        compareTarget = resultBeforeMod.getRemainingGaugeOrDeadNotes().intValue();
+                        if (resultBeforeMod.getRemainingGaugeOrDeadNotes() == null) {
+                            compareTarget = 0;
+                        } else {
+                            compareTarget = resultBeforeMod.getRemainingGaugeOrDeadNotes().intValue();
+                        }
                     }
                 }
 
@@ -279,7 +289,7 @@ public class ResultNumberTextWatcher implements TextWatcher {
                 if (compareTarget != inputInt) {
                     result = true;
                 }
-//            }
+            }
         }
 
         return result;

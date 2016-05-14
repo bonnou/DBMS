@@ -151,6 +151,7 @@
                         android:layout_height="wrap_content"
                         android:padding="3pt"
                         android:hint="@string/musicEditFragment_remainingGaugeOrDeadNotes_hint"
+                        android:maxLength="5"
                         />
 
                 </android.support.design.widget.TextInputLayout>
