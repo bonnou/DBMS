@@ -43,11 +43,12 @@
 
                     <TextView
                         android:id="@+id/musicEditFragment_clearLamp_text"
-                        android:text="  DBHR CLEAR LAMP "
+                        android:text="DBHR CLEAR LAMP"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:textSize="12sp"
+                        android:paddingLeft="7sp"
                         />
 
                     <Spinner
@@ -168,6 +169,7 @@
                 android:id="@+id/TextInputLayout_memoOther"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="3sp"
                 >
 
                 <EditText

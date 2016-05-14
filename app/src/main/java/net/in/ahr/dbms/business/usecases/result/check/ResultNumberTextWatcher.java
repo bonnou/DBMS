@@ -7,14 +7,18 @@ import android.text.TextWatcher;
 import android.widget.Spinner;
 
 import net.in.ahr.dbms.business.usecases.result.MusicResultUtil;
+import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import greendao.MusicMst;
+import greendao.MusicResultDBHR;
 
 /**
  * Created by str2653z on 16/05/12.
@@ -22,7 +26,8 @@ import greendao.MusicMst;
 public class ResultNumberTextWatcher implements TextWatcher {
 
     TextInputLayout textInputLayout;
-    MusicMst musicMst;
+    MusicMst music;
+    MusicMst musicBeforeMod;
     int mode;
     Spinner clearLampSpinner;
 //    FragmentActivity activity;
@@ -30,6 +35,9 @@ public class ResultNumberTextWatcher implements TextWatcher {
     public static final int CHECK_MODE_EX_SCORE = 1;
     public static final int CHECK_MODE_BP = 2;
     public static final int CHECK_MODE_CLEAR_PROGRESS = 3;
+    public static final int CHECK_MODE_MEMO_OTHER = 4;
+
+    public boolean modFlg = false;
 
 //    // 0.5秒後にチェックするため
 //    // ※http://stackoverflow.com/questions/12142021/how-can-i-do-something-0-5-second-after-text-changed-in-my-edittext
@@ -48,12 +56,14 @@ public class ResultNumberTextWatcher implements TextWatcher {
 */
 
     public ResultNumberTextWatcher(TextInputLayout textInputLayout,
-                                   MusicMst musicMst,
+                                   MusicMst music,
+                                   MusicMst musicBeforeMod,
                                    int mode,
-                                   Spinner clearLampSpinner,
-                                   FragmentActivity activity) {
+                                   Spinner clearLampSpinner) {
+//                                   FragmentActivity activity) {
         this.textInputLayout = textInputLayout;
-        this.musicMst = musicMst;
+        this.music = music;
+        this.musicBeforeMod = musicBeforeMod;
         this.mode = mode;
         if (mode == CHECK_MODE_CLEAR_PROGRESS) {
             if (clearLampSpinner == null) {
@@ -83,6 +93,11 @@ public class ResultNumberTextWatcher implements TextWatcher {
         // テキスト変更後に変更されたテキストを取り出す
         final String inputStr = s.toString();
 
+
+
+        // 「チェック処理しないモード」はチェックしない
+        if ( mode != CHECK_MODE_MEMO_OTHER ) {
+
 //        // 変更の5秒後にリアルタイムチェック実施
 //        timer.cancel();
 //        timer = new Timer();
@@ -95,37 +110,37 @@ public class ResultNumberTextWatcher implements TextWatcher {
 //                            @Override
 //                            public void run() {
 
-                                if (inputStr.length() > 0) {
-                                    if (NumberUtils.isDigits(inputStr)) {
-                                        if ("0".equals(inputStr.substring(0, 1)) && inputStr.length() > 1) {
-                                            textInputLayout.setError("2桁以上で0で始まっています");
-                                            textInputLayout.setErrorEnabled(true);
+            if (inputStr.length() > 0) {
+                if (NumberUtils.isDigits(inputStr)) {
+                    if ("0".equals(inputStr.substring(0, 1)) && inputStr.length() > 1) {
+                        textInputLayout.setError("2桁以上で0で始まっています");
+                        textInputLayout.setErrorEnabled(true);
 
-                                        } else {
-                                            // EXスコア専用チェック
-                                            if (mode == CHECK_MODE_EX_SCORE) {
-                                                checkExScore(inputStr);
+                    } else {
+                        // EXスコア専用チェック
+                        if (mode == CHECK_MODE_EX_SCORE) {
+                            checkExScore(inputStr);
 
-                                            } else if (mode == CHECK_MODE_BP) {
-                                                checkMaxNotes(inputStr);
+                        } else if (mode == CHECK_MODE_BP) {
+                            checkMaxNotes(inputStr);
 
-                                            } else if (mode == CHECK_MODE_CLEAR_PROGRESS) {
-                                                checkClearProgress(inputStr);
+                        } else if (mode == CHECK_MODE_CLEAR_PROGRESS) {
+                            checkClearProgress(inputStr);
 
-                                            }
-                                        }
+                        }
+                    }
 
-                                    } else {
-                                        textInputLayout.setError("半角数字を入力してください");
-                                        textInputLayout.setErrorEnabled(true);
+                } else {
+                    textInputLayout.setError("半角数字を入力してください");
+                    textInputLayout.setErrorEnabled(true);
 
-                                    }
+                }
 
-                                } else {
-                                    textInputLayout.setError(null);
-                                    textInputLayout.setErrorEnabled(false);
+            } else {
+                textInputLayout.setError(null);
+                textInputLayout.setErrorEnabled(false);
 
-                                }
+            }
 //
 //                            }
 //                        });
@@ -135,10 +150,29 @@ public class ResultNumberTextWatcher implements TextWatcher {
 //                DELAY
 //        );
 
+        }
+
+        // 過去リザルトから変更しているか判定
+        modFlg = judgeMod(inputStr);
+        LogUtil.logDebug("■mode:[" + mode + "]");
+        LogUtil.logDebug("■modFlg:[" + modFlg + "]");
+
+        // 変更時はヒントの頭に[*]を付与
+        String hint = (String) textInputLayout.getHint();
+        if (modFlg) {
+            if (!hint.startsWith(AppConst.CONST_MOD_MARK)) {
+                textInputLayout.setHint(
+                        AppConst.CONST_MOD_MARK + hint);
+            }
+        } else {
+            textInputLayout.setHint(
+                    hint.replace(AppConst.CONST_MOD_MARK, AppConst.CONST_BLANK));
+        }
+
     }
 
     private void checkExScore(String inputStr) {
-        int maxScore = MusicResultUtil.retMaxScore(musicMst);
+        int maxScore = MusicResultUtil.retMaxScore(music);
         if ( Integer.parseInt(inputStr) > maxScore ) {
             textInputLayout.setError("MAXスコアより大きい値です");
             textInputLayout.setErrorEnabled(true);
@@ -149,7 +183,7 @@ public class ResultNumberTextWatcher implements TextWatcher {
     }
 
     private void checkMaxNotes(String inputStr) {
-        int maxNotes = MusicResultUtil.retMaxNotes(musicMst);
+        int maxNotes = MusicResultUtil.retMaxNotes(music);
         if ( Integer.parseInt(inputStr) > maxNotes ) {
             textInputLayout.setError("MAXノーツ数より大きい値です");
             textInputLayout.setErrorEnabled(true);
@@ -192,6 +226,63 @@ public class ResultNumberTextWatcher implements TextWatcher {
                 textInputLayout.setErrorEnabled(false);
             }
         }
+    }
+
+    private boolean judgeMod(String inputStr) {
+
+        if (mode == CHECK_MODE_MEMO_OTHER) {
+            if (musicBeforeMod.getMusicResultDBHR() == null || musicBeforeMod.getMusicResultDBHR().getMemoOther() == null) {
+                if ( AppConst.CONST_BLANK.equals(inputStr) ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if ( inputStr.equals(music.getMusicResultDBHR().getMemoOther()) ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        boolean result = false;
+
+        if ( textInputLayout.getError() == null ) {
+            // 正常の場合、値がリザルトから変わっているかをチェック
+//            if ( AppConst.CONST_BLANK.equals(inputStr.trim()) ) {
+//                // 入力値をtrimして空の場合、do nothing
+//            } else {
+                // 比較対象を取得
+                int compareTarget = Integer.MIN_VALUE;
+                MusicResultDBHR resultBeforeMod = musicBeforeMod.getMusicResultDBHR();
+                if (resultBeforeMod == null) {
+                    // リザルトなしの場合はダミー値のまま
+                } else {
+                    if (mode == CHECK_MODE_EX_SCORE) {
+                        compareTarget = resultBeforeMod.getExScore().intValue();
+                    } else if (mode == CHECK_MODE_BP) {
+                        compareTarget = resultBeforeMod.getBp().intValue();
+                    } else if (mode == CHECK_MODE_CLEAR_PROGRESS) {
+                        compareTarget = resultBeforeMod.getRemainingGaugeOrDeadNotes().intValue();
+                    }
+                }
+
+                LogUtil.logDebug("■inputStr:[" + inputStr + "]");
+                LogUtil.logDebug("■compareTarget:[" + compareTarget + "]");
+
+                // 過去リザルト値と位置しない場合
+                int inputInt;
+                if ( AppConst.CONST_BLANK.equals(inputStr.trim()) ) {
+                    inputInt = 0;
+                } else {
+                    inputInt = Integer.parseInt(inputStr);
+                }
+                if (compareTarget != inputInt) {
+                    result = true;
+                }
+//            }
+        }
+
+        return result;
     }
 
 }

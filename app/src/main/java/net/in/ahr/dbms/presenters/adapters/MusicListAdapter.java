@@ -560,7 +560,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     }
 
     protected String getMemoOther(MusicMst music, boolean resultExistFlg) {
-        LogUtil.logEntering();
 
         final String MEMO_OTHER_FORMAT = "メモ: {0}";
         String[] memoOtherReplaceArr;

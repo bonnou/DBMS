@@ -1,12 +1,17 @@
 package net.in.ahr.dbms.presenters.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -39,6 +44,7 @@ import net.in.ahr.dbms.data.strage.util.LogUtil;
 import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.others.CustomApplication;
 import net.in.ahr.dbms.others.events.musicList.DisplayLongToastEvent;
+import net.in.ahr.dbms.others.util.DbmsGreenDaoUtils;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicRankingListAdapter;
 import net.in.ahr.dbms.presenters.fragments.common.ChildFragmentCommon;
@@ -64,6 +70,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     public static final String TAG = "MusicEditFragment";
 
     private MusicMst music;
+    private MusicMst musicBeforeMod;
     private int musicPosition;
 
     public TextView clearLampTextView;
@@ -98,6 +105,17 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     TextInputLayout exScoreTextInputLayout;
     TextInputLayout bpTextInputLayout;
     TextInputLayout clearProgressTextInputLayout;
+    TextInputLayout memoOtherTextInputLayout;
+
+    // TextWatcher or modFlg
+    public boolean clearLampSpinnerModFlg;
+    ResultNumberTextWatcher exScoreTextWatcher;
+    ResultNumberTextWatcher bpTextWatcher;
+    ResultNumberTextWatcher clearProgressTextWatcher;
+    ResultNumberTextWatcher memoOtherTextWatcher;
+
+    // Dialog
+    public static DialogFragment dialogFragment;
 
     public ProgressBar musicRankingProgressbar;
     public TextView emptyView;
@@ -138,6 +156,10 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         Bundle bundle = getArguments();
         music = (MusicMst) bundle.getSerializable("musicForEdit");
         musicPosition = bundle.getInt("musicPosition");
+
+        // 編集前の内容を別インスタンスで保持
+        DbmsGreenDaoUtils dbmsGreenDaoUtils = new DbmsGreenDaoUtils();
+        musicBeforeMod = dbmsGreenDaoUtils.deepCopyMusicMst(music);
 
         // タブ表示なしFragmentのonCreate共通処理
         ChildFragmentCommon childFragmentCommon = new ChildFragmentCommon();
@@ -267,6 +289,35 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
                 remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
+
+                // 過去リザルトから変更しているか判定
+                if (musicBeforeMod.getMusicResultDBHR() == null || music.getMusicResultDBHR().getClearLamp() == null) {
+                    clearLampSpinnerModFlg = true;
+                } else {
+                    LogUtil.logDebug("■selectedClearLamp:[" + selectedClearLamp + "]");
+                    LogUtil.logDebug("■music.getMusicResultDBHR().getClearLamp():[" + music.getMusicResultDBHR().getClearLamp() + "]");
+                    if ( selectedClearLamp.equals(music.getMusicResultDBHR().getClearLamp()) ) {
+                        clearLampSpinnerModFlg = false;
+                    } else {
+                        clearLampSpinnerModFlg = true;
+                    }
+                }
+                LogUtil.logDebug("■clearLampSpinnerModFlg[" + clearLampSpinnerModFlg + "]");
+
+                // 変更時はヒントの頭に[*]を付与
+                String hint = (String) clearLampTextView.getText();
+                if (clearLampSpinnerModFlg) {
+                    if ( !hint.startsWith(AppConst.CONST_MOD_MARK) ) {
+                        clearLampTextView.setText(
+                                AppConst.CONST_MOD_MARK + hint
+                        );
+                    }
+                } else {
+                    clearLampTextView.setText(
+                            hint.replace(AppConst.CONST_MOD_MARK, AppConst.CONST_BLANK)
+                    );
+                }
+
             }
 
             // 何も選択されなかった時の動作
@@ -291,11 +342,11 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // EXスコアチェック処理を設定
         exScoreTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_exScore);
-        ResultNumberTextWatcher exScoreTextWatcher = new ResultNumberTextWatcher(
+        exScoreTextWatcher = new ResultNumberTextWatcher(
                 exScoreTextInputLayout,
                 music,
+                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_EX_SCORE,
-                null,
                 null);
         exScoreEditText.addTextChangedListener(exScoreTextWatcher);
 
@@ -315,11 +366,11 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // BPチェック処理
         bpTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_bp);
-        ResultNumberTextWatcher bpTextWatcher = new ResultNumberTextWatcher(
+        bpTextWatcher = new ResultNumberTextWatcher(
                 bpTextInputLayout,
                 music,
+                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_BP,
-                null,
                 null);
         bpEditText.addTextChangedListener(bpTextWatcher);
 
@@ -344,12 +395,12 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
         // 残ゲージor到達ノーツ数チェック処理を設定
         clearProgressTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
-        ResultNumberTextWatcher clearProgressTextWatcher = new ResultNumberTextWatcher(
+        clearProgressTextWatcher = new ResultNumberTextWatcher(
                 clearProgressTextInputLayout,
                 music,
+                musicBeforeMod,
                 ResultNumberTextWatcher.CHECK_MODE_CLEAR_PROGRESS,
-                clearLampSpinner,
-                this.getActivity());
+                clearLampSpinner);
         remainingGaugeOrDeadNotesEditText.addTextChangedListener(clearProgressTextWatcher);
 
         // 残ゲージor到達ノーツ数入力欄フォーカス時に全選択
@@ -361,6 +412,16 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         if (resultExistFlg) {
             memoOtherEditText.setText(music.getMusicResultDBHR().getMemoOther());
         }
+
+        // 残ゲージor到達ノーツ数チェック処理を設定
+        memoOtherTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_memoOther);
+        memoOtherTextWatcher = new ResultNumberTextWatcher(
+                memoOtherTextInputLayout,
+                music,
+                musicBeforeMod,
+                ResultNumberTextWatcher.CHECK_MODE_MEMO_OTHER,
+                null);
+        memoOtherEditText.addTextChangedListener(memoOtherTextWatcher);
 
         // 戻るボタンのクリックリスナーを設定
         backButton = (Button) view.findViewById(R.id.musicEditFragment_backButton);
@@ -538,6 +599,18 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         if (view == backButton) {
+/*
+            // 変更箇所が1箇所でもある場合はダイアログで確認
+            if (
+                    clearLampSpinnerModFlg
+                            || exScoreTextWatcher.modFlg
+                            || bpTextWatcher.modFlg
+                            || clearProgressTextWatcher.modFlg
+                            || memoOtherTextWatcher.modFlg
+                    ) {
+*/
+
+
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -550,17 +623,35 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             if( existInputErr() ) {
                 new DisplayLongToastEvent().start("入力エラーのため「PLAYED」ボタンによる更新ができません。");
                 return;
+            } else {
+
+                // 変更箇所が1箇所でもあるかチェック
+                if (
+                        clearLampSpinnerModFlg
+                                || exScoreTextWatcher.modFlg
+                                || bpTextWatcher.modFlg
+                                || clearProgressTextWatcher.modFlg
+                                || memoOtherTextWatcher.modFlg
+                        ) {
+
+                    // 変更がある場合はUPDATEボタン押下を即す
+                    new DisplayLongToastEvent().start("変更箇所がありますので、「UPDATE」ボタンを押下してください。「PLAYED」はリザルト更新できなかった履歴を残す機能です。");
+
+                } else {
+
+                    // 編集処理
+                    boolean playedFlg = true;
+                    updateResult(playedFlg);
+
+                    // Navigation Drowerのスワイプロックを解除
+                    DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                    backToTabFirstFragment();
+
+                }
+
             }
-
-            // 編集処理
-            boolean playedFlg = true;
-            updateResult(playedFlg);
-
-            // Navigation Drowerのスワイプロックを解除
-            DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
-            backToTabFirstFragment();
 
         } else if (view == updateButton) {
 
@@ -568,10 +659,25 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             if( existInputErr() ) {
                 new DisplayLongToastEvent().start("入力エラーのため「UPDATE」ボタンによる更新ができません。");
                 return;
-            }
+            } else {
 
-            // 更新共通処理
-            doUpdate();
+                // 変更箇所が1箇所でもあるかチェック
+                if (
+                        clearLampSpinnerModFlg
+                                || exScoreTextWatcher.modFlg
+                                || bpTextWatcher.modFlg
+                                || clearProgressTextWatcher.modFlg
+                                || memoOtherTextWatcher.modFlg
+                        ) {
+
+                    // 更新共通処理
+                    doUpdate();
+                } else {
+                    // 変更がない場合
+                    new DisplayLongToastEvent().start("変更箇所がありません。");
+                }
+
+            }
 
         }
 
@@ -808,8 +914,20 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
             if(existInputErr()) {
                 new DisplayLongToastEvent().start("入力エラーのため「UPDATE」ボタンによる更新ができません。");
             } else {
-                // 更新共通処理
-                doUpdate();
+
+                if (
+                        clearLampSpinnerModFlg
+                     || exScoreTextWatcher.modFlg
+                     || bpTextWatcher.modFlg
+                     || clearProgressTextWatcher.modFlg
+                     || memoOtherTextWatcher.modFlg
+                ) {
+                    // 更新共通処理
+                    doUpdate();
+                } else {
+                    // 変更がない場合
+                    new DisplayLongToastEvent().start("変更がありません。");
+                }
             }
         }
 
