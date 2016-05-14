@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
@@ -108,10 +109,13 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
     // TextWatcher or modFlg
     public boolean clearLampSpinnerModFlg;
-    ResultNumberTextWatcher exScoreTextWatcher;
-    ResultNumberTextWatcher bpTextWatcher;
-    ResultNumberTextWatcher clearProgressTextWatcher;
-    ResultNumberTextWatcher memoOtherTextWatcher;
+    public ResultNumberTextWatcher exScoreTextWatcher;
+    public ResultNumberTextWatcher bpTextWatcher;
+    public ResultNumberTextWatcher clearProgressTextWatcher;
+    public ResultNumberTextWatcher memoOtherTextWatcher;
+
+    // createdView
+    public View createdView;
 
     // Dialog
     public static DialogFragment dialogFragment;
@@ -169,6 +173,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_music_edit, container, false);
+        createdView = view;
 
         // マスタ情報その1
         // 曲名
@@ -597,23 +602,49 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         if (view == backButton) {
-/*
+
             // 変更箇所が1箇所でもある場合はダイアログで確認
             if (
                     clearLampSpinnerModFlg
-                            || exScoreTextWatcher.modFlg
-                            || bpTextWatcher.modFlg
-                            || clearProgressTextWatcher.modFlg
-                            || memoOtherTextWatcher.modFlg
+                 || exScoreTextWatcher.modFlg
+                 || bpTextWatcher.modFlg
+                 || clearProgressTextWatcher.modFlg
+                 || memoOtherTextWatcher.modFlg
                     ) {
-*/
 
+                final Snackbar snackbar = Snackbar.make(view, "変更箇所があります。一覧画面に戻りますか？", Snackbar.LENGTH_LONG);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        // Navigation Drowerのスワイプロックを解除
+                        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                        backToTabFirstFragment();
+
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+
+            } else {
+
+                // Navigation Drowerのスワイプロックを解除
+                DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                backToTabFirstFragment();
+
+            }
+
+/*
             // Navigation Drowerのスワイプロックを解除
             DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
             backToTabFirstFragment();
+*/
 
         } else if (view == playedButton) {
 
@@ -862,7 +893,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         LogUtil.logExiting();
     }
 
-    private void backToTabFirstFragment() {
+    public void backToTabFirstFragment() {
         LogUtil.logEntering();
 
         ((MusicListActivity)getActivity()).replaceChild(this, 0);

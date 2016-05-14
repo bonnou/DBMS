@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -249,11 +250,36 @@ public  class MusicListActivity extends AppCompatActivity
             if (fragment != null && fragment instanceof BaseFragment) // could be null if not instantiated yet
             {
                 if (fragment.getView() != null) {
-                    BaseFragment bf = (BaseFragment)fragment;
+                    final BaseFragment bf = (BaseFragment)fragment;
                     if(bf.isShowingChild()) {
-                        replaceChild(bf, viewPager.getCurrentItem());
-                    }
-                    else {
+
+                        // MusicEditFragmentかつ編集内容がある場合はSnackbarで確認
+                        if (bf instanceof MusicEditFragment) {
+                            MusicEditFragment musicEditFragment = (MusicEditFragment) bf;
+                            if (
+                                    musicEditFragment.clearLampSpinnerModFlg
+                                            || musicEditFragment.exScoreTextWatcher.modFlg
+                                            || musicEditFragment.bpTextWatcher.modFlg
+                                            || musicEditFragment.clearProgressTextWatcher.modFlg
+                                            || musicEditFragment.memoOtherTextWatcher.modFlg
+                            ) {
+                                final Snackbar snackbar = Snackbar.make(musicEditFragment.createdView, "変更箇所があります。一覧画面に戻りますか？", Snackbar.LENGTH_LONG);
+                                snackbar.setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        replaceChild(bf, viewPager.getCurrentItem());
+                                        snackbar.dismiss();
+                                    }
+                                });
+                                snackbar.show();
+
+                            } else {
+                                replaceChild(bf, viewPager.getCurrentItem());
+                            }
+                        } else {
+                            replaceChild(bf, viewPager.getCurrentItem());
+                        }
+                    } else {
                         finish();
                     }
                 }
@@ -818,19 +844,49 @@ public  class MusicListActivity extends AppCompatActivity
         BaseFragment baseFragment = ((ViewPagerAdapter)viewPager.getAdapter()).getmFragmentAtPos0();
         if ( baseFragment instanceof MusicEditFragment ) {
 
-            // ソフトキーボードの表示をOFF
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            final MusicEditFragment musicEditFragment = (MusicEditFragment) baseFragment;
 
-            // 曲一覧画面を表示
-            MusicEditFragment musicEditFragment = (MusicEditFragment) baseFragment;
-            replaceChild(musicEditFragment, 0);
+            // 編集内容がある場合はSnackbarで確認
+            if (
+                    musicEditFragment.clearLampSpinnerModFlg
+                 || musicEditFragment.exScoreTextWatcher.modFlg
+                 || musicEditFragment.bpTextWatcher.modFlg
+                 || musicEditFragment.clearProgressTextWatcher.modFlg
+                 || musicEditFragment.memoOtherTextWatcher.modFlg
+            ) {
+                final Snackbar snackbar = Snackbar.make(musicEditFragment.createdView, "変更箇所があります。一覧画面に戻りますか？", Snackbar.LENGTH_LONG);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-            // 呼ぶと、編集画面の左上のボタンで戻った後に編集画面に行くと左上のボタンが矢印の絵にならない
-//            initToolbar();
+                        // ソフトキーボードの表示をOFF
+                        InputMethodManager imm = (InputMethodManager) MusicListActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(MusicListActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-            // Navigation Drowerのスワイプロックを解除
-            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                        // 曲一覧画面を表示
+                        replaceChild(musicEditFragment, 0);
+
+                        // Navigation Drowerのスワイプロックを解除
+                        getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+
+            } else {
+
+                // ソフトキーボードの表示をOFF
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                // 曲一覧画面を表示
+                replaceChild(musicEditFragment, 0);
+
+                // Navigation Drowerのスワイプロックを解除
+                getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+            }
 
         } else if (dbmsSettingFlagment != null) {
             fm.popBackStack();
