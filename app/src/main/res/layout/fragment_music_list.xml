@@ -73,7 +73,13 @@
         android:dividerHeight="0.5sp"
         android:fadeScrollbars="false"
         android:smoothScrollbar="true"
-        />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+        <requestFocus />
+
+    </ListView>
 <!--
 
 android:fastScrollEnabled="true"：スクロールバーつまみ機能ON
