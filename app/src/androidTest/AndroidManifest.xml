@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.in.ahr.dbms.debug">
+    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>
+</manifest>
