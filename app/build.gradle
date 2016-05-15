@@ -88,6 +88,9 @@ android {
 //            shrinkResources true
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
+
+            // for Jacoco
+            testCoverageEnabled = true
         }
         release {
             buildConfigField "String", "DBMS_ONLINE_PATH", "\"" + System.getenv("DBMS_ONLINE_PATH") + "\""
@@ -155,6 +158,14 @@ dependencies {
     // http://qiita.com/ichizin/items/ae5d7b993b2629d9637d
     compile 'com.android.support:multidex:1.0.0'
 
+    // for UnitTest
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:1.7.0'
+    testCompile "org.mockito:mockito-core:1.9.5"
+
+    // for Robolectric
+    testCompile 'org.robolectric:robolectric:3.0'
+
     androidTestCompile ('com.android.support.test:runner:0.5') { exclude module: 'support-annotations' }
 //    androidTestCompile ('com.android.support.test:rules:0.3') { exclude module: 'support-annotations' }
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
@@ -167,3 +178,34 @@ dependencies {
 //    }
 }
 
+// for Jacoco
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") { // testDebug
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html {
+            destination "./build/reports/jacoco/${project.name}"
+        }
+    }
+
+    classDirectories = fileTree(
+            dir: './build/intermediates/classes/debug', // './build/intermediates/classes/development/debug'
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+            ]
+    )
+
+    sourceDirectories = files('src/main/java')
+    executionData = files('./build/jacoco/testDebugUnitTest.exec')
+}
