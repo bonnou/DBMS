@@ -33,9 +33,9 @@ import icepick.State;
  */
 public class BaseFragment extends LifeCycleFragment {
 
-    @State private boolean mShowingChild;
+    @State boolean mShowingChild;
 
-    @State protected PageFragmentListener mListener;
+    protected PageFragmentListener mListener;
 
     public boolean isShowingChild() {
         return mShowingChild;

@@ -20,6 +20,8 @@ import net.in.ahr.dbms.others.AppConst;
 import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
+import net.in.ahr.dbms.presenters.tabManagers.PageFragmentListener;
+import net.in.ahr.dbms.presenters.tabManagers.ViewPagerAdapter;
 
 import greendao.MusicMst;
 import icepick.Icepick;
@@ -33,7 +35,7 @@ public class MusicListFragment extends BaseFragment {
     public static final String TAG = "MusicListFragment";
 
     ListView musicListView;
-    @State public MusicListAdapter adapter;
+    public MusicListAdapter adapter;
 
     protected MusicListAdapter getMusicListAdapter() {
         return new MusicListAdapter( getActivity() );
@@ -181,6 +183,24 @@ public class MusicListFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Icepick.restoreInstanceState(this, savedInstanceState);
+
+        // フィールド復元
+        adapter = getMusicListAdapter();
+//        if () {
+            mListener = new PageFragmentListener() {
+                public void onSwitchToNextFragment() {
+                    ViewPagerAdapter.mFragmentManager.beginTransaction().remove(ViewPagerAdapter.mFragmentAtPos0).commit();
+                    ViewPagerAdapter.mFragmentAtPos0 = new MusicEditFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("musicPosition", MusicListActivity.position);
+                    bundle.putSerializable("musicForEdit", MusicListActivity.musicForEdit);
+                    ViewPagerAdapter.mFragmentAtPos0.setArguments(bundle);
+                    ViewPagerAdapter.mFragmentAtPos0.setShowingChild(true);
+//                    ViewPagerAdapter.notifyDataSetChanged();
+                }
+            };
+//        }
+
         super.onActivityCreated(savedInstanceState);
     }
 
