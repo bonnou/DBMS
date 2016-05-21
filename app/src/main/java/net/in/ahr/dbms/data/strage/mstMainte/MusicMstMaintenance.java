@@ -76,6 +76,8 @@ public class MusicMstMaintenance {
 
                 // csvを読み込み
                 CSVParser csvParser = new CSVParser();
+//                String
+                LogUtil.logDebug("AppConst.MUSIC_MST_MIG_VER_CD_1_CSV_PATH:[" + AppConst.MUSIC_MST_MIG_VER_CD_1_CSV_PATH + "]");
                 List<String[]> csvArrList = csvParser.parse(c, AppConst.MUSIC_MST_MIG_VER_CD_1_CSV_PATH, true);
 
                 // insert用に1つ生成

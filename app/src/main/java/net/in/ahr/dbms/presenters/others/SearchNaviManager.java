@@ -936,8 +936,8 @@ public class SearchNaviManager {
                 try {
                     Method method = dbmsSharedPreferences.getClass().getMethod(
                             "putSearchConfVersion_" + versionIdValMapEntry.getValue(),
-                            new Class[]{boolean.class});
-                    method.invoke(dbmsSharedPreferences, new Object[] {selectedItem.isChecked()});
+                            boolean.class);
+                    method.invoke(dbmsSharedPreferences, selectedItem.isChecked());
                 } catch (Exception e) {
                     throw new DbmsSystemException(
                             AppConst.ERR_CD_90005,

@@ -24,22 +24,24 @@ package net.in.ahr.dbms.presenters.tabManagers;
 
 import android.support.v4.app.Fragment;
 
+import icepick.State;
+
 /**
  * Base fragment contains common attributes.
  *
  * @author Rukmal Dias
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends LifeCycleFragment {
 
-    private boolean mShowingChild;
+    @State private boolean mShowingChild;
 
-    protected PageFragmentListener mListener;
+    @State protected PageFragmentListener mListener;
 
     public boolean isShowingChild() {
         return mShowingChild;
     }
 
-    protected void setShowingChild(boolean showingChild) {
+    public void setShowingChild(boolean showingChild) {
         mShowingChild = showingChild;
     }
 

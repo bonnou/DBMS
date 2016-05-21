@@ -38,7 +38,7 @@ public class FileInfoSelectionDialog implements OnItemClickListener {
                                    int mode)
     {
         m_parent = context;
-        m_listener = (OnFileSelectListener)listener;
+        m_listener = listener;
         this.mode = mode;
     }
 

@@ -6,9 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import net.in.ahr.dbms.R;
-import net.in.ahr.dbms.androidTest.utils.DisableAnimationsRule;
-import net.in.ahr.dbms.androidTest.utils.TestUtils;
 import net.in.ahr.dbms.data.strage.util.LogUtil;
+import net.in.ahr.dbms.testCommon.DbmsUnitTestUtils;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,6 +15,8 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Properties;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -32,8 +33,13 @@ public class MusicListActivityTest {
     private static final String TAG = MusicListActivityTest.class.getSimpleName();
     private Activity mActivity;
 
-    @ClassRule
-    public static DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
+    static {
+        // システムプロパティ一覧出力
+        Properties props = System.getProperties();
+        props.list(System.out);
+
+        DbmsUnitTestUtils.replaceMusicMstCsvForUt();
+    }
 
     @Rule
     public ActivityTestRule<MusicListActivity> mActivityRule = new ActivityTestRule(MusicListActivity.class);
@@ -41,14 +47,18 @@ public class MusicListActivityTest {
     @Before
     public void setUp(){
         LogUtil.logDebug("setUp");
+
+        DbmsUnitTestUtils.replaceMusicMstCsvForUt();
+
         // Activityの取得
         mActivity = mActivityRule.getActivity();
-        TestUtils.toggleAnimationEnable(mActivity, TAG, false);
 
     }
     // @Testが使えるので日本語だけのテストメソッドが書けるようになった
     @Test
     public void espressoTestSample() {
+
+        LogUtil.logDebug("espressoTestSample");
 
 //        onView(withId(R.id.musicListView)).
 

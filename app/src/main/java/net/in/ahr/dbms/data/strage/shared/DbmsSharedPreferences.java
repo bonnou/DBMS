@@ -1,5 +1,6 @@
 package net.in.ahr.dbms.data.strage.shared;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import net.in.ahr.dbms.others.AppConst;
@@ -20,6 +21,7 @@ public class DbmsSharedPreferences {
         this.sharedPreferences = sharedPreferences;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public DbmsSharedPreferences edit() {
         editor = sharedPreferences.edit();
         return this;

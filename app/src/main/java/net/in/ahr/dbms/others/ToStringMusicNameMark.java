@@ -17,7 +17,7 @@ public class ToStringMusicNameMark {
         String ret = null;
         try {
             Method method = this.getClass().getMethod("getName");
-            ret = (String) method.invoke(this, new Object[]{});
+            ret = (String) method.invoke(this);
         } catch (Exception e) {
             throw new DbmsSystemException(
                     AppConst.ERR_CD_90005,

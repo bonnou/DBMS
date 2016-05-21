@@ -21,7 +21,7 @@ public class AppConst {
      * バージョン管理・マイグレーション
      *********************************************************************************/
     public static final int MUSIC_MST_MIG_VER_CD_1 = 1;
-    public static final String MUSIC_MST_MIG_VER_CD_1_CSV_PATH = "csv/musicMst/musicMst_0001.csv";
+    public static String MUSIC_MST_MIG_VER_CD_1_CSV_PATH = "csv/musicMst/musicMst_0001.csv"; // TODO:
     public static final int MUSIC_MST_MIG_VER_CD_AFT_CNT_1 = 744;
 
     /*********************************************************************************
@@ -215,30 +215,30 @@ public class AppConst {
     public static final String CONST_VERSION_FULL_PEN  = "PENDUAL";
     public static final String CONST_VERSION_FULL_COP  = "copula";
 
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_1ST  = new Integer(R.id.nav_where_version_1st);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SUB  = new Integer(R.id.nav_where_version_sub);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_2ND  = new Integer(R.id.nav_where_version_2nd);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_3RD  = new Integer(R.id.nav_where_version_3rd);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_4TH  = new Integer(R.id.nav_where_version_4th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_5TH  = new Integer(R.id.nav_where_version_5th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_6TH  = new Integer(R.id.nav_where_version_6th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_7TH  = new Integer(R.id.nav_where_version_7th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_8TH  = new Integer(R.id.nav_where_version_8th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_9TH  = new Integer(R.id.nav_where_version_9th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_10TH = new Integer(R.id.nav_where_version_10th);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_RED  = new Integer(R.id.nav_where_version_RED);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SKY  = new Integer(R.id.nav_where_version_SKY);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_DD   = new Integer(R.id.nav_where_version_DD);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_GOLD = new Integer(R.id.nav_where_version_GOLD);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_DJT  = new Integer(R.id.nav_where_version_DJT);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_EMP  = new Integer(R.id.nav_where_version_EMP);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SIR  = new Integer(R.id.nav_where_version_SIR);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_RA   = new Integer(R.id.nav_where_version_RA);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_LC   = new Integer(R.id.nav_where_version_LC);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_tri  = new Integer(R.id.nav_where_version_tri);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SPA  = new Integer(R.id.nav_where_version_SPA);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_PEN  = new Integer(R.id.nav_where_version_PEN);
-    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_cop  = new Integer(R.id.nav_where_version_cop);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_1ST  = Integer.valueOf(R.id.nav_where_version_1st);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SUB  = Integer.valueOf(R.id.nav_where_version_sub);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_2ND  = Integer.valueOf(R.id.nav_where_version_2nd);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_3RD  = Integer.valueOf(R.id.nav_where_version_3rd);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_4TH  = Integer.valueOf(R.id.nav_where_version_4th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_5TH  = Integer.valueOf(R.id.nav_where_version_5th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_6TH  = Integer.valueOf(R.id.nav_where_version_6th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_7TH  = Integer.valueOf(R.id.nav_where_version_7th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_8TH  = Integer.valueOf(R.id.nav_where_version_8th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_9TH  = Integer.valueOf(R.id.nav_where_version_9th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_10TH = Integer.valueOf(R.id.nav_where_version_10th);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_RED  = Integer.valueOf(R.id.nav_where_version_RED);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SKY  = Integer.valueOf(R.id.nav_where_version_SKY);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_DD   = Integer.valueOf(R.id.nav_where_version_DD);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_GOLD = Integer.valueOf(R.id.nav_where_version_GOLD);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_DJT  = Integer.valueOf(R.id.nav_where_version_DJT);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_EMP  = Integer.valueOf(R.id.nav_where_version_EMP);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SIR  = Integer.valueOf(R.id.nav_where_version_SIR);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_RA   = Integer.valueOf(R.id.nav_where_version_RA);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_LC   = Integer.valueOf(R.id.nav_where_version_LC);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_tri  = Integer.valueOf(R.id.nav_where_version_tri);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_SPA  = Integer.valueOf(R.id.nav_where_version_SPA);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_PEN  = Integer.valueOf(R.id.nav_where_version_PEN);
+    private static final Integer INTEGER_ID_NAV_WHERE_VERSION_cop  = Integer.valueOf(R.id.nav_where_version_cop);
 
     private static Map<Integer, String> versionIdValMap = new HashMap<Integer, String>();
 

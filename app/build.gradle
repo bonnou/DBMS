@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        maven {url 'https://clojars.org/repo/'}
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.21.6'
     }
 
 }
@@ -103,6 +104,13 @@ android {
         }
 
         // ここには「buildConfigField」は書けないので注意
+
+        // JUnitログ出力
+        testOptions.unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
     }
 
     sourceSets {
@@ -128,7 +136,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'de.greenrobot:greendao:2.1.0'
     compile 'org.apache.commons:commons-lang3:3.1'
@@ -156,7 +164,11 @@ dependencies {
 
     // Android開発してたらNoClassDefFoundErrorでハマった
     // http://qiita.com/ichizin/items/ae5d7b993b2629d9637d
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
+
+    // Icepick
+    compile 'frankiesardo:icepick:3.1.1-SNAPSHOT'
+    provided 'frankiesardo:icepick-processor:3.1.1-SNAPSHOT'
 
     // for UnitTest
     testCompile 'junit:junit:4.12'
@@ -176,6 +188,7 @@ dependencies {
 //        exclude(module: 'support-annotations')
 //        exclude(module: 'jsr305')
 //    }
+
 }
 
 // for Jacoco

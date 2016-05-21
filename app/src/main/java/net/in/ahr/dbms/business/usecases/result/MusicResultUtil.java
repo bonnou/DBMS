@@ -144,9 +144,9 @@ public class MusicResultUtil {
 
         Map resultMap = new HashMap();
         resultMap.put(MAP_KEY_SCORE_RANK, scoreRank);
-        resultMap.put(MAP_KEY_SCORE_RATE, new Double(scoreRate));
-        resultMap.put(MAP_KEY_MISS_RATE, new Double(missRate));
-        resultMap.put(MAP_KEY_DJPOINT, new Double(djPoint));
+        resultMap.put(MAP_KEY_SCORE_RATE, Double.valueOf(scoreRate));
+        resultMap.put(MAP_KEY_MISS_RATE, Double.valueOf(missRate));
+        resultMap.put(MAP_KEY_DJPOINT, Double.valueOf(djPoint));
 
         LogUtil.logExiting();
         return resultMap;

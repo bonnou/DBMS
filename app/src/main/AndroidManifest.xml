@@ -32,7 +32,7 @@
                 <data android:scheme="dbmsapp" android:host="MusicListActivity" android:path="/oauthCallback" />
             </intent-filter>
         </activity>
-        <service android:name=".data.strage.background.ResultExportIntentService"></service>
+        <service android:name=".data.strage.background.ResultExportIntentService" />
     </application>
 
 </manifest>

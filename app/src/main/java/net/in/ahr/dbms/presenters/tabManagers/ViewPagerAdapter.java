@@ -43,7 +43,7 @@ package net.in.ahr.dbms.presenters.tabManagers;
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    public BaseFragment mFragmentAtPos0; // Fragment at index 0
+    public static BaseFragment mFragmentAtPos0; // Fragment at index 0
     public BaseFragment getmFragmentAtPos0() {
         return mFragmentAtPos0;
     }
@@ -53,7 +53,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return mFragmentAtPos1;
     }
 //    private BaseFragment mFragmentAtPos2; // Fragment at index 2
-    private final FragmentManager mFragmentManager;
+    public static FragmentManager mFragmentManager;
 
     private static final int NUM_OF_ITEMS = 2; // No of ViewPager items
 //    private static final int NUM_OF_ITEMS = 3; // No of ViewPager items

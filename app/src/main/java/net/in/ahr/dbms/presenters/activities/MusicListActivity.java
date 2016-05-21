@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -75,7 +76,7 @@ import greendao.MusicResultDBHRDao;
 /**
  * 曲一覧画面Activity。本アプリのルートActivity。
  */
-public  class MusicListActivity extends AppCompatActivity
+public  class MusicListActivity extends LifeCycleActivity
         implements NavigationView.OnNavigationItemSelectedListener,
                    ViewPager.OnPageChangeListener {
 
@@ -169,6 +170,7 @@ public  class MusicListActivity extends AppCompatActivity
         viewPager = (CustomViewPager)findViewById(R.id.pager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
+
         tabLayout.setupWithViewPager(viewPager);
         // タブ変更リスナを設定
         viewPager.addOnPageChangeListener(this);
@@ -177,22 +179,6 @@ public  class MusicListActivity extends AppCompatActivity
         scheduleService();
 
         initToolbar();
-
-
-        // TODO TextViewがあるとfragmentが表示されないのはなぜ？
-        // TextViewへの値設定
-//        TextView textView = (TextView) findViewById(R.id.musicListTextView);
-//        textView.setText( sb.toString() + "TextView" );
-
-/*
-        // 曲一覧画面を表示
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        MusicListFragment musicListFragment = new MusicListFragment();
-        transaction.add(R.id.musicFragment, musicListFragment, MusicListFragment.TAG);
-//            transaction.addToBackStack(MusicListFragment.TAG);
-        transaction.commit();
-*/
 
         LogUtil.logExiting();
     }
@@ -244,7 +230,7 @@ public  class MusicListActivity extends AppCompatActivity
         } else {
 //            super.onBackPressed();
 
-            Fragment fragment = (Fragment) getSupportFragmentManager().
+            Fragment fragment = getSupportFragmentManager().
                     findFragmentByTag("android:switcher:" + R.id.pager + ":" + viewPager.getCurrentItem());
 
             if (fragment != null && fragment instanceof BaseFragment) // could be null if not instantiated yet

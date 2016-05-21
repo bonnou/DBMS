@@ -22,6 +22,8 @@ import net.in.ahr.dbms.presenters.adapters.MusicListAdapter;
 import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 
 import greendao.MusicMst;
+import icepick.Icepick;
+import icepick.State;
 
 /**
  * Created by str2653z on 2016/03/10.
@@ -31,7 +33,7 @@ public class MusicListFragment extends BaseFragment {
     public static final String TAG = "MusicListFragment";
 
     ListView musicListView;
-    public MusicListAdapter adapter;
+    @State public MusicListAdapter adapter;
 
     protected MusicListAdapter getMusicListAdapter() {
         return new MusicListAdapter( getActivity() );
@@ -101,6 +103,7 @@ public class MusicListFragment extends BaseFragment {
                 transaction.replace(R.id.musicFragment, musicEditFragment).addToBackStack(null);
                 transaction.commit();
 */
+
                 MusicListActivity musicListActivity = (MusicListActivity)getActivity();
                 musicListActivity.position = position;
                 musicListActivity.musicForEdit = music;
@@ -167,6 +170,18 @@ public class MusicListFragment extends BaseFragment {
         musicEditUpdateItem.setVisible(false);
 
         LogUtil.logExiting();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Icepick.restoreInstanceState(this, savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
     }
 
 }

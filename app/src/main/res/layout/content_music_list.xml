@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:ignore="MissingPrefix"
-    tools:showIn="@layout/app_bar_music_list" tools:context=".MusicListActivity">
+    tools:showIn="@layout/app_bar_music_list" tools:context=".presenters.activities.MusicListActivity">
 <!--
     fontPath="font/Roboto-Regular.ttf|font/GenShinGothic-Regular.ttf"
 -->
@@ -56,8 +56,8 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tabs"
         />
+<!-- android:layout_below="@id/tabs" -->
 
     <!--
         <android.support.v4.app.FragmentTabHost

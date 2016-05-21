@@ -34,6 +34,7 @@ import net.in.ahr.dbms.presenters.activities.MusicListActivity;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import greendao.MusicMst;
 import greendao.MusicMstDao;
@@ -97,6 +98,9 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LogUtil.logEntering();
+        LogUtil.logDebug(position + ":::" + this.toString());
+
         View view = convertView;
         ViewHolder holder;
 
@@ -395,7 +399,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         if (resultExistFlg) {
             scoreInfoReplaceArr = new String[]{
                     String.valueOf(music.getMusicResultDBHR().getExScore()),
-                    String.format("%.2f", music.getMusicResultDBHR().getScoreRate())
+                    String.format(Locale.US, "%.2f", music.getMusicResultDBHR().getScoreRate())
             };
         } else {
             scoreInfoReplaceArr = new String[]{
@@ -412,7 +416,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         if (resultExistFlg) {
             missInfoReplaceArr = new String[]{
                     String.valueOf(music.getMusicResultDBHR().getBp()),
-                    String.format("%.2f", music.getMusicResultDBHR().getMissRate())
+                    String.format(Locale.US, "%.2f", music.getMusicResultDBHR().getMissRate())
             };
         } else {
             missInfoReplaceArr = new String[]{
@@ -426,6 +430,8 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         // メモ
         String memoOther = getMemoOther(music, resultExistFlg);
         holder.memoOtherView.setText(memoOther);
+
+        LogUtil.logExiting();
 
         return view;
     }
@@ -574,7 +580,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         }
         String memoOther = MessageFormat.format(MEMO_OTHER_FORMAT, (Object[]) memoOtherReplaceArr);
 
-        LogUtil.logExiting();
         return memoOther;
     }
 

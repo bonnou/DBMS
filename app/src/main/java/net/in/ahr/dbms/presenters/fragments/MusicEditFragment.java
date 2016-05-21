@@ -54,6 +54,7 @@ import net.in.ahr.dbms.presenters.tabManagers.BaseFragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,7 +82,6 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
 
     private EditText exScoreEditText;
     private EditText bpEditText;
-    private TextInputLayout remainingGaugeOrDeadNotesTextInputLayout;
     private EditText remainingGaugeOrDeadNotesEditText;
     private EditText memoOtherEditText;
 
@@ -104,7 +104,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
     // TextInputLayout
     TextInputLayout exScoreTextInputLayout;
     TextInputLayout bpTextInputLayout;
-    TextInputLayout clearProgressTextInputLayout;
+    TextInputLayout remainingGaugeOrDeadNotesTextInputLayout;
     TextInputLayout memoOtherTextInputLayout;
 
     // TextWatcher or modFlg
@@ -244,7 +244,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         }
 
         // カスタム設定後のクリアランプ値配列
-        String[] clearLumpValArr = (String[]) clearLumpValCustomList.toArray(new String[0]);
+        String[] clearLumpValArr = clearLumpValCustomList.toArray(new String[clearLumpValCustomList.size()]);
 
         // 残ゲージor到達ノーツ数ラベル配列
         String[] remainingGaugeOrDeadNotesLabelArr = AppConst.REMAINING_GAUGE_OR_DEAD_NOTES_LABEL_ARR;
@@ -399,9 +399,8 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         remainingGaugeOrDeadNotesTextInputLayout.setHint(remainingGaugeOrDeadNotesLabel);
 
         // 残ゲージor到達ノーツ数チェック処理を設定
-        clearProgressTextInputLayout = (TextInputLayout) view.findViewById(R.id.TextInputLayout_remainingGaugeOrDeadNotes);
         clearProgressTextWatcher = new ResultNumberTextWatcher(
-                clearProgressTextInputLayout,
+                remainingGaugeOrDeadNotesTextInputLayout,
                 music,
                 ResultNumberTextWatcher.CHECK_MODE_CLEAR_PROGRESS,
                 clearLampSpinner);
@@ -443,7 +442,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         djPointTextView = (TextView) view.findViewById(R.id.musicEditFragment_resultInfo_djPoint);
         String djPointStr = "-";
         if (resultExistFlg && music.getMusicResultDBHR().getDjPoint() != null) {
-            djPointStr = String.format("%.2f", music.getMusicResultDBHR().getDjPoint());
+            djPointStr = String.format(Locale.US, "%.2f", music.getMusicResultDBHR().getDjPoint());
         }
         djPointTextView.setText(djPointStr);
 
@@ -568,7 +567,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         musicRankingListViewWrapper = (LinearLayout) view.findViewById(R.id.musicRankingListViewWrapper);
 
         // リストビューのヘッダーを設定
-        headerView = (View) inflater.inflate(R.layout.list_music_ranking, null);
+        headerView = inflater.inflate(R.layout.list_music_ranking, null);
         ((TextView) headerView.findViewById(R.id.musicRanking_ranking)).setText("順位");
         ((TextView) headerView.findViewById(R.id.musicRanking_userName)).setText("プレイヤー名");
         ((TextView) headerView.findViewById(R.id.musicRanking_scoreRank)).setText("ランク");
@@ -725,7 +724,7 @@ public class MusicEditFragment extends BaseFragment implements View.OnClickListe
         if (bpInputErrMsg == null) {
             bpInputErrMsg = AppConst.CONST_BLANK;
         }
-        String clearProgressInputErrMsg = (String) clearProgressTextInputLayout.getError();
+        String clearProgressInputErrMsg = (String) remainingGaugeOrDeadNotesTextInputLayout.getError();
         if (clearProgressInputErrMsg == null) {
             clearProgressInputErrMsg = AppConst.CONST_BLANK;
         }
